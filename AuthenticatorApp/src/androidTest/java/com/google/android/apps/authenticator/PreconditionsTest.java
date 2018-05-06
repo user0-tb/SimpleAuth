@@ -25,26 +25,26 @@ import junit.framework.TestCase;
  */
 public class PreconditionsTest extends TestCase {
 
-  public void testCheckNotNullSingleArg() {
-    Object reference = "test";
-    assertSame(reference, Preconditions.checkNotNull(reference));
+    public void testCheckNotNullSingleArg() {
+        Object reference = "test";
+        assertSame(reference, Preconditions.checkNotNull(reference));
 
-    try {
-      Preconditions.checkNotNull(null);
-      fail("NullPointerException should have been thrown");
-    } catch (NullPointerException e) {
-      // Expected
+        try {
+            Preconditions.checkNotNull(null);
+            fail("NullPointerException should have been thrown");
+        } catch (NullPointerException e) {
+            // Expected
+        }
     }
-  }
 
-  public void testCheckArgumentSingleArg() {
-    Preconditions.checkArgument(true);
+    public void testCheckArgumentSingleArg() {
+        Preconditions.checkArgument(true);
 
-    try {
-      Preconditions.checkArgument(false);
-      fail("IllegalArgumentException should have been thrown");
-    } catch (IllegalArgumentException e) {
-      // Expected
+        try {
+            Preconditions.checkArgument(false);
+            fail("IllegalArgumentException should have been thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
     }
-  }
 }

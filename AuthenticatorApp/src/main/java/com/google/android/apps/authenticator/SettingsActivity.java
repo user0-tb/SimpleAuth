@@ -16,10 +16,10 @@
 
 package com.google.android.apps.authenticator;
 
+import android.os.Bundle;
+
 import com.google.android.apps.authenticator.testability.TestablePreferenceActivity;
 import com.google.android.apps.authenticator2.R;
-
-import android.os.Bundle;
 
 /**
  * Top-level preferences Activity.
@@ -28,10 +28,10 @@ import android.os.Bundle;
  */
 public class SettingsActivity extends TestablePreferenceActivity {
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    addPreferencesFromResource(R.xml.preferences);
-  }
+        addPreferencesFromResource(R.xml.preferences);
+    }
 }

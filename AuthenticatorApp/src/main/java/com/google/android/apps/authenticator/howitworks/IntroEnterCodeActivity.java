@@ -16,10 +16,10 @@
 
 package com.google.android.apps.authenticator.howitworks;
 
+import android.os.Bundle;
+
 import com.google.android.apps.authenticator.wizard.WizardPageActivity;
 import com.google.android.apps.authenticator2.R;
-
-import android.os.Bundle;
 
 import java.io.Serializable;
 
@@ -32,16 +32,16 @@ import java.io.Serializable;
  */
 public class IntroEnterCodeActivity extends WizardPageActivity<Serializable> {
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    setPageContentView(R.layout.howitworks_enter_code);
-    setTextViewHtmlFromResource(R.id.details, R.string.howitworks_page_enter_code_details);
-  }
+        setPageContentView(R.layout.howitworks_enter_code);
+        setTextViewHtmlFromResource(R.id.details, R.string.howitworks_page_enter_code_details);
+    }
 
-  @Override
-  protected void onRightButtonPressed() {
-    startPageActivity(IntroVerifyDeviceActivity.class);
-  }
+    @Override
+    protected void onRightButtonPressed() {
+        startPageActivity(IntroVerifyDeviceActivity.class);
+    }
 }

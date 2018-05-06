@@ -18,31 +18,32 @@ package com.google.android.apps.authenticator.testability;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Base class for {@link Activity} instances to make them more testable.
  *
  * @author klyubin@google.com (Alex Klyubin)
  */
-public class TestableActivity extends Activity {
+public class TestableActivity extends AppCompatActivity {
 
-  @Override
-  public void startActivity(Intent intent) {
-    StartActivityListener listener = DependencyInjector.getStartActivityListener();
-    if ((listener != null) && (listener.onStartActivityInvoked(this, intent))) {
-      return;
+    @Override
+    public void startActivity(Intent intent) {
+        StartActivityListener listener = DependencyInjector.getStartActivityListener();
+        if ((listener != null) && (listener.onStartActivityInvoked(this, intent))) {
+            return;
+        }
+
+        super.startActivity(intent);
     }
 
-    super.startActivity(intent);
-  }
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        StartActivityListener listener = DependencyInjector.getStartActivityListener();
+        if ((listener != null) && (listener.onStartActivityInvoked(this, intent))) {
+            return;
+        }
 
-  @Override
-  public void startActivityForResult(Intent intent, int requestCode) {
-    StartActivityListener listener = DependencyInjector.getStartActivityListener();
-    if ((listener != null) && (listener.onStartActivityInvoked(this, intent))) {
-      return;
+        super.startActivityForResult(intent, requestCode);
     }
-
-    super.startActivityForResult(intent, requestCode);
-  }
 }

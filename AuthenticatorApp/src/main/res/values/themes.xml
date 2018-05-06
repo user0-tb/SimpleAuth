@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2010 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2011 Google Inc. All Rights Reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -16,49 +15,49 @@
 
 <resources>
 
-  <style name="AuthenticatorTheme" parent="android:Theme" >
-    <item name="accountListWithVerificationCodes">@style/AccountListWithVerificationCodes</item>
-    <item name="accountListWithVerificationCodesRowAccountName">@style/AccountListWithVerificationCodesRowAccountName</item>
-    <item name="accountListWithVerificationCodesRowVerificationCode">@style/AccountListWithVerificationCodesRowVerificationCode</item>
-    <item name="accountListWithVerificationCodesRowCountdownIndicator">@style/AccountListWithVerificationCodesRowCountdownIndicator</item>
-    <item name="wizardButtonBarStyle">@style/WizardButtonBar</item>
-    <item name="directionalButtonLeftStyle">@style/DirectionalButtonLeft</item>
-    <item name="directionalButtonRightStyle">@style/DirectionalButtonRight</item>
-    <item name="enrollmentWizardDividerHorizontal">@android:drawable/divider_horizontal_textfield</item>
-  </style>
+    <style name="AuthenticatorTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="accountListWithVerificationCodes">@style/AccountListWithVerificationCodes</item>
+        <item name="accountListWithVerificationCodesRowAccountName">
+            @style/AccountListWithVerificationCodesRowAccountName
+        </item>
+        <item name="accountListWithVerificationCodesRowVerificationCode">
+            @style/AccountListWithVerificationCodesRowVerificationCode
+        </item>
+        <item name="wizardButtonBarStyle">@null</item>
+        <item name="directionalButtonLeftStyle">@style/DirectionalButtonLeft</item>
+        <item name="directionalButtonRightStyle">@style/DirectionalButtonRight</item>
+        <item name="enrollmentWizardDividerHorizontal">?android:attr/dividerHorizontal</item>
+        <item name="colorPrimary">@color/theme_color</item>
+        <item name="colorPrimaryDark">@color/theme_color_dark</item>
+    </style>
 
-  <style name="AuthenticatorTheme.NoTitleBar" parent="AuthenticatorTheme" >
-     <item name="android:windowNoTitle">true</item>
-  </style>
+    <style name="AuthenticatorTheme.NoTitleBar" parent="AuthenticatorTheme">
+        <item name="android:windowActionBar">true</item>
+        <item name="android:windowNoTitle">false</item>
+    </style>
 
-  <style name="AccountListWithVerificationCodes">
-    <item name="android:dividerHeight">1dip</item>
-  </style>
+    <style name="AccountListWithVerificationCodes">
+        <item name="android:dividerHeight">1dip</item>
+    </style>
 
-  <style name="AccountListWithVerificationCodesRowAccountName">
-    <item name="android:textColor">?android:attr/textColorTertiary</item>
-    <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-  </style>
+    <style name="AccountListWithVerificationCodesRowAccountName">
+        <item name="android:textColor">?android:attr/textColorTertiary</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
 
-  <style name="WizardButtonBar" parent="android:ButtonBar">
-    <item name="android:background">@android:drawable/bottom_bar</item>
-  </style>
+    <style name="DirectionalButtonLeft">
+        <item name="android:background">@drawable/btn_dir_prev_holo_dark</item>
+        <item name="android:paddingLeft">30.0dip</item>
+    </style>
 
-  <style name="DirectionalButtonLeft">
-    <item name="android:drawableLeft">@drawable/ic_btn_back</item>
-  </style>
+    <style name="DirectionalButtonRight">
+        <item name="android:background">@drawable/btn_dir_next_holo_dark</item>
+        <item name="android:paddingRight">35.0dip</item>
+    </style>
 
-  <style name="DirectionalButtonRight">
-    <item name="android:drawableRight">@drawable/ic_btn_next</item>
-  </style>
-
-  <style name="AccountListWithVerificationCodesRowVerificationCode">
-    <item name="android:textColor">?android:attr/textColorPrimary</item>
-    <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
-    <item name="android:textSize">40sp</item>
-  </style>
-
-  <style name="AccountListWithVerificationCodesRowCountdownIndicator">
-    <item name="color">@color/countdown_indicator</item>
-  </style>
+    <style name="AccountListWithVerificationCodesRowVerificationCode">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textSize">40sp</item>
+    </style>
 </resources>

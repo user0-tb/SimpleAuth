@@ -16,10 +16,10 @@
 
 package com.google.android.apps.authenticator.howitworks;
 
+import android.os.Bundle;
+
 import com.google.android.apps.authenticator.wizard.WizardPageActivity;
 import com.google.android.apps.authenticator2.R;
-
-import android.os.Bundle;
 
 import java.io.Serializable;
 
@@ -32,18 +32,18 @@ import java.io.Serializable;
  */
 public class IntroVerifyDeviceActivity extends WizardPageActivity<Serializable> {
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    setPageContentView(R.layout.howitworks_verify_device);
-    setTextViewHtmlFromResource(R.id.details, R.string.howitworks_page_verify_device_details);
+        setPageContentView(R.layout.howitworks_verify_device);
+        setTextViewHtmlFromResource(R.id.details, R.string.howitworks_page_verify_device_details);
 
-    mRightButton.setText(R.string.button_exit_howitworks_flow);
-  }
+        mRightButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_white_24dp));
+    }
 
-  @Override
-  protected void onRightButtonPressed() {
-    exitWizard();
-  }
+    @Override
+    protected void onRightButtonPressed() {
+        exitWizard();
+    }
 }

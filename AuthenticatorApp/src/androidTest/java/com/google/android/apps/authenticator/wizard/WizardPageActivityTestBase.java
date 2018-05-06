@@ -16,14 +16,14 @@
 
 package com.google.android.apps.authenticator.wizard;
 
-import com.google.android.apps.authenticator.TestUtilities;
-import com.google.android.apps.authenticator.testability.DependencyInjector;
-import com.google.android.apps.authenticator2.R;
-
 import android.content.ComponentName;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
+
+import com.google.android.apps.authenticator.TestUtilities;
+import com.google.android.apps.authenticator.testability.DependencyInjector;
+import com.google.android.apps.authenticator2.R;
 
 import java.io.Serializable;
 import java.util.concurrent.TimeoutException;
@@ -35,101 +35,101 @@ import java.util.concurrent.TimeoutException;
  */
 @SuppressWarnings("rawtypes")
 public class WizardPageActivityTestBase<
-    A extends WizardPageActivity, WizardState extends Serializable>
-    extends ActivityInstrumentationTestCase2<A> {
+        A extends WizardPageActivity, WizardState extends Serializable>
+        extends ActivityInstrumentationTestCase2<A> {
 
-  public WizardPageActivityTestBase(Class<A> activityClass) {
-    super(TestUtilities.APP_PACKAGE_NAME, activityClass);
-  }
+    public WizardPageActivityTestBase(Class<A> activityClass) {
+        super(TestUtilities.APP_PACKAGE_NAME, activityClass);
+    }
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-    DependencyInjector.resetForIntegrationTesting(getInstrumentation().getTargetContext());
-    TestUtilities.withLaunchPreventingStartActivityListenerInDependencyResolver();
-  }
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        DependencyInjector.resetForIntegrationTesting(getInstrumentation().getTargetContext());
+        TestUtilities.withLaunchPreventingStartActivityListenerInDependencyResolver();
+    }
 
-  @Override
-  protected void tearDown() throws Exception {
-    DependencyInjector.close();
-    super.tearDown();
-  }
+    @Override
+    protected void tearDown() throws Exception {
+        DependencyInjector.close();
+        super.tearDown();
+    }
 
-  protected void setWizardStateInActivityIntent(WizardState state) {
-    setActivityIntent(new Intent().putExtra(WizardPageActivity.KEY_WIZARD_STATE, state));
-  }
+    protected void setWizardStateInActivityIntent(WizardState state) {
+        setActivityIntent(new Intent().putExtra(WizardPageActivity.KEY_WIZARD_STATE, state));
+    }
 
-  @SuppressWarnings("unchecked")
-  protected WizardState getWizardStateFromIntent(Intent intent) {
-    return (WizardState) intent.getSerializableExtra(WizardPageActivity.KEY_WIZARD_STATE);
-  }
+    @SuppressWarnings("unchecked")
+    protected WizardState getWizardStateFromIntent(Intent intent) {
+        return (WizardState) intent.getSerializableExtra(WizardPageActivity.KEY_WIZARD_STATE);
+    }
 
-  /**
-   * Asserts that pressing the {@code Back} key finishes the Activity under test.
-   */
-  protected void assertBackKeyFinishesActivity() throws InterruptedException, TimeoutException {
-    TestUtilities.invokeActivityOnBackPressedOnUiThread(getActivity());
+    /**
+     * Asserts that pressing the {@code Back} key finishes the Activity under test.
+     */
+    protected void assertBackKeyFinishesActivity() throws InterruptedException, TimeoutException {
+        TestUtilities.invokeActivityOnBackPressedOnUiThread(getActivity());
 
-    assertTrue(getActivity().isFinishing());
-  }
+        assertTrue(getActivity().isFinishing());
+    }
 
-  /**
-   * Asserts that pressing the {@code Back} key does not finish the Activity under test.
-   */
-  protected void assertBackKeyDoesNotFinishActivity()
-      throws InterruptedException, TimeoutException {
-    TestUtilities.invokeActivityOnBackPressedOnUiThread(getActivity());
+    /**
+     * Asserts that pressing the {@code Back} key does not finish the Activity under test.
+     */
+    protected void assertBackKeyDoesNotFinishActivity()
+            throws InterruptedException, TimeoutException {
+        TestUtilities.invokeActivityOnBackPressedOnUiThread(getActivity());
 
-    assertFalse(getActivity().isFinishing());
-  }
+        assertFalse(getActivity().isFinishing());
+    }
 
-  protected void assertLeftButtonPressFinishesActivity() {
-    pressButton(R.id.button_left);
-    assertTrue(getActivity().isFinishing());
-  }
+    protected void assertLeftButtonPressFinishesActivity() {
+        pressButton(R.id.button_left);
+        assertTrue(getActivity().isFinishing());
+    }
 
-  private void pressButton(int buttonViewId) {
-    View button = getActivity().findViewById(buttonViewId);
-    // The button can only be pressed if it's on screen and visible
-    assertNotNull(button);
-    TestUtilities.assertViewVisibleOnScreen(button);
-    assertTrue(button.isEnabled());
-    TestUtilities.assertViewVisibleOnScreen(button);
+    private void pressButton(int buttonViewId) {
+        View button = getActivity().findViewById(buttonViewId);
+        // The button can only be pressed if it's on screen and visible
+        assertNotNull(button);
+        TestUtilities.assertViewVisibleOnScreen(button);
+        assertTrue(button.isEnabled());
+        TestUtilities.assertViewVisibleOnScreen(button);
 
-    TestUtilities.clickView(getInstrumentation(), button);
-  }
+        TestUtilities.clickView(getInstrumentation(), button);
+    }
 
-  protected void pressLeftButton() {
-    pressButton(R.id.button_left);
-  }
+    protected void pressLeftButton() {
+        pressButton(R.id.button_left);
+    }
 
-  protected void pressRightButton() {
-    pressButton(R.id.button_right);
-  }
+    protected void pressRightButton() {
+        pressButton(R.id.button_right);
+    }
 
-  protected void pressMiddleButton() {
-    pressButton(R.id.button_middle);
-  }
+    protected void pressMiddleButton() {
+        pressButton(R.id.button_middle);
+    }
 
-  private Intent pressButtonAndCaptureActivityStartIntent(int buttonViewId) {
-    pressButton(buttonViewId);
+    private Intent pressButtonAndCaptureActivityStartIntent(int buttonViewId) {
+        pressButton(buttonViewId);
 
-    return TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
-  }
+        return TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
+    }
 
-  protected Intent pressMiddleButtonAndCaptureActivityStartIntent() {
-    return pressButtonAndCaptureActivityStartIntent(R.id.button_middle);
-  }
+    protected Intent pressMiddleButtonAndCaptureActivityStartIntent() {
+        return pressButtonAndCaptureActivityStartIntent(R.id.button_middle);
+    }
 
-  protected Intent pressRightButtonAndCaptureActivityStartIntent() {
-    return pressButtonAndCaptureActivityStartIntent(R.id.button_right);
-  }
+    protected Intent pressRightButtonAndCaptureActivityStartIntent() {
+        return pressButtonAndCaptureActivityStartIntent(R.id.button_right);
+    }
 
-  protected void assertIntentForClassInTargetPackage(Class<?> expectedClass, Intent intent) {
-    assertEquals(
-        new ComponentName(
-            getInstrumentation().getTargetContext(),
-            expectedClass),
-        intent.getComponent());
-  }
+    protected void assertIntentForClassInTargetPackage(Class<?> expectedClass, Intent intent) {
+        assertEquals(
+                new ComponentName(
+                        getInstrumentation().getTargetContext(),
+                        expectedClass),
+                intent.getComponent());
+    }
 }

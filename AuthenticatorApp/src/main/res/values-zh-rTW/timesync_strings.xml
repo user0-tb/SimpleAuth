@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2012 Google Inc. All Rights Reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,8 +13,7 @@
      limitations under the License.
 -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="timesync_preference_screen_title" msgid="3022961447302189451">"驗證碼時間修正"</string>
     <string name="timesync_preference_screen_summary" msgid="4761393049788324525">"將 Authenticator 的內部時鐘與 Google 伺服器同步"</string>
     <string name="timesync_sync_now_preference_title" msgid="3082679345742875442">"立即同步處理"</string>

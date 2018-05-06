@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2011 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2011 Google Inc. All Rights Reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,5 +14,6 @@
 -->
 
 <resources>
-  <color name="countdown_indicator">#ff71ca00</color>
+    <color name="theme_color">#ff3F51B5</color>
+    <color name="theme_color_dark">#ff303F9F</color>
 </resources>

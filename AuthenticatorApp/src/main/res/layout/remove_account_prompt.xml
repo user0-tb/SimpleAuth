@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2011 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2011 Google Inc. All Rights Reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,10 +14,10 @@
 -->
 
 <WebView xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/web_view"
-  android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
-  android:layerType="software">
-  <!-- layerType above disables hardware acceleration which prevents the WebView from having a
-       transparent background (see Android bug #14749). -->
+    android:id="@+id/web_view"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layerType="software">
+    <!-- layerType above disables hardware acceleration which prevents the WebView from having a
+         transparent background (see Android bug #14749). -->
 </WebView>

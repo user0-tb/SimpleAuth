@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2011 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2011 Google Inc. All Rights Reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,33 +13,32 @@
      limitations under the License.
 -->
 
-<PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
-  <Preference
-    android:key="version"
-    android:title="@string/version_preference_title"
-    android:persistent="false"
-    android:enabled="false"
-    android:shouldDisableView="false"/>
-  <PreferenceScreen
-    android:key="opensource"
-    android:title="@string/opensource_preference_title">
-    <intent
-      android:action="android.intent.action.VIEW"
-      android:data="@string/opensource_page_url" />
-  </PreferenceScreen>
-  <PreferenceScreen
-    android:key="terms"
-    android:title="@string/terms_preference_title">
-    <intent
-      android:action="android.intent.action.VIEW"
-      android:data="@string/terms_page_url" />
-  </PreferenceScreen>
-  <PreferenceScreen
-    android:key="privacy"
-    android:title="@string/privacy_preference_title">
-    <intent
-      android:action="android.intent.action.VIEW"
-      android:data="@string/privacy_page_url" />
-  </PreferenceScreen>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="version"
+        android:title="@string/version_preference_title"
+        android:persistent="false"
+        android:enabled="false"
+        android:shouldDisableView="false" />
+    <PreferenceScreen
+        android:key="opensource"
+        android:title="@string/opensource_preference_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/opensource_page_url" />
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="terms"
+        android:title="@string/terms_preference_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/terms_page_url" />
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="privacy"
+        android:title="@string/privacy_preference_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/privacy_page_url" />
+    </PreferenceScreen>
 </PreferenceScreen>

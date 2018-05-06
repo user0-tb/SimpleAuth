@@ -16,12 +16,12 @@
 
 package com.google.android.apps.authenticator;
 
-import com.google.android.apps.authenticator.testability.DependencyInjector;
-import com.google.android.apps.authenticator2.R;
-
 import android.content.ComponentName;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.google.android.apps.authenticator.testability.DependencyInjector;
+import com.google.android.apps.authenticator2.R;
 
 /**
  * Unit tests for {@link AddOtherAccountActivity}.
@@ -29,43 +29,43 @@ import android.test.ActivityInstrumentationTestCase2;
  * @author klyubin@google.com (Alex Klyubin)
  */
 public class AddOtherAccountActivityTest
-    extends ActivityInstrumentationTestCase2<AddOtherAccountActivity> {
+        extends ActivityInstrumentationTestCase2<AddOtherAccountActivity> {
 
-  public AddOtherAccountActivityTest() {
-    super(TestUtilities.APP_PACKAGE_NAME, AddOtherAccountActivity.class);
-  }
+    public AddOtherAccountActivityTest() {
+        super(TestUtilities.APP_PACKAGE_NAME, AddOtherAccountActivity.class);
+    }
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
 
-    DependencyInjector.resetForIntegrationTesting(getInstrumentation().getTargetContext());
-    TestUtilities.withLaunchPreventingStartActivityListenerInDependencyResolver();
-  }
+        DependencyInjector.resetForIntegrationTesting(getInstrumentation().getTargetContext());
+        TestUtilities.withLaunchPreventingStartActivityListenerInDependencyResolver();
+    }
 
-  @Override
-  protected void tearDown() throws Exception {
-    DependencyInjector.close();
+    @Override
+    protected void tearDown() throws Exception {
+        DependencyInjector.close();
 
-    super.tearDown();
-  }
+        super.tearDown();
+    }
 
-  public void testScanBarcode() throws Exception {
-    TestUtilities.clickView(getInstrumentation(), getActivity().findViewById(R.id.scan_barcode));
+    public void testScanBarcode() throws Exception {
+        TestUtilities.clickView(getInstrumentation(), getActivity().findViewById(R.id.scan_barcode));
 
-    Intent actualIntent = TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
-    Intent expectedIntent = AuthenticatorActivity.getLaunchIntentActionScanBarcode(getActivity());
-    assertEquals(expectedIntent.getAction(), actualIntent.getAction());
-    assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
-  }
+        Intent actualIntent = TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
+        Intent expectedIntent = AuthenticatorActivity.getLaunchIntentActionScanBarcode(getActivity());
+        assertEquals(expectedIntent.getAction(), actualIntent.getAction());
+        assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
+    }
 
-  public void testManuallyAddAccount() throws Exception {
-    TestUtilities.clickView(
-        getInstrumentation(), getActivity().findViewById(R.id.manually_add_account));
+    public void testManuallyAddAccount() throws Exception {
+        TestUtilities.clickView(
+                getInstrumentation(), getActivity().findViewById(R.id.manually_add_account));
 
-    Intent actualIntent = TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
-    assertEquals(
-        new ComponentName(getActivity(), EnterKeyActivity.class),
-        actualIntent.getComponent());
-  }
+        Intent actualIntent = TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
+        assertEquals(
+                new ComponentName(getActivity(), EnterKeyActivity.class),
+                actualIntent.getComponent());
+    }
 }

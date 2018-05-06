@@ -25,20 +25,20 @@ import junit.framework.TestCase;
  */
 public class UtilitiesTest extends TestCase {
 
-  public void testMillisToSeconds() {
-    // Test rounding
-    assertEquals(1234, Utilities.millisToSeconds(1234567));
-    assertEquals(1234, Utilities.millisToSeconds(1234000));
-    assertEquals(1234, Utilities.millisToSeconds(1234999));
+    public void testMillisToSeconds() {
+        // Test rounding
+        assertEquals(1234, Utilities.millisToSeconds(1234567));
+        assertEquals(1234, Utilities.millisToSeconds(1234000));
+        assertEquals(1234, Utilities.millisToSeconds(1234999));
 
-    // Test that it works fine for longs
-    assertEquals(12345678901L, Utilities.millisToSeconds(12345678901234L));
-  }
+        // Test that it works fine for longs
+        assertEquals(12345678901L, Utilities.millisToSeconds(12345678901234L));
+    }
 
-  public void testSecondsToMillis() {
-    assertEquals(1234000, Utilities.secondsToMillis(1234));
+    public void testSecondsToMillis() {
+        assertEquals(1234000, Utilities.secondsToMillis(1234));
 
-    // Test that it works fine for longs
-    assertEquals(12345678901000L, Utilities.secondsToMillis(12345678901L));
-  }
+        // Test that it works fine for longs
+        assertEquals(12345678901000L, Utilities.secondsToMillis(12345678901L));
+    }
 }

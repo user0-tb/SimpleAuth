@@ -16,9 +16,9 @@
 
 package com.google.android.apps.authenticator.howitworks;
 
-import com.google.android.apps.authenticator.wizard.WizardPageActivityTestBase;
-
 import android.content.Intent;
+
+import com.google.android.apps.authenticator.wizard.WizardPageActivityTestBase;
 
 import java.io.Serializable;
 
@@ -28,23 +28,23 @@ import java.io.Serializable;
  * @author klyubin@google.com (Alex Klyubin)
  */
 public class IntroEnterPasswordActivityTest
-    extends WizardPageActivityTestBase<IntroEnterPasswordActivity, Serializable> {
+        extends WizardPageActivityTestBase<IntroEnterPasswordActivity, Serializable> {
 
-  public IntroEnterPasswordActivityTest() {
-    super(IntroEnterPasswordActivity.class);
-  }
+    public IntroEnterPasswordActivityTest() {
+        super(IntroEnterPasswordActivity.class);
+    }
 
-  public void testBackKeyFinishesActivity() throws Exception {
-    assertBackKeyFinishesActivity();
-  }
+    public void testBackKeyFinishesActivity() throws Exception {
+        assertBackKeyFinishesActivity();
+    }
 
-  public void testLeftButtonFinishesActivity() throws Exception {
-    assertLeftButtonPressFinishesActivity();
-  }
+    public void testLeftButtonFinishesActivity() throws Exception {
+        assertLeftButtonPressFinishesActivity();
+    }
 
-  public void testRightButtonStartsNextPage() throws Exception {
-    Intent intent = pressRightButtonAndCaptureActivityStartIntent();
-    assertIntentForClassInTargetPackage(IntroEnterCodeActivity.class, intent);
-    assertFalse(getActivity().isFinishing());
-  }
+    public void testRightButtonStartsNextPage() throws Exception {
+        Intent intent = pressRightButtonAndCaptureActivityStartIntent();
+        assertIntentForClassInTargetPackage(IntroEnterCodeActivity.class, intent);
+        assertFalse(getActivity().isFinishing());
+    }
 }

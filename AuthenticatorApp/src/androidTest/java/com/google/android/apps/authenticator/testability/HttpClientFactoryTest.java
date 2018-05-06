@@ -34,50 +34,50 @@ import org.apache.http.params.HttpParams;
  */
 public class HttpClientFactoryTest extends AndroidTestCase {
 
-  private HttpClient mClient;
+    private HttpClient mClient;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
 
-    mClient = HttpClientFactory.createHttpClient(getContext());
-  }
-
-  @Override
-  protected void tearDown() throws Exception {
-    if (mClient != null) {
-      ClientConnectionManager connectionManager = mClient.getConnectionManager();
-      if (connectionManager != null) {
-        connectionManager.shutdown();
-      }
+        mClient = HttpClientFactory.createHttpClient(getContext());
     }
-    super.tearDown();
-  }
 
-  public void testClientClass() throws Exception {
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ECLAIR_MR1) {
-      assertEquals(
-          getContext().getClassLoader().loadClass(DefaultHttpClient.class.getName()),
-          mClient.getClass());
-    } else {
-      assertEquals(
-          getContext().getClassLoader().loadClass("android.net.http.AndroidHttpClient"),
-          mClient.getClass());
+    @Override
+    protected void tearDown() throws Exception {
+        if (mClient != null) {
+            ClientConnectionManager connectionManager = mClient.getConnectionManager();
+            if (connectionManager != null) {
+                connectionManager.shutdown();
+            }
+        }
+        super.tearDown();
     }
-  }
 
-  public void testClientConfiguration() throws Exception {
-    HttpParams params = mClient.getParams();
-    assertFalse(HttpClientParams.isRedirecting(params));
-    assertFalse(HttpClientParams.isAuthenticating(params));
-    assertEquals(
-        HttpClientFactory.DEFAULT_CONNECT_TIMEOUT_MILLIS,
-        HttpConnectionParams.getConnectionTimeout(params));
-    assertEquals(
-        HttpClientFactory.DEFAULT_READ_TIMEOUT_MILLIS,
-        HttpConnectionParams.getSoTimeout(params));
-    assertEquals(
-        HttpClientFactory.DEFAULT_GET_CONNECTION_FROM_POOL_TIMEOUT_MILLIS,
-        ConnManagerParams.getTimeout(params));
-  }
+    public void testClientClass() throws Exception {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ECLAIR_MR1) {
+            assertEquals(
+                    getContext().getClassLoader().loadClass(DefaultHttpClient.class.getName()),
+                    mClient.getClass());
+        } else {
+            assertEquals(
+                    getContext().getClassLoader().loadClass("android.net.http.AndroidHttpClient"),
+                    mClient.getClass());
+        }
+    }
+
+    public void testClientConfiguration() throws Exception {
+        HttpParams params = mClient.getParams();
+        assertFalse(HttpClientParams.isRedirecting(params));
+        assertFalse(HttpClientParams.isAuthenticating(params));
+        assertEquals(
+                HttpClientFactory.DEFAULT_CONNECT_TIMEOUT_MILLIS,
+                HttpConnectionParams.getConnectionTimeout(params));
+        assertEquals(
+                HttpClientFactory.DEFAULT_READ_TIMEOUT_MILLIS,
+                HttpConnectionParams.getSoTimeout(params));
+        assertEquals(
+                HttpClientFactory.DEFAULT_GET_CONNECTION_FROM_POOL_TIMEOUT_MILLIS,
+                ConnManagerParams.getTimeout(params));
+    }
 }

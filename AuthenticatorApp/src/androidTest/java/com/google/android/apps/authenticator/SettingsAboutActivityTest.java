@@ -16,12 +16,12 @@
 
 package com.google.android.apps.authenticator;
 
-import com.google.android.apps.authenticator.testability.DependencyInjector;
-import com.google.android.apps.authenticator2.R;
-
 import android.content.Intent;
 import android.preference.Preference;
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.google.android.apps.authenticator.testability.DependencyInjector;
+import com.google.android.apps.authenticator2.R;
 
 /**
  * Unit tests for {@link SettingsAboutActivity}.
@@ -29,63 +29,63 @@ import android.test.ActivityInstrumentationTestCase2;
  * @author klyubin@google.com (Alex Klyubin)
  */
 public class SettingsAboutActivityTest
-    extends ActivityInstrumentationTestCase2<SettingsAboutActivity> {
+        extends ActivityInstrumentationTestCase2<SettingsAboutActivity> {
 
-  public SettingsAboutActivityTest() {
-    super(TestUtilities.APP_PACKAGE_NAME, SettingsAboutActivity.class);
-  }
+    public SettingsAboutActivityTest() {
+        super(TestUtilities.APP_PACKAGE_NAME, SettingsAboutActivity.class);
+    }
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
 
-    DependencyInjector.resetForIntegrationTesting(getInstrumentation().getTargetContext());
-    TestUtilities.withLaunchPreventingStartActivityListenerInDependencyResolver();
-  }
+        DependencyInjector.resetForIntegrationTesting(getInstrumentation().getTargetContext());
+        TestUtilities.withLaunchPreventingStartActivityListenerInDependencyResolver();
+    }
 
-  @Override
-  protected void tearDown() throws Exception {
-    DependencyInjector.close();
+    @Override
+    protected void tearDown() throws Exception {
+        DependencyInjector.close();
 
-    super.tearDown();
-  }
+        super.tearDown();
+    }
 
-  public void testVersionTakenFromPackageVersion() throws Exception {
-    Preference preference = getActivity().findPreference("version");
-    String expectedVersion =
-        getInstrumentation().getTargetContext().getPackageManager().getPackageInfo(
-            getActivity().getPackageName(), 0).versionName;
-    assertEquals(expectedVersion, preference.getSummary());
-  }
+    public void testVersionTakenFromPackageVersion() throws Exception {
+        Preference preference = getActivity().findPreference("version");
+        String expectedVersion =
+                getInstrumentation().getTargetContext().getPackageManager().getPackageInfo(
+                        getActivity().getPackageName(), 0).versionName;
+        assertEquals(expectedVersion, preference.getSummary());
+    }
 
-  public void testOpenSourcePreferenceOpensUrl() throws Exception {
-    Intent intent = tapOnPreferenceAndCatchFiredIntent("opensource");
-    assertDefaultViewActionIntent(
-        getInstrumentation().getTargetContext().getString(R.string.opensource_page_url),
-        intent);
-  }
+    public void testOpenSourcePreferenceOpensUrl() throws Exception {
+        Intent intent = tapOnPreferenceAndCatchFiredIntent("opensource");
+        assertDefaultViewActionIntent(
+                getInstrumentation().getTargetContext().getString(R.string.opensource_page_url),
+                intent);
+    }
 
-  public void testTermsOfServicePreferenceOpensUrl() throws Exception {
-    Intent intent = tapOnPreferenceAndCatchFiredIntent("terms");
-    assertDefaultViewActionIntent(
-        getInstrumentation().getTargetContext().getString(R.string.terms_page_url),
-        intent);
-  }
+    public void testTermsOfServicePreferenceOpensUrl() throws Exception {
+        Intent intent = tapOnPreferenceAndCatchFiredIntent("terms");
+        assertDefaultViewActionIntent(
+                getInstrumentation().getTargetContext().getString(R.string.terms_page_url),
+                intent);
+    }
 
-  public void testPrivacyPolicyPreferenceOpensUrl() throws Exception {
-    Intent intent = tapOnPreferenceAndCatchFiredIntent("privacy");
-    assertDefaultViewActionIntent(
-        getInstrumentation().getTargetContext().getString(R.string.privacy_page_url),
-        intent);
-  }
+    public void testPrivacyPolicyPreferenceOpensUrl() throws Exception {
+        Intent intent = tapOnPreferenceAndCatchFiredIntent("privacy");
+        assertDefaultViewActionIntent(
+                getInstrumentation().getTargetContext().getString(R.string.privacy_page_url),
+                intent);
+    }
 
-  private static void assertDefaultViewActionIntent(String expectedData, Intent intent) {
-    assertEquals("android.intent.action.VIEW", intent.getAction());
-    assertEquals(expectedData, intent.getDataString());
-  }
+    private static void assertDefaultViewActionIntent(String expectedData, Intent intent) {
+        assertEquals("android.intent.action.VIEW", intent.getAction());
+        assertEquals(expectedData, intent.getDataString());
+    }
 
-  private Intent tapOnPreferenceAndCatchFiredIntent(String preferenceKey) {
-    TestUtilities.tapPreference(this, getActivity(), getActivity().findPreference(preferenceKey));
-    return TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
-  }
+    private Intent tapOnPreferenceAndCatchFiredIntent(String preferenceKey) {
+        TestUtilities.tapPreference(this, getActivity(), getActivity().findPreference(preferenceKey));
+        return TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
+    }
 }

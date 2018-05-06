@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2010 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2010 Google Inc. All Rights Reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,11 +14,16 @@
 -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/rename_root"
-  android:layout_width="fill_parent" android:layout_height="wrap_content" >
+    android:id="@+id/rename_root"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="?dialogPreferredPadding"
+    android:paddingRight="?dialogPreferredPadding">
 
-  <EditText android:id="@+id/rename_edittext"
-      android:layout_width="fill_parent" android:layout_height="wrap_content"
-      android:singleLine="true" />
+    <EditText
+        android:id="@+id/rename_edittext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"/>
 
 </FrameLayout>

@@ -22,11 +22,11 @@ package com.google.android.apps.authenticator;
  * @author klyubin@google.com (Alex Klyubin)
  */
 public class OtpSourceException extends Exception {
-  public OtpSourceException(String message) {
-    super(message);
-  }
+    public OtpSourceException(String message) {
+        super(message);
+    }
 
-  public OtpSourceException(String message, Throwable cause) {
-    super(message, cause);
-  }
+    public OtpSourceException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

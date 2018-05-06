@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2009 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2009 Google Inc. All Rights Reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,9 +14,9 @@
 -->
 
 
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
 
-  <!-- The package of the application flavor, for use within preferences, etc. -->
-  <string name="app_package_name" translatable="false">com.google.android.apps.authenticator2.os</string>
+    <!-- The package of the application flavor, for use within preferences, etc. -->
+    <string name="app_package_name" translatable="false">com.google.android.apps.authenticator2.os</string>
 
 </resources>

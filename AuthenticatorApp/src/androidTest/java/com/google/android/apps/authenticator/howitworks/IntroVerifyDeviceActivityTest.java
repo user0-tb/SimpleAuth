@@ -16,10 +16,10 @@
 
 package com.google.android.apps.authenticator.howitworks;
 
+import android.content.Intent;
+
 import com.google.android.apps.authenticator.AuthenticatorActivity;
 import com.google.android.apps.authenticator.wizard.WizardPageActivityTestBase;
-
-import android.content.Intent;
 
 import java.io.Serializable;
 
@@ -29,23 +29,23 @@ import java.io.Serializable;
  * @author klyubin@google.com (Alex Klyubin)
  */
 public class IntroVerifyDeviceActivityTest
-    extends WizardPageActivityTestBase<IntroVerifyDeviceActivity, Serializable> {
+        extends WizardPageActivityTestBase<IntroVerifyDeviceActivity, Serializable> {
 
-  public IntroVerifyDeviceActivityTest() {
-    super(IntroVerifyDeviceActivity.class);
-  }
+    public IntroVerifyDeviceActivityTest() {
+        super(IntroVerifyDeviceActivity.class);
+    }
 
-  public void testBackKeyFinishesActivity() throws Exception {
-    assertBackKeyFinishesActivity();
-  }
+    public void testBackKeyFinishesActivity() throws Exception {
+        assertBackKeyFinishesActivity();
+    }
 
-  public void testLeftButtonFinishesActivity() throws Exception {
-    assertLeftButtonPressFinishesActivity();
-  }
+    public void testLeftButtonFinishesActivity() throws Exception {
+        assertLeftButtonPressFinishesActivity();
+    }
 
-  public void testRightButtonExitsWizard() throws Exception {
-    Intent intent = pressRightButtonAndCaptureActivityStartIntent();
-    assertIntentForClassInTargetPackage(AuthenticatorActivity.class, intent);
-    assertTrue(getActivity().isFinishing());
-  }
+    public void testRightButtonExitsWizard() throws Exception {
+        Intent intent = pressRightButtonAndCaptureActivityStartIntent();
+        assertIntentForClassInTargetPackage(AuthenticatorActivity.class, intent);
+        assertTrue(getActivity().isFinishing());
+    }
 }

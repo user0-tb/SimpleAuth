@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2011 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2011 Google Inc. All Rights Reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,8 +13,7 @@
      limitations under the License.
 -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" msgid="5078996080612406301">"Google 身份验证器"</string>
     <string name="app_name_short" msgid="6268465073167241020">"身份验证器"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"手动输入帐户"</string>
@@ -70,10 +68,10 @@
     <string name="empty_pin" msgid="2123950169339395812">"_ _ _ _ _ _"</string>
     <string name="ok" msgid="6406800116409689723">"确定"</string>
     <string name="type_prompt" msgid="5595994960218859859">"密钥类型"</string>
-  <string-array name="type">
-    <item msgid="7456778849112065121">"基于时间"</item>
-    <item msgid="5212912099902129712">"基于计数器"</item>
-  </string-array>
+    <string-array name="type">
+        <item msgid="7456778849112065121">"基于时间"</item>
+        <item msgid="5212912099902129712">"基于计数器"</item>
+    </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"已成功导入"</string>
     <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"已成功从弃用的 Google 身份验证器应用中导入您的数据。现在您可以点击下面的按钮放心地卸载该应用先前的版本。"</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"卸载"</string>
