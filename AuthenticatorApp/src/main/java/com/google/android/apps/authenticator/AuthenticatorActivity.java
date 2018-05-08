@@ -23,13 +23,14 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.text.ClipboardManager;
 import android.text.Html;
 import android.util.Log;
@@ -44,11 +45,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.webkit.WebView;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +59,9 @@ import com.google.android.apps.authenticator.howitworks.IntroEnterPasswordActivi
 import com.google.android.apps.authenticator.testability.DependencyInjector;
 import com.google.android.apps.authenticator.testability.TestableActivity;
 import com.google.android.apps.authenticator2.R;
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -117,6 +119,7 @@ public class AuthenticatorActivity extends TestableActivity {
     private ListView mUserList;
     private PinListAdapter mUserAdapter;
     private PinInfo[] mUsers = {};
+    private View mCustomizeView;
 
     /**
      * Counter used for generating TOTP verification codes.
@@ -199,9 +202,12 @@ public class AuthenticatorActivity extends TestableActivity {
     public static final int REMOVE_ID = 2;
     // @VisibleForTesting
     static final int COPY_TO_CLIPBOARD_ID = 3;
-    static final int CUSTOMIZE = 4;
+    // @VisibleForTesting
+    static final int CUSTOMIZE_ID = 4;
     // @VisibleForTesting
     static final int SCAN_REQUEST = 31337;
+    // @VisibleForTesting
+    static final int CHOOSE_ICON = 31338;
 
     /**
      * Called when the activity is first created.
@@ -670,6 +676,7 @@ public class AuthenticatorActivity extends TestableActivity {
         if (type == OtpType.HOTP) {
             menu.add(0, CHECK_KEY_VALUE_ID, 0, R.string.check_code_menu_item);
         }
+        menu.add(0, CUSTOMIZE_ID, 0, R.string.customize);
         menu.add(0, RENAME_ID, 0, R.string.rename);
         menu.add(0, REMOVE_ID, 0, R.string.context_menu_remove_account);
     }
@@ -690,6 +697,37 @@ public class AuthenticatorActivity extends TestableActivity {
                 intent.setClass(this, CheckCodeActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
+                return true;
+            case CUSTOMIZE_ID:
+                mCustomizeView = getLayoutInflater().inflate(R.layout.customize,
+                        findViewById(R.id.customize_root));
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.customize)
+                        .setView(mCustomizeView)
+                        .setPositiveButton(R.string.submit, null)
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
+                View customizeColor = mCustomizeView.findViewById(R.id.customize_color);
+                customizeColor.setOnClickListener(view -> {
+                    ColorPicker colorPicker = new ColorPicker(AuthenticatorActivity.this,0,0,0);
+                    colorPicker.show();
+                    colorPicker.setCallback(color -> {
+                        customizeColor.setBackgroundColor(color);
+                        colorPicker.dismiss();
+                    });
+                });
+                ImageView customizeIcon = mCustomizeView.findViewById(R.id.customize_icon);
+                customizeIcon.setOnClickListener(view -> {
+                    Intent i = new Intent()
+                        .setType("image/*")
+                        .setAction(Intent.ACTION_GET_CONTENT)
+                        .putExtra("return-data", true)
+                        .putExtra("scale", true)
+                        .putExtra("outputX", 256)
+                        .putExtra("outputY", 256);
+                    Intent chooser = Intent.createChooser(i, getString(R.string.icon));
+                    startActivityForResult(chooser, CHOOSE_ICON);
+                });
                 return true;
             case RENAME_ID:
                 final Context context = this; // final so listener can see value
@@ -786,11 +824,29 @@ public class AuthenticatorActivity extends TestableActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.i(getString(R.string.app_name), LOCAL_TAG + ": onActivityResult");
-        if (requestCode == SCAN_REQUEST && resultCode == Activity.RESULT_OK) {
-            // Grab the scan results and convert it into a URI
-            String scanResult = (intent != null) ? intent.getStringExtra("SCAN_RESULT") : null;
-            Uri uri = (scanResult != null) ? Uri.parse(scanResult) : null;
-            interpretScanResult(uri, false);
+        if (resultCode == Activity.RESULT_OK) {
+            switch(requestCode) {
+                case SCAN_REQUEST:
+                    // Grab the scan results and convert it into a URI
+                    String scanResult = (intent != null) ? intent.getStringExtra("SCAN_RESULT") : null;
+                    Uri uri = (scanResult != null) ? Uri.parse(scanResult) : null;
+                    interpretScanResult(uri, false);
+                    break;
+                case CHOOSE_ICON:
+                    Uri data = intent.getData();
+                    if(data != null) {
+                        try {
+                            Bitmap icon = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data);
+                            if(mCustomizeView != null) {
+                                ImageView customizeIcon = mCustomizeView.findViewById(R.id.customize_icon);
+                                customizeIcon.setImageBitmap(icon);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+            }
         }
     }
 

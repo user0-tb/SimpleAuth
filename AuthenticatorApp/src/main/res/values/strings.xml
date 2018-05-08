@@ -224,6 +224,15 @@
          name as another existing account -->
     <string name="error_exists">Sorry, that name is already in use.</string>
 
+    <!-- Long-press menu item for an account, used to customize that account -->
+    <string name="customize">Customize</string>
+
+    <!-- Text in dialog for icon selection -->
+    <string name="icon">Icon</string>
+
+    <!-- Text in dialog for color selection -->
+    <string name="color">Color</string>
+
     <!-- Long-press menu item for an account, copies current OTP code for that account
          to the phone clipboard -->
     <string name="copy_to_clipboard">Copy to clipboard</string>

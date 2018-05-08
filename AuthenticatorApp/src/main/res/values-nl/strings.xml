@@ -62,6 +62,9 @@
     <string name="remove_google_account_dialog_message" msgid="5734774722876234898">"Als u dit account verwijdert, kunt u &lt;b&gt;geen codes meer genereren&lt;/b&gt;, maar wordt authenticatie in twee stappen niet uitgeschakeld. Hierdoor kunt u zich mogelijk niet aanmelden bij uw account. &lt;p&gt; Voordat u verwijdert: &lt;ul&gt; &lt;li&gt;Schakel authenticatie in twee stappen uit voor dit account, of&lt;/li&gt; &lt;li&gt;Zorg ervoor dat u een alternatieve methode voor het genereren van codes heeft.&lt;/li&gt; &lt;/ul&gt;"</string>
     <string name="rename" msgid="4407492613148938173">"Naam wijzigen"</string>
     <string name="rename_message" msgid="5929955206098259018">"Naam van <xliff:g id="ACCOUNT">%1$s</xliff:g> wijzigen"</string>
+    <string name="customize">"Aanpassen"</string>
+    <string name="icon">"Icoon"</string>
+    <string name="color">"Kleur"</string>
     <string name="error_exists" msgid="9037595140877350695">"Deze naam is al in gebruik."</string>
     <string name="copy_to_clipboard" msgid="9220543434521756454">"Kopiëren naar klembord"</string>
     <string name="counter_pin" msgid="6520222181829297474">"Code ophalen"</string>
