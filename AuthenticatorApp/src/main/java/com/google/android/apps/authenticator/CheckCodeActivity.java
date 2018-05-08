@@ -51,9 +51,9 @@ public class CheckCodeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.check_code);
-        mCodeTextView = (TextView) findViewById(R.id.code_value);
-        mCheckCodeTextView = (TextView) findViewById(R.id.check_code);
-        mCounterValue = (TextView) findViewById(R.id.counter_value);
+        mCodeTextView = findViewById(R.id.code_value);
+        mCheckCodeTextView = findViewById(R.id.check_code);
+        mCounterValue = findViewById(R.id.counter_value);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();

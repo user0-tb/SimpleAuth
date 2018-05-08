@@ -289,7 +289,7 @@ public class ImporterTest extends AndroidTestCase {
     }
 
     private void assertAccountsInDbInOrder(String... expectedNames) {
-        List<String> actualNames = new ArrayList<String>();
+        List<String> actualNames = new ArrayList<>();
         mAccountDb.getNames(actualNames);
         MoreAsserts.assertContentsInOrder(actualNames, (Object[]) expectedNames);
     }

@@ -66,7 +66,7 @@ public class HttpClientFactoryTest extends AndroidTestCase {
         }
     }
 
-    public void testClientConfiguration() throws Exception {
+    public void testClientConfiguration() {
         HttpParams params = mClient.getParams();
         assertFalse(HttpClientParams.isRedirecting(params));
         assertFalse(HttpClientParams.isAuthenticating(params));

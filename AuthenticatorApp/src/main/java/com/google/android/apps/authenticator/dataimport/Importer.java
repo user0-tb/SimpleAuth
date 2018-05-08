@@ -80,7 +80,7 @@ public class Importer {
     private void importAccountDbFromBundle(Bundle bundle, AccountDb accountDb) {
         // Each account is stored in a Bundle whose key is a string representing the ordinal (integer)
         // position of the account in the database.
-        List<String> sortedAccountBundleKeys = new ArrayList<String>(bundle.keySet());
+        List<String> sortedAccountBundleKeys = new ArrayList<>(bundle.keySet());
         Collections.sort(sortedAccountBundleKeys, new IntegerStringComparator());
         int importedAccountCount = 0;
         for (String accountBundleKey : sortedAccountBundleKeys) {
@@ -102,14 +102,17 @@ public class Importer {
             }
             String typeString = accountBundle.getString(KEY_TYPE);
             AccountDb.OtpType type;
-            if ("totp".equals(typeString)) {
-                type = AccountDb.OtpType.TOTP;
-            } else if ("hotp".equals(typeString)) {
-                type = AccountDb.OtpType.HOTP;
-            } else {
-                Log.w(LOG_TAG, "Skipping account #" + accountBundleKey
-                        + ": unsupported type: \"" + typeString + "\"");
-                continue;
+            switch (typeString) {
+                case "totp":
+                    type = AccountDb.OtpType.TOTP;
+                    break;
+                case "hotp":
+                    type = AccountDb.OtpType.HOTP;
+                    break;
+                default:
+                    Log.w(LOG_TAG, "Skipping account #" + accountBundleKey
+                            + ": unsupported type: \"" + typeString + "\"");
+                    continue;
             }
 
             Integer counter =

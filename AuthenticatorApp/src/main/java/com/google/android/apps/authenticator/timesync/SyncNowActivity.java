@@ -108,12 +108,7 @@ public class SyncNowActivity extends Activity implements SyncNowController.Prese
                         .setTitle(R.string.timesync_sync_now_time_already_correct_dialog_title)
                         .setMessage(R.string.timesync_sync_now_time_already_correct_dialog_details)
                         .setIcon(android.R.drawable.ic_dialog_info)
-                        .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        })
+                        .setNeutralButton(R.string.ok, (dialog, which) -> finish())
                         .create()
                         .show();
                 break;
@@ -123,12 +118,7 @@ public class SyncNowActivity extends Activity implements SyncNowController.Prese
                         .setTitle(R.string.timesync_sync_now_time_corrected_dialog_title)
                         .setMessage(R.string.timesync_sync_now_time_corrected_dialog_details)
                         .setIcon(android.R.drawable.ic_dialog_info)
-                        .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        })
+                        .setNeutralButton(R.string.ok, (dialog, which) -> finish())
                         .create()
                         .show();
                 break;
@@ -138,12 +128,7 @@ public class SyncNowActivity extends Activity implements SyncNowController.Prese
                         .setTitle(R.string.timesync_sync_now_connectivity_error_dialog_title)
                         .setMessage(R.string.timesync_sync_now_connectivity_error_dialog_details)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        })
+                        .setNeutralButton(R.string.ok, (dialog, which) -> finish())
                         .create()
                         .show();
                 break;
@@ -165,12 +150,7 @@ public class SyncNowActivity extends Activity implements SyncNowController.Prese
                 getString(R.string.timesync_sync_now_progress_dialog_details),
                 true,
                 true);
-        mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                mController.abort(SyncNowActivity.this);
-            }
-        });
+        mProgressDialog.setOnCancelListener(dialog -> mController.abort(SyncNowActivity.this));
     }
 
     /**

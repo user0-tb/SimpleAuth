@@ -39,11 +39,11 @@ public class IntroVerifyDeviceActivityTest
         assertBackKeyFinishesActivity();
     }
 
-    public void testLeftButtonFinishesActivity() throws Exception {
+    public void testLeftButtonFinishesActivity() {
         assertLeftButtonPressFinishesActivity();
     }
 
-    public void testRightButtonExitsWizard() throws Exception {
+    public void testRightButtonExitsWizard() {
         Intent intent = pressRightButtonAndCaptureActivityStartIntent();
         assertIntentForClassInTargetPackage(AuthenticatorActivity.class, intent);
         assertTrue(getActivity().isFinishing());

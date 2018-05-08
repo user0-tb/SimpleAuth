@@ -168,12 +168,7 @@ class SyncNowController {
         }
         // Avoid blocking this thread on the Time Sync operation by invoking it on a different thread
         // (provided by the Executor) and posting the results back to this thread.
-        mBackgroundExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                runBackgroundSyncAndPostResult(mCallbackFromBackgroundExecutor);
-            }
-        });
+        mBackgroundExecutor.execute(() -> runBackgroundSyncAndPostResult(mCallbackFromBackgroundExecutor));
     }
 
     private void onCancelledByUser() {
@@ -234,23 +229,13 @@ class SyncNowController {
             networkTimeMillis = mNetworkTimeProvider.getNetworkTime();
         } catch (IOException e) {
             Log.w(LOG_TAG, "Failed to obtain network time due to connectivity issues");
-            callbackExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    finish(Result.ERROR_CONNECTIVITY_ISSUE);
-                }
-            });
+            callbackExecutor.execute(() -> finish(Result.ERROR_CONNECTIVITY_ISSUE));
             return;
         }
 
         long timeCorrectionMillis = networkTimeMillis - System.currentTimeMillis();
         final int timeCorrectionMinutes = (int) Math.round(
                 ((double) timeCorrectionMillis) / Utilities.MINUTE_IN_MILLIS);
-        callbackExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                onNewTimeCorrectionObtained(timeCorrectionMinutes);
-            }
-        });
+        callbackExecutor.execute(() -> onNewTimeCorrectionObtained(timeCorrectionMinutes));
     }
 }

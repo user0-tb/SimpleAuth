@@ -204,32 +204,23 @@ public class SyncNowControllerTest extends TestCase {
     }
 
     private void withBackgroundExecutorThatAbortsControllerBeforeExecuting() {
-        mBackgroundExecutor = new Executor() {
-            @Override
-            public void execute(Runnable command) {
-                mController.abort(mMockPresenter);
-                command.run();
-            }
+        mBackgroundExecutor = command -> {
+            mController.abort(mMockPresenter);
+            command.run();
         };
     }
 
     private void withCallbackExecutorThatAbortsControllerBeforeExecuting() {
-        mCallbackExecutor = new Executor() {
-            @Override
-            public void execute(Runnable command) {
-                mController.abort(mMockPresenter);
-                command.run();
-            }
+        mCallbackExecutor = command -> {
+            mController.abort(mMockPresenter);
+            command.run();
         };
     }
 
     private void withBackgroundExecutorThatDetachesPresenterBeforeExecuting() {
-        mBackgroundExecutor = new Executor() {
-            @Override
-            public void execute(Runnable command) {
-                mController.detach(mMockPresenter);
-                command.run();
-            }
+        mBackgroundExecutor = command -> {
+            mController.detach(mMockPresenter);
+            command.run();
         };
     }
 }

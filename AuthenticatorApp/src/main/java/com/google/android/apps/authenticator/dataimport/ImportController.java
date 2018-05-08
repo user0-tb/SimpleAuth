@@ -25,7 +25,7 @@ import android.content.Intent;
  * @author klyubin@google.com (Alex Klyubin)
  */
 public interface ImportController {
-    public interface Listener {
+    interface Listener {
         void onDataImported();
 
         void onOldAppUninstallSuggested(Intent uninstallIntent);

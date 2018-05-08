@@ -39,18 +39,8 @@ public class AddOtherAccountActivity extends WizardPageActivity<Serializable> {
 
         setPageContentView(R.layout.add_other_account);
 
-        findViewById(R.id.scan_barcode).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scanBarcode();
-            }
-        });
-        findViewById(R.id.manually_add_account).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                manuallyEnterAccountDetails();
-            }
-        });
+        findViewById(R.id.scan_barcode).setOnClickListener(v -> scanBarcode());
+        findViewById(R.id.manually_add_account).setOnClickListener(v -> manuallyEnterAccountDetails());
 
         mRightButton.setVisibility(View.INVISIBLE);
     }

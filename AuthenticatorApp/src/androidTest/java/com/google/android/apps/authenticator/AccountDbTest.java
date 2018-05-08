@@ -43,7 +43,7 @@ public class AccountDbTest extends AndroidTestCase {
     private static final String SECRET = "7777777777777777"; // 16 sevens
     private static final String SECRET2 = "2222222222222222"; // 16 twos
 
-    private Collection<String> result = new ArrayList<String>();
+    private Collection<String> result = new ArrayList<>();
     private AccountDb accountDb;
 
     @Override
@@ -67,14 +67,14 @@ public class AccountDbTest extends AndroidTestCase {
         accountDb.update("maryweiss@yahoo.com", SECRET, "maryweiss@yahoo.com", OtpType.HOTP, 0);
     }
 
-    public void testNoRecords() throws Exception {
+    public void testNoRecords() {
         assertEquals(0, accountDb.getNames(result));
         assertEquals(0, result.size());
         assertEquals(false, accountDb.nameExists("johndoe@gmail.com"));
         assertEquals(null, accountDb.getSecret("johndoe@gmail.com"));
     }
 
-    public void testGetNames() throws Exception {
+    public void testGetNames() {
         addSomeRecords();
         accountDb.getNames(result);
         MoreAsserts.assertContentsInAnyOrder(result,
@@ -87,14 +87,14 @@ public class AccountDbTest extends AndroidTestCase {
         assertFalse(accountDb.nameExists("marywinehouse@aol.com")); // non-existent email.
     }
 
-    public void testGetSecret() throws Exception {
+    public void testGetSecret() {
         addSomeRecords();
         assertEquals(SECRET, accountDb.getSecret("johndoe@gmail.com"));
         assertEquals(SECRET2, accountDb.getSecret("amywinehouse@aol.com"));
         assertEquals(null, accountDb.getSecret("marywinehouse@aol.com")); // non-existent email.
     }
 
-    public void testGetAndIncrementCounter() throws Exception {
+    public void testGetAndIncrementCounter() {
         addSomeRecords();
         assertEquals(0, (int) accountDb.getCounter("maryweiss@yahoo.com"));
         accountDb.incrementCounter("maryweiss@yahoo.com");
@@ -103,7 +103,7 @@ public class AccountDbTest extends AndroidTestCase {
         assertEquals(0, (int) accountDb.getCounter("amywinehouse@aol.com"));  // TOTP record
     }
 
-    public void testGetAndSetType() throws Exception {
+    public void testGetAndSetType() {
         addSomeRecords();
         assertTrue(accountDb.getType("johndoe@gmail.com").equals(OtpType.TOTP));
         assertTrue(accountDb.getType("maryweiss@yahoo.com").equals(OtpType.HOTP));
@@ -117,7 +117,7 @@ public class AccountDbTest extends AndroidTestCase {
         assertTrue(accountDb.getType("johndoe@gmail.com").equals(OtpType.TOTP));
     }
 
-    public void testGetAndSetAccountType() throws Exception {
+    public void testGetAndSetAccountType() {
         addSomeRecords();
         assertTrue(accountDb.getType("johndoe@gmail.com").equals(OtpType.TOTP));
         assertTrue(accountDb.getType("maryweiss@yahoo.com").equals(OtpType.HOTP));
@@ -131,7 +131,7 @@ public class AccountDbTest extends AndroidTestCase {
         assertTrue(accountDb.getType("johndoe@gmail.com").equals(OtpType.TOTP));
     }
 
-    public void testDelete() throws Exception {
+    public void testDelete() {
         addSomeRecords();
         accountDb.delete("johndoe@gmail.com");
         assertEquals(2, accountDb.getNames(result));
@@ -141,7 +141,7 @@ public class AccountDbTest extends AndroidTestCase {
         assertTrue(accountDb.nameExists("johndoe@gmail.com"));
     }
 
-    public void testUpdate() throws Exception {
+    public void testUpdate() {
         addSomeRecords();
         // check updates with existing records - that it doesn't increase the records.
         accountDb.update("johndoe@gmail.com", SECRET, "johndoe@gmail.com", OtpType.TOTP, null);

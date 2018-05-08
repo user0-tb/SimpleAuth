@@ -45,7 +45,7 @@ public class EnterKeyActivityTest extends ActivityInstrumentationTestCase2<Enter
     private EditText mAccountName;
     private Spinner mType;
     private Button mSubmitButton;
-    private Collection<String> result = new ArrayList<String>();
+    private Collection<String> result = new ArrayList<>();
     private AccountDb mAccountDb;
 
     public EnterKeyActivityTest() {
@@ -66,10 +66,10 @@ public class EnterKeyActivityTest extends ActivityInstrumentationTestCase2<Enter
         setActivityInitialTouchMode(false);
         mInstr = getInstrumentation();
         mActivity = getActivity();
-        mAccountName = (EditText) mActivity.findViewById(R.id.account_name);
-        mKeyEntryField = (EditText) mActivity.findViewById(R.id.key_value);
-        mType = (Spinner) mActivity.findViewById(R.id.type_choice);
-        mSubmitButton = (Button) mActivity.findViewById(R.id.button_right);
+        mAccountName = mActivity.findViewById(R.id.account_name);
+        mKeyEntryField = mActivity.findViewById(R.id.key_value);
+        mType = mActivity.findViewById(R.id.type_choice);
+        mSubmitButton = mActivity.findViewById(R.id.button_right);
     }
 
     @Override

@@ -79,7 +79,7 @@ public class AuthenticatorActivityPart2Test
         callOnActivityResultOnUiThreadWithScannedUri(
                 "otpauth://totp/" + accountName + "?secret=" + secret);
 
-        List<String> accountNames = new ArrayList<String>();
+        List<String> accountNames = new ArrayList<>();
         assertEquals(1, mAccountDb.getNames(accountNames));
         assertEquals(accountName, accountNames.get(0));
         assertEquals(secret, mAccountDb.getSecret(accountName));
@@ -95,7 +95,7 @@ public class AuthenticatorActivityPart2Test
         callOnActivityResultOnUiThreadWithScannedUri(
                 "otpauth://hotp/" + accountName + "?secret=" + secret);
 
-        List<String> accountNames = new ArrayList<String>();
+        List<String> accountNames = new ArrayList<>();
         assertEquals(1, mAccountDb.getNames(accountNames));
         assertEquals(accountName, accountNames.get(0));
         assertEquals(secret, mAccountDb.getSecret(accountName));
@@ -112,7 +112,7 @@ public class AuthenticatorActivityPart2Test
         callOnActivityResultOnUiThreadWithScannedUri(
                 "otpauth://hotp/" + accountName + "?secret=" + secret + "&counter=264");
 
-        List<String> accountNames = new ArrayList<String>();
+        List<String> accountNames = new ArrayList<>();
         assertEquals(1, mAccountDb.getNames(accountNames));
         assertEquals(accountName, accountNames.get(0));
         assertEquals(secret, mAccountDb.getSecret(accountName));
@@ -128,7 +128,7 @@ public class AuthenticatorActivityPart2Test
 
         callOnActivityResultOnUiThreadWithScannedUri(uri);
 
-        List<String> accountNames = new ArrayList<String>();
+        List<String> accountNames = new ArrayList<>();
         mAccountDb.getNames(accountNames);
         MoreAsserts.assertEmpty(accountNames);
         TestUtilities.assertDialogWasDisplayed(getActivity(), dialogId);
@@ -198,7 +198,7 @@ public class AuthenticatorActivityPart2Test
 
         callOnActivityResultOnUiThread(AuthenticatorActivity.SCAN_REQUEST, Activity.RESULT_OK, null);
 
-        List<String> accountNames = new ArrayList<String>();
+        List<String> accountNames = new ArrayList<>();
         mAccountDb.getNames(accountNames);
         MoreAsserts.assertEmpty(accountNames);
         TestUtilities.assertDialogWasDisplayed(getActivity(), Utilities.INVALID_QR_CODE);
@@ -217,12 +217,7 @@ public class AuthenticatorActivityPart2Test
 
     private void callOnActivityResultOnUiThread(
             final int requestCode, final int resultCode, final Intent intent) throws Throwable {
-        runTestOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                getActivity().onActivityResult(requestCode, resultCode, intent);
-            }
-        });
+        runTestOnUiThread(() -> getActivity().onActivityResult(requestCode, resultCode, intent));
     }
 
     public void testDirectAccountSetupWithConfirmationAccepted() throws Throwable {
@@ -241,7 +236,7 @@ public class AuthenticatorActivityPart2Test
         // check main screen gets focus back after dialog window disappears.
         TestUtilities.waitForWindowFocus(contentView);
         // check update to database.
-        List<String> accountNames = new ArrayList<String>();
+        List<String> accountNames = new ArrayList<>();
         assertEquals(1, mAccountDb.getNames(accountNames));
         assertEquals(accountName, accountNames.get(0));
         assertEquals(secret, mAccountDb.getSecret(accountName));
@@ -264,7 +259,7 @@ public class AuthenticatorActivityPart2Test
         // check main screen gets focus back after dialog window disappears.
         TestUtilities.waitForWindowFocus(contentView);
         // check database has not been updated.
-        List<String> accountNames = new ArrayList<String>();
+        List<String> accountNames = new ArrayList<>();
         assertEquals(0, mAccountDb.getNames(accountNames));
         assertEquals(null, mAccountDb.getSecret(accountName));
     }

@@ -66,9 +66,9 @@ public class CheckCodeActivityTest extends ActivityInstrumentationTestCase2<Chec
         // code exists and we check its behavior here.
         setActivityIntent(new Intent(Intent.ACTION_MAIN).putExtra("user", "johndoe@gmail.com"));
         CheckCodeActivity mActivity = getActivity();
-        TextView mCodeTextView = (TextView) mActivity.findViewById(R.id.code_value);
-        TextView mCheckCodeTextView = (TextView) mActivity.findViewById(R.id.check_code);
-        TextView mCounterValue = (TextView) mActivity.findViewById(R.id.counter_value);
+        TextView mCodeTextView = mActivity.findViewById(R.id.code_value);
+        TextView mCheckCodeTextView = mActivity.findViewById(R.id.check_code);
+        TextView mCounterValue = mActivity.findViewById(R.id.counter_value);
 
         // check existence of fields
         assertNotNull(mActivity);
@@ -92,9 +92,9 @@ public class CheckCodeActivityTest extends ActivityInstrumentationTestCase2<Chec
     public void testWithCounterBasedAccount() {
         setActivityIntent(new Intent(Intent.ACTION_MAIN).putExtra("user", "maryweiss@yahoo.com"));
         CheckCodeActivity mActivity = getActivity();
-        TextView mCodeTextView = (TextView) mActivity.findViewById(R.id.code_value);
-        TextView mCheckCodeTextView = (TextView) mActivity.findViewById(R.id.check_code);
-        TextView mCounterValue = (TextView) mActivity.findViewById(R.id.counter_value);
+        TextView mCodeTextView = mActivity.findViewById(R.id.code_value);
+        TextView mCheckCodeTextView = mActivity.findViewById(R.id.check_code);
+        TextView mCounterValue = mActivity.findViewById(R.id.counter_value);
 
         // check existence of fields
         assertNotNull(mCheckCodeTextView);
@@ -118,8 +118,8 @@ public class CheckCodeActivityTest extends ActivityInstrumentationTestCase2<Chec
     public void testWithAnotherCounterBasedAccount() {
         setActivityIntent(new Intent(Intent.ACTION_MAIN).putExtra("user", "shadowmorton@aol.com"));
         CheckCodeActivity mActivity = getActivity();
-        TextView mCodeTextView = (TextView) mActivity.findViewById(R.id.code_value);
-        TextView mCheckCodeTextView = (TextView) mActivity.findViewById(R.id.check_code);
+        TextView mCodeTextView = mActivity.findViewById(R.id.code_value);
+        TextView mCheckCodeTextView = mActivity.findViewById(R.id.check_code);
         MoreAsserts.assertContainsRegex(
                 "shadowmorton@aol.com", mCheckCodeTextView.getText().toString());
         assertEquals("086620", mCodeTextView.getText().toString());

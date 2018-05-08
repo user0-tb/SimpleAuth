@@ -93,12 +93,12 @@ public class AuthenticatorActivityTest extends
 
     //////////////////////// Main screen UI Tests ///////////////////////////////
 
-    public void testNoAccountUi() throws Throwable {
+    public void testNoAccountUi() {
         getActivity();
-        ListView userList = (ListView) getActivity().findViewById(R.id.user_list);
-        TextView enterPinPrompt = (TextView) getActivity().findViewById(R.id.enter_pin_prompt);
-        Button howItWorksButton = (Button) getActivity().findViewById(R.id.how_it_works_button);
-        Button addAccountButton = (Button) getActivity().findViewById(R.id.add_account_button);
+        ListView userList = getActivity().findViewById(R.id.user_list);
+        TextView enterPinPrompt = getActivity().findViewById(R.id.enter_pin_prompt);
+        Button howItWorksButton = getActivity().findViewById(R.id.how_it_works_button);
+        Button addAccountButton = getActivity().findViewById(R.id.add_account_button);
         View contentWhenNoAccounts = getActivity().findViewById(R.id.content_no_accounts);
 
         // check existence of fields
@@ -117,10 +117,10 @@ public class AuthenticatorActivityTest extends
         assertFalse(userList.isShown());
     }
 
-    public void testGetOtpWithOneTotpAccount() throws Throwable {
+    public void testGetOtpWithOneTotpAccount() {
         mAccountDb.update(
                 "johndoeTotp@gmail.com", "7777777777777777", "johndoeTotp@gmail.com", OtpType.TOTP, null);
-        ListView userList = (ListView) getActivity().findViewById(R.id.user_list);
+        ListView userList = getActivity().findViewById(R.id.user_list);
         assertEquals(1, userList.getChildCount());
         View listEntry = userList.getChildAt(0);
         String user = ((TextView) listEntry.findViewById(R.id.current_user)).getText().toString();
@@ -132,10 +132,10 @@ public class AuthenticatorActivityTest extends
         assertTrue(listEntry.findViewById(R.id.countdown_icon).isShown());
     }
 
-    public void testGetOtpWithOneHotpAccount() throws Throwable {
+    public void testGetOtpWithOneHotpAccount() {
         mAccountDb.update(
                 "johndoeHotp@gmail.com", "7777777777777777", "johndoeHotp@gmail.com", OtpType.HOTP, null);
-        ListView userList = (ListView) getActivity().findViewById(R.id.user_list);
+        ListView userList = getActivity().findViewById(R.id.user_list);
         assertEquals(1, userList.getChildCount());
         View listEntry = userList.getChildAt(0);
         String user = ((TextView) listEntry.findViewById(R.id.current_user)).getText().toString();
@@ -151,14 +151,14 @@ public class AuthenticatorActivityTest extends
         assertEquals("683298", pin);
     }
 
-    public void testGetOtpWithMultipleAccounts() throws Throwable {
+    public void testGetOtpWithMultipleAccounts() {
         mAccountDb.update(
                 "johndoeHotp@gmail.com", "7777777777777777", "johndoeHotp@gmail.com", OtpType.HOTP, null);
         mAccountDb.update(
                 "johndoeTotp1@gmail.com", "2222222222222222", "johndoeTotp1@gmail.com", OtpType.TOTP, null);
         mAccountDb.update(
                 "johndoeTotp2@gmail.com", "3333333333333333", "johndoeTotp2@gmail.com", OtpType.TOTP, null);
-        ListView userList = (ListView) getActivity().findViewById(R.id.user_list);
+        ListView userList = getActivity().findViewById(R.id.user_list);
         assertEquals(3, userList.getChildCount());
 
         // check hotp account
@@ -197,10 +197,10 @@ public class AuthenticatorActivityTest extends
 
     //////////////////////////   Context Menu Tests  ////////////////////////////
 
-    public void testContextMenuCheckCode() throws Exception {
+    public void testContextMenuCheckCode() {
         mAccountDb.update(
                 "johndoeHotp@gmail.com", "7777777777777777", "johndoeHotp@gmail.com", OtpType.HOTP, null);
-        ListView userList = (ListView) getActivity().findViewById(R.id.user_list);
+        ListView userList = getActivity().findViewById(R.id.user_list);
         View listEntry0 = userList.getChildAt(0);
         TestUtilities.openContextMenuAndInvokeItem(
                 getInstrumentation(),
@@ -218,7 +218,7 @@ public class AuthenticatorActivityTest extends
     public void testContextMenuRemove() throws Exception {
         mAccountDb.update(
                 "johndoeHotp@gmail.com", "7777777777777777", "johndoeHotp@gmail.com", OtpType.HOTP, null);
-        ListView userList = (ListView) getActivity().findViewById(R.id.user_list);
+        ListView userList = getActivity().findViewById(R.id.user_list);
         View listEntry0 = userList.getChildAt(0);
         TestUtilities.openContextMenuAndInvokeItem(
                 getInstrumentation(),
@@ -231,13 +231,13 @@ public class AuthenticatorActivityTest extends
         // check main  screen gets focus back;
         TestUtilities.waitForWindowFocus(listEntry0);
         // check that account is deleted in database.
-        assertEquals(0, mAccountDb.getNames(new ArrayList<String>()));
+        assertEquals(0, mAccountDb.getNames(new ArrayList<>()));
     }
 
     public void testContextMenuRename() throws Exception {
         mAccountDb.update(
                 "johndoeHotp@gmail.com", "7777777777777777", "johndoeHotp@gmail.com", OtpType.HOTP, null);
-        ListView userList = (ListView) getActivity().findViewById(R.id.user_list);
+        ListView userList = getActivity().findViewById(R.id.user_list);
         View listEntry0 = userList.getChildAt(0);
         TestUtilities.openContextMenuAndInvokeItem(
                 getInstrumentation(),
@@ -254,16 +254,16 @@ public class AuthenticatorActivityTest extends
         listEntry0 = userList.getChildAt(0);
         TestUtilities.waitForWindowFocus(listEntry0);
         // check update to database.
-        List<String> accountNames = new ArrayList<String>();
+        List<String> accountNames = new ArrayList<>();
         assertEquals(1, mAccountDb.getNames(accountNames));
         assertEquals("newname@gmail.com", accountNames.get(0));
     }
 
-    public void testContextMenuCopyToClipboard() throws Exception {
+    public void testContextMenuCopyToClipboard() {
         // use HOTP to avoid any timing issues when "current" pin is compared with clip board text.
         mAccountDb.update(
                 "johndoeHotp@gmail.com", "7777777777777777", "johndoeHotp@gmail.com", OtpType.HOTP, null);
-        ListView userList = (ListView) getActivity().findViewById(R.id.user_list);
+        ListView userList = getActivity().findViewById(R.id.user_list);
         // find and click next otp button.
         View buttonView = getActivity().findViewById(R.id.next_otp);
         TestUtilities.clickView(getInstrumentation(), buttonView);
@@ -284,7 +284,7 @@ public class AuthenticatorActivityTest extends
 
     ///////////////////////////   Options Menu Tests  /////////////////////////////
 
-    private void checkOptionsMenuItemWithComponent(int itemId, Class<?> cls) throws Exception {
+    private void checkOptionsMenuItemWithComponent(int itemId, Class<?> cls) {
         TestUtilities.openOptionsMenuAndInvokeItem(getInstrumentation(), getActivity(), itemId);
 
         Intent launchIntent = TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
@@ -292,19 +292,19 @@ public class AuthenticatorActivityTest extends
                 launchIntent.getComponent());
     }
 
-    public void testOptionsMenuHowItWorks() throws Exception {
+    public void testOptionsMenuHowItWorks() {
         checkOptionsMenuItemWithComponent(R.id.how_it_works, IntroEnterPasswordActivity.class);
     }
 
-    public void testOptionsMenuAddAccount() throws Exception {
+    public void testOptionsMenuAddAccount() {
         checkOptionsMenuItemWithComponent(R.id.add_account, AddOtherAccountActivity.class);
     }
 
-    public void testOptionsMenuSettings() throws Exception {
+    public void testOptionsMenuSettings() {
         checkOptionsMenuItemWithComponent(R.id.settings, SettingsActivity.class);
     }
 
-    public void testIntentActionScanBarcode_withScannerInstalled() throws Exception {
+    public void testIntentActionScanBarcode_withScannerInstalled() {
         setActivityIntent(new Intent(AuthenticatorActivity.ACTION_SCAN_BARCODE));
         getActivity();
 
@@ -314,12 +314,12 @@ public class AuthenticatorActivityTest extends
         assertEquals(false, launchIntent.getExtras().get("SAVE_HISTORY"));
     }
 
-    public void testIntentActionScanBarcode_withScannerNotInstalled() throws Exception {
+    public void testIntentActionScanBarcode_withScannerNotInstalled() {
         // When no barcode scanner is installed no matching activities are found as emulated below.
         StartActivityListener mockStartActivityListener = mock(StartActivityListener.class);
         doThrow(new ActivityNotFoundException())
                 .when(mockStartActivityListener).onStartActivityInvoked(
-                Mockito.<Context>anyObject(), Mockito.<Intent>anyObject());
+                Mockito.anyObject(), Mockito.anyObject());
         DependencyInjector.setStartActivityListener(mockStartActivityListener);
 
         setActivityIntent(new Intent(AuthenticatorActivity.ACTION_SCAN_BARCODE));
@@ -336,7 +336,7 @@ public class AuthenticatorActivityTest extends
 
         ArgumentCaptor<Context> contextArgCaptor = ArgumentCaptor.forClass(Context.class);
         verify(mMockDataImportController)
-                .start(contextArgCaptor.capture(), Mockito.<ImportController.Listener>anyObject());
+                .start(contextArgCaptor.capture(), Mockito.anyObject());
         assertEquals(activity, contextArgCaptor.getValue());
     }
 
@@ -369,7 +369,7 @@ public class AuthenticatorActivityTest extends
         ArgumentCaptor<ImportController.Listener> listenerArgCaptor =
                 ArgumentCaptor.forClass(ImportController.Listener.class);
         doNothing().when(mMockDataImportController).start(
-                Mockito.<Context>anyObject(), listenerArgCaptor.capture());
+                Mockito.anyObject(), listenerArgCaptor.capture());
 
         getActivity();
 
@@ -378,31 +378,16 @@ public class AuthenticatorActivityTest extends
 
     private void invokeDataImportListenerOnOldAppUninstallSuggestedOnMainThread(
             final ImportController.Listener listener, final Intent uninstallIntent) {
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                listener.onOldAppUninstallSuggested(uninstallIntent);
-            }
-        });
+        getInstrumentation().runOnMainSync(() -> listener.onOldAppUninstallSuggested(uninstallIntent));
     }
 
     private void invokeDataImportListenerOnDataImportedOnMainThread(
             final ImportController.Listener listener) {
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                listener.onDataImported();
-            }
-        });
+        getInstrumentation().runOnMainSync(listener::onDataImported);
     }
 
     private void invokeDataImportListenerFinishedOnMainThread(
             final ImportController.Listener listener) {
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                listener.onFinished();
-            }
-        });
+        getInstrumentation().runOnMainSync(listener::onFinished);
     }
 }

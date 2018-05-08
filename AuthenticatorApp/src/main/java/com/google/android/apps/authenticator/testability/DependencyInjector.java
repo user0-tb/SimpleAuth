@@ -177,10 +177,7 @@ public final class DependencyInjector {
             } else {
                 // By default, use a no-op controller during tests to avoid them being dependent on the
                 // presence of the "old" app on the device under test.
-                sImportController = new ImportController() {
-                    @Override
-                    public void start(Context context, Listener listener) {
-                    }
+                sImportController = (context, listener) -> {
                 };
             }
         }

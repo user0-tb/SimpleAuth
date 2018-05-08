@@ -79,23 +79,13 @@ public class TestUtilities {
     }
 
     public static void clickView(Instrumentation instr, final View view) {
-        instr.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                view.performClick();
-            }
-        });
+        instr.runOnMainSync(view::performClick);
         // this shouldn't be needed but without it or sleep, there isn't time for view refresh, etc.
         instr.waitForIdleSync();
     }
 
     public static void longClickView(Instrumentation instr, final View view) {
-        instr.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                view.performLongClick();
-            }
-        });
+        instr.runOnMainSync(view::performLongClick);
         instr.waitForIdleSync();
     }
 
@@ -106,12 +96,7 @@ public class TestUtilities {
      */
     public static String selectSpinnerItem(
             Instrumentation instr, final Spinner spinner, final int position) {
-        instr.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                spinner.setSelection(position);
-            }
-        });
+        instr.runOnMainSync(() -> spinner.setSelection(position));
         instr.waitForIdleSync();
         return spinner.getSelectedItem().toString();
     }
@@ -122,12 +107,7 @@ public class TestUtilities {
      * @return the resulting text of the widget.
      */
     public static String setText(Instrumentation instr, final EditText editText, final String text) {
-        instr.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                editText.setText(text);
-            }
-        });
+        instr.runOnMainSync(() -> editText.setText(text));
         instr.waitForIdleSync();
         return editText.getText().toString();
     }
@@ -139,12 +119,7 @@ public class TestUtilities {
      */
     public static String enterText(
             Instrumentation instr, final EditText editText, final String text) {
-        instr.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                editText.requestFocus();
-            }
-        });
+        instr.runOnMainSync(editText::requestFocus);
         // TODO(sarvar): decide on using touch mode and how to do it consistently. e.g.,
         //               the above could be replaced by "TouchUtils.tapView(this, editText);"
         instr.sendStringSync(text);
@@ -185,12 +160,7 @@ public class TestUtilities {
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             invokePreferencePerformClick(preference, preferenceScreen);
         } else {
-            FutureTask<Void> task = new FutureTask<Void>(new Runnable() {
-                @Override
-                public void run() {
-                    invokePreferencePerformClick(preference, preferenceScreen);
-                }
-            }, null);
+            FutureTask<Void> task = new FutureTask<>(() -> invokePreferencePerformClick(preference, preferenceScreen), null);
             instrumentation.runOnMainSync(task);
             try {
                 task.get();
@@ -253,12 +223,7 @@ public class TestUtilities {
      */
     public static void invokeActivityOnBackPressedOnUiThread(final Activity activity)
             throws InterruptedException, TimeoutException {
-        FutureTask<Void> finishTask = new FutureTask<Void>(new Runnable() {
-            @Override
-            public void run() {
-                activity.onBackPressed();
-            }
-        }, null);
+        FutureTask<Void> finishTask = new FutureTask<>(activity::onBackPressed, null);
         activity.runOnUiThread(finishTask);
         try {
             finishTask.get(UI_ACTION_EFFECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
@@ -274,12 +239,7 @@ public class TestUtilities {
      */
     public static void invokeFinishActivityOnUiThread(final Activity activity)
             throws InterruptedException, TimeoutException {
-        FutureTask<Void> finishTask = new FutureTask<Void>(new Runnable() {
-            @Override
-            public void run() {
-                activity.finish();
-            }
-        }, null);
+        FutureTask<Void> finishTask = new FutureTask<>(activity::finish, null);
         activity.runOnUiThread(finishTask);
         try {
             finishTask.get(UI_ACTION_EFFECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
@@ -361,14 +321,11 @@ public class TestUtilities {
             Instrumentation instrumentation, final Activity activity, final View view, final int itemId) {
         // IMPLEMENTATION NOTE: Instrumentation.invokeContextMenuAction would've been much simpler, but
         // it doesn't work on ICS because its KEY_UP event times out.
-        FutureTask<Boolean> task = new FutureTask<Boolean>(new Callable<Boolean>() {
-            @Override
-            public Boolean call() {
-                // Use performLongClick instead of showContextMenu to exercise more of the code path that
-                // is invoked when the user normally opens a context menu.
-                view.performLongClick();
-                return activity.getWindow().performContextMenuIdentifierAction(itemId, 0);
-            }
+        FutureTask<Boolean> task = new FutureTask<>(() -> {
+            // Use performLongClick instead of showContextMenu to exercise more of the code path that
+            // is invoked when the user normally opens a context menu.
+            view.performLongClick();
+            return activity.getWindow().performContextMenuIdentifierAction(itemId, 0);
         });
         instrumentation.runOnMainSync(task);
         try {
@@ -480,7 +437,7 @@ public class TestUtilities {
     public static void withLaunchPreventingStartActivityListenerInDependencyResolver() {
         StartActivityListener mockListener = Mockito.mock(StartActivityListener.class);
         doReturn(true).when(mockListener).onStartActivityInvoked(
-                Mockito.<Context>anyObject(), Mockito.<Intent>anyObject());
+                Mockito.anyObject(), Mockito.anyObject());
         DependencyInjector.setStartActivityListener(mockListener);
     }
 
@@ -495,7 +452,7 @@ public class TestUtilities {
         StartActivityListener mockListener = DependencyInjector.getStartActivityListener();
         ArgumentCaptor<Intent> intentCaptor = ArgumentCaptor.forClass(Intent.class);
         verify(mockListener, timeout(UI_ACTION_EFFECT_TIMEOUT_MILLIS))
-                .onStartActivityInvoked(Mockito.<Context>anyObject(), intentCaptor.capture());
+                .onStartActivityInvoked(Mockito.anyObject(), intentCaptor.capture());
         return intentCaptor.getValue();
     }
 

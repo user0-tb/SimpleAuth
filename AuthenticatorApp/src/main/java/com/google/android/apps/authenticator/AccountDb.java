@@ -185,7 +185,7 @@ public class AccountDb {
             SQLiteDatabase database, String tableName) {
         Cursor cursor =
                 database.rawQuery(String.format("PRAGMA table_info(%s)", tableName), new String[0]);
-        Collection<String> result = new ArrayList<String>();
+        Collection<String> result = new ArrayList<>();
         try {
             if (cursor != null) {
                 int nameColumnIndex = cursor.getColumnIndexOrThrow(TABLE_INFO_COLUMN_NAME_COLUMN);
@@ -243,12 +243,7 @@ public class AccountDb {
             mac.init(new SecretKeySpec(keyBytes, ""));
 
             // Create a signer object out of the standard Java MAC implementation.
-            return new Signer() {
-                @Override
-                public byte[] sign(byte[] data) {
-                    return mac.doFinal(data);
-                }
-            };
+            return mac::doFinal;
         } catch (DecodingException error) {
             Log.e(LOCAL_TAG, error.getMessage());
         } catch (NoSuchAlgorithmException error) {
@@ -380,7 +375,7 @@ public class AccountDb {
         if (googleAccount != null) {
             values.put(
                     PROVIDER_COLUMN,
-                    (googleAccount.booleanValue()) ? PROVIDER_GOOGLE : PROVIDER_UNKNOWN);
+                    googleAccount ? PROVIDER_GOOGLE : PROVIDER_UNKNOWN);
         }
         int updated = mDatabase.update(TABLE_NAME, values,
                 whereClause(oldEmail), null);

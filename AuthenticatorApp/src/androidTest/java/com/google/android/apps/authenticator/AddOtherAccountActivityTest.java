@@ -50,7 +50,7 @@ public class AddOtherAccountActivityTest
         super.tearDown();
     }
 
-    public void testScanBarcode() throws Exception {
+    public void testScanBarcode() {
         TestUtilities.clickView(getInstrumentation(), getActivity().findViewById(R.id.scan_barcode));
 
         Intent actualIntent = TestUtilities.verifyWithTimeoutThatStartActivityAttemptedExactlyOnce();
@@ -59,7 +59,7 @@ public class AddOtherAccountActivityTest
         assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
     }
 
-    public void testManuallyAddAccount() throws Exception {
+    public void testManuallyAddAccount() {
         TestUtilities.clickView(
                 getInstrumentation(), getActivity().findViewById(R.id.manually_add_account));
 

@@ -117,7 +117,7 @@ public class NetworkTimeProviderTest extends TestCase {
     }
 
     private void withHttpRequestThrowing(Exception exception) throws IOException {
-        doThrow(exception).when(mMockHttpClient).execute(Mockito.<HttpUriRequest>anyObject());
+        doThrow(exception).when(mMockHttpClient).execute(Mockito.anyObject());
     }
 
     private void withHttpRequestReturningDate(String dateHeaderValue) throws IOException {
@@ -126,6 +126,6 @@ public class NetworkTimeProviderTest extends TestCase {
             doReturn(new BasicHeader("Date", dateHeaderValue)).when(mockResponse).getLastHeader("Date");
         }
 
-        doReturn(mockResponse).when(mMockHttpClient).execute(Mockito.<HttpUriRequest>anyObject());
+        doReturn(mockResponse).when(mMockHttpClient).execute(Mockito.anyObject());
     }
 }

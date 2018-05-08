@@ -38,11 +38,11 @@ public class IntroEnterPasswordActivityTest
         assertBackKeyFinishesActivity();
     }
 
-    public void testLeftButtonFinishesActivity() throws Exception {
+    public void testLeftButtonFinishesActivity() {
         assertLeftButtonPressFinishesActivity();
     }
 
-    public void testRightButtonStartsNextPage() throws Exception {
+    public void testRightButtonStartsNextPage() {
         Intent intent = pressRightButtonAndCaptureActivityStartIntent();
         assertIntentForClassInTargetPackage(IntroEnterCodeActivity.class, intent);
         assertFalse(getActivity().isFinishing());

@@ -51,9 +51,9 @@ public class EnterKeyActivity extends WizardPageActivity<Serializable> implement
         setPageContentView(R.layout.enter_key);
 
         // Find all the views on the page
-        mKeyEntryField = (EditText) findViewById(R.id.key_value);
-        mAccountName = (EditText) findViewById(R.id.account_name);
-        mType = (Spinner) findViewById(R.id.type_choice);
+        mKeyEntryField = findViewById(R.id.key_value);
+        mAccountName = findViewById(R.id.account_name);
+        mType = findViewById(R.id.type_choice);
 
         ArrayAdapter<CharSequence> types = ArrayAdapter.createFromResource(this,
                 R.array.type, android.R.layout.simple_spinner_item);

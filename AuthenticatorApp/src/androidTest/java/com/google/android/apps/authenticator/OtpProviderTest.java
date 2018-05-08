@@ -39,7 +39,7 @@ public class OtpProviderTest extends AndroidTestCase {
     private static final String SECRET = "7777777777777777"; // 16 sevens
     private static final String SECRET2 = "2222222222222222"; // 16 twos
 
-    private Collection<String> result = new ArrayList<String>();
+    private Collection<String> result = new ArrayList<>();
     private OtpProvider otpProvider;
     private AccountDb accountDb;
     @Mock
@@ -70,12 +70,12 @@ public class OtpProviderTest extends AndroidTestCase {
         accountDb.update("maryweiss@yahoo.com", SECRET, "maryweiss@yahoo.com", OtpType.HOTP, 0);
     }
 
-    public void testEnumerateAccountsNoRecords() throws Exception {
+    public void testEnumerateAccountsNoRecords() {
         assertEquals(0, otpProvider.enumerateAccounts(result));
         MoreAsserts.assertEmpty(result);
     }
 
-    public void testEnumerateAccounts() throws Exception {
+    public void testEnumerateAccounts() {
         addSomeRecords();
         otpProvider.enumerateAccounts(result);
         MoreAsserts.assertContentsInAnyOrder(result,

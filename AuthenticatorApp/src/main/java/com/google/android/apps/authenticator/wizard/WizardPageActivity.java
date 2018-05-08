@@ -97,31 +97,16 @@ public class WizardPageActivity<WizardState extends Serializable> extends Testab
 
         mLeftRightButtonBar = findViewById(R.id.button_bar_left_right_buttons);
         mMiddleButtonOnlyBar = findViewById(R.id.button_bar_middle_button_only);
-        mPageContentView = (ViewGroup) findViewById(R.id.page_content);
+        mPageContentView = findViewById(R.id.page_content);
 
-        mLeftButton = (Button) mLeftRightButtonBar.findViewById(R.id.button_left);
-        mLeftButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLeftButtonPressed();
-            }
-        });
+        mLeftButton = mLeftRightButtonBar.findViewById(R.id.button_left);
+        mLeftButton.setOnClickListener(v -> onLeftButtonPressed());
 
-        mRightButton = (FloatingActionButton) findViewById(R.id.button_right);
-        mRightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRightButtonPressed();
-            }
-        });
+        mRightButton = findViewById(R.id.button_right);
+        mRightButton.setOnClickListener(v -> onRightButtonPressed());
 
-        mMiddleButton = (Button) findViewById(R.id.button_middle);
-        mMiddleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMiddleButtonPressed();
-            }
-        });
+        mMiddleButton = findViewById(R.id.button_middle);
+        mMiddleButton.setOnClickListener(v -> onMiddleButtonPressed());
 
         mCancelButtonOnlyBar = findViewById(R.id.button_bar_cancel_only);
         mInlineProgressView = findViewById(R.id.inline_progress);
@@ -211,7 +196,7 @@ public class WizardPageActivity<WizardState extends Serializable> extends Testab
      * Sets the contents of the {@code TextView} to the HTML contained in the string resource.
      */
     protected void setTextViewHtmlFromResource(int viewId, int resId) {
-        setTextViewHtmlFromResource((TextView) findViewById(viewId), resId);
+        setTextViewHtmlFromResource(findViewById(viewId), resId);
     }
 
     /**
@@ -225,7 +210,7 @@ public class WizardPageActivity<WizardState extends Serializable> extends Testab
      * Sets the contents of the {@code TextView} to the provided HTML.
      */
     protected void setTextViewHtml(int viewId, String html) {
-        setTextViewHtml((TextView) findViewById(viewId), html);
+        setTextViewHtml(findViewById(viewId), html);
     }
 
     /**

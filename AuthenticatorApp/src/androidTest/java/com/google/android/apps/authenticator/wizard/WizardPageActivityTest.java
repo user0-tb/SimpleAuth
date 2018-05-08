@@ -112,7 +112,7 @@ public class WizardPageActivityTest
         TestUtilities.assertViewOrAnyParentVisibilityGone(activity.mMiddleButton);
         TestUtilities.assertViewOrAnyParentVisibilityGone(activity.mCancelButton);
         assertEquals(
-                activity.getString(R.string.button_back), ((TextView) activity.mLeftButton).getText());
+                activity.getString(R.string.button_back), activity.mLeftButton.getText());
         assertEquals(activity.getString(
                 R.string.button_next), ((TextView) activity.mRightButton).getText());
     }
@@ -300,13 +300,8 @@ public class WizardPageActivityTest
             }
             WizardState other = (WizardState) obj;
             if (mText == null) {
-                if (other.mText != null) {
-                    return false;
-                }
-            } else if (!mText.equals(other.mText)) {
-                return false;
-            }
-            return true;
+                return other.mText == null;
+            } else return mText.equals(other.mText);
         }
     }
 }

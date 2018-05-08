@@ -58,21 +58,21 @@ public class SettingsAboutActivityTest
         assertEquals(expectedVersion, preference.getSummary());
     }
 
-    public void testOpenSourcePreferenceOpensUrl() throws Exception {
+    public void testOpenSourcePreferenceOpensUrl() {
         Intent intent = tapOnPreferenceAndCatchFiredIntent("opensource");
         assertDefaultViewActionIntent(
                 getInstrumentation().getTargetContext().getString(R.string.opensource_page_url),
                 intent);
     }
 
-    public void testTermsOfServicePreferenceOpensUrl() throws Exception {
+    public void testTermsOfServicePreferenceOpensUrl() {
         Intent intent = tapOnPreferenceAndCatchFiredIntent("terms");
         assertDefaultViewActionIntent(
                 getInstrumentation().getTargetContext().getString(R.string.terms_page_url),
                 intent);
     }
 
-    public void testPrivacyPolicyPreferenceOpensUrl() throws Exception {
+    public void testPrivacyPolicyPreferenceOpensUrl() {
         Intent intent = tapOnPreferenceAndCatchFiredIntent("privacy");
         assertDefaultViewActionIntent(
                 getInstrumentation().getTargetContext().getString(R.string.privacy_page_url),
