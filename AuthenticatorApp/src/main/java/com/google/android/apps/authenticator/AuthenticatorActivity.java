@@ -57,8 +57,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.apps.authenticator.AccountDb.OtpType;
-import com.google.android.apps.authenticator.dataimport.ImportController;
-import com.google.android.apps.authenticator.howitworks.IntroEnterPasswordActivity;
 import com.google.android.apps.authenticator.testability.DependencyInjector;
 import com.google.android.apps.authenticator.testability.TestableActivity;
 import com.google.android.apps.authenticator2.R;
@@ -258,7 +256,6 @@ public class AuthenticatorActivity extends TestableActivity {
         noAccountsPromptDetails.setText(
                 Html.fromHtml(getString(R.string.welcome_page_details)));
 
-        findViewById(R.id.how_it_works_button).setOnClickListener(v -> displayHowItWorksInstructions());
         findViewById(R.id.add_account_button).setOnClickListener(v -> addAccount());
         mEnterPinPrompt = findViewById(R.id.enter_pin_prompt);
 
@@ -281,7 +278,6 @@ public class AuthenticatorActivity extends TestableActivity {
             // This is the first time this Activity is starting (i.e., not restoring previous state which
             // was saved, for example, due to orientation change)
             DependencyInjector.getOptionalFeatures().onAuthenticatorActivityCreated(this);
-            importDataFromOldAppIfNecessary();
             handleIntent(getIntent());
         }
     }
@@ -341,8 +337,6 @@ public class AuthenticatorActivity extends TestableActivity {
     protected void onResume() {
         super.onResume();
         Log.i(getString(R.string.app_name), LOCAL_TAG + ": onResume");
-
-        importDataFromOldAppIfNecessary();
     }
 
     @Override
@@ -849,9 +843,6 @@ public class AuthenticatorActivity extends TestableActivity {
             case R.id.add_account:
                 addAccount();
                 return true;
-            case R.id.how_it_works:
-                displayHowItWorksInstructions();
-                return true;
             case R.id.settings:
                 showSettings();
                 return true;
@@ -887,10 +878,6 @@ public class AuthenticatorActivity extends TestableActivity {
                     break;
             }
         }
-    }
-
-    private void displayHowItWorksInstructions() {
-        startActivity(new Intent(this, IntroEnterPasswordActivity.class));
     }
 
     private void addAccount() {
@@ -1258,45 +1245,6 @@ public class AuthenticatorActivity extends TestableActivity {
 
             return row;
         }
-    }
-
-    private void importDataFromOldAppIfNecessary() {
-        if (mDataImportInProgress) {
-            return;
-        }
-        mDataImportInProgress = true;
-        DependencyInjector.getDataImportController().start(this, new ImportController.Listener() {
-            @Override
-            public void onOldAppUninstallSuggested(Intent uninstallIntent) {
-                if (isFinishing()) {
-                    return;
-                }
-
-                mOldAppUninstallIntent = uninstallIntent;
-                showDialog(DIALOG_ID_UNINSTALL_OLD_APP);
-            }
-
-            @Override
-            public void onDataImported() {
-                if (isFinishing()) {
-                    return;
-                }
-
-                refreshUserList(true);
-
-                DependencyInjector.getOptionalFeatures().onDataImportedFromOldApp(
-                        AuthenticatorActivity.this);
-            }
-
-            @Override
-            public void onFinished() {
-                if (isFinishing()) {
-                    return;
-                }
-
-                mDataImportInProgress = false;
-            }
-        });
     }
 
     /**
