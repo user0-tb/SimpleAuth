@@ -21,7 +21,7 @@
         android:persistent="false">
         <intent
             android:targetPackage="@string/app_package_name"
-            android:targetClass="com.google.android.apps.authenticator.timesync.SettingsTimeCorrectionActivity"></intent>
+            android:targetClass="com.wilco375.onetwoauthenticate.timesync.SettingsTimeCorrectionActivity"></intent>
     </PreferenceScreen>
 
     <PreferenceScreen
@@ -30,6 +30,6 @@
         android:persistent="false">
         <intent
             android:targetPackage="@string/app_package_name"
-            android:targetClass="com.google.android.apps.authenticator.SettingsAboutActivity"></intent>
+            android:targetClass="com.wilco375.onetwoauthenticate.SettingsAboutActivity"></intent>
     </PreferenceScreen>
 </PreferenceScreen>

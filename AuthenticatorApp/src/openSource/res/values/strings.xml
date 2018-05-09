@@ -17,6 +17,6 @@
 <resources>
 
     <!-- The package of the application flavor, for use within preferences, etc. -->
-    <string name="app_package_name" translatable="false">com.google.android.apps.authenticator2.os</string>
+    <string name="app_package_name" translatable="false">com.wilco375.onetwoauthenticate.os</string>
 
 </resources>

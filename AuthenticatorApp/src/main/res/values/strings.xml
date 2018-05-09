@@ -17,7 +17,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- The package of the application flavor, for use within preferences, etc. -->
-    <string name="app_package_name" translatable="false">com.google.android.apps.authenticator2</string>
+    <string name="app_package_name" translatable="false">com.wilco375.onetwoauthenticate</string>
 
     <!-- Name of the application -->
     <string name="app_name">1-2-Authenticate</string>

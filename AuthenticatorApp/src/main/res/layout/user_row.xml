@@ -28,7 +28,7 @@ with user_row_legacy.xml -->
         android:id="@+id/icon"
         android:background="#ff0000"/>
 
-    <com.google.android.apps.authenticator.UserRowView
+    <com.wilco375.onetwoauthenticate.UserRowView
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -71,11 +71,11 @@ with user_row_legacy.xml -->
                     android:src="@drawable/refresh_button"
                     android:background="@android:color/transparent" />
 
-                <com.google.android.apps.authenticator.CountdownIndicator
+                <com.wilco375.onetwoauthenticate.CountdownIndicator
                     android:id="@+id/countdown_icon"
                     android:layout_width="32dip"
                     android:layout_height="32dip" />
             </LinearLayout>
         </LinearLayout>
-    </com.google.android.apps.authenticator.UserRowView>
+    </com.wilco375.onetwoauthenticate.UserRowView>
 </LinearLayout>

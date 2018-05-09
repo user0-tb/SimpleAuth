@@ -20,7 +20,7 @@
         android:persistent="false">
         <intent
             android:targetPackage="@string/app_package_name"
-            android:targetClass="com.google.android.apps.authenticator.timesync.SyncNowActivity"></intent>
+            android:targetClass="com.wilco375.onetwoauthenticate.timesync.SyncNowActivity"></intent>
     </PreferenceScreen>
     <EditTextPreference
         android:defaultValue="0"
@@ -33,6 +33,6 @@
         android:persistent="false">
         <intent
             android:targetPackage="@string/app_package_name"
-            android:targetClass="com.google.android.apps.authenticator.timesync.AboutActivity"></intent>
+            android:targetClass="com.wilco375.onetwoauthenticate.timesync.AboutActivity"></intent>
     </PreferenceScreen>
 </PreferenceScreen>

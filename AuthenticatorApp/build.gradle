@@ -5,10 +5,10 @@ android {
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
-        applicationId "com.google.android.apps.authenticator2"
+        applicationId "com.wilco375.onetwoauthenticate"
         minSdkVersion 16
         targetSdkVersion 27
-        testApplicationId "com.google.android.apps.authenticator2.tests"
+        testApplicationId "com.wilco375.onetwoauthenticate.tests"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
@@ -24,13 +24,13 @@ android {
         }
         openSource {
             dimension "source"
-            applicationId "com.google.android.apps.authenticator2.os"
-            testApplicationId "com.google.android.apps.authenticator2.tests.os"
+            applicationId "com.wilco375.onetwoauthenticate.os"
+            testApplicationId "com.wilco375.onetwoauthenticate.tests.os"
         }
         openSourceDev {
             dimension "source"
-            applicationId "com.google.android.apps.authenticator2.osdev"
-            testApplicationId "com.google.android.apps.authenticator2.tests.osdev"
+            applicationId "com.wilco375.onetwoauthenticate.osdev"
+            testApplicationId "com.wilco375.onetwoauthenticate.tests.osdev"
         }
     }
 
