@@ -31,23 +31,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.apps.authenticator.AccountDb.OtpType;
-import com.google.android.apps.authenticator.dataimport.ImportController;
-import com.google.android.apps.authenticator.howitworks.IntroEnterPasswordActivity;
 import com.google.android.apps.authenticator.testability.DependencyInjector;
 import com.google.android.apps.authenticator.testability.StartActivityListener;
 import com.google.android.apps.authenticator2.R;
 
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -59,8 +53,6 @@ public class AuthenticatorActivityTest extends
         ActivityInstrumentationTestCase2<AuthenticatorActivity> {
 
     private AccountDb mAccountDb;
-    @Mock
-    private ImportController mMockDataImportController;
 
     public AuthenticatorActivityTest() {
         super(TestUtilities.APP_PACKAGE_NAME, AuthenticatorActivity.class);
@@ -74,7 +66,6 @@ public class AuthenticatorActivityTest extends
         mAccountDb = DependencyInjector.getAccountDb();
 
         initMocks(this);
-        DependencyInjector.setDataImportController(mMockDataImportController);
         TestUtilities.withLaunchPreventingStartActivityListenerInDependencyResolver();
     }
 
@@ -98,21 +89,18 @@ public class AuthenticatorActivityTest extends
         getActivity();
         ListView userList = getActivity().findViewById(R.id.user_list);
         TextView enterPinPrompt = getActivity().findViewById(R.id.enter_pin_prompt);
-        Button howItWorksButton = getActivity().findViewById(R.id.how_it_works_button);
         Button addAccountButton = getActivity().findViewById(R.id.add_account_button);
         View contentWhenNoAccounts = getActivity().findViewById(R.id.content_no_accounts);
 
         // check existence of fields
         assertNotNull(userList);
         assertNotNull(enterPinPrompt);
-        assertNotNull(howItWorksButton);
         assertNotNull(addAccountButton);
         assertNotNull(contentWhenNoAccounts);
 
         // check visibility
         View origin = getActivity().getWindow().getDecorView();
         ViewAsserts.assertOnScreen(origin, enterPinPrompt);
-        ViewAsserts.assertOnScreen(origin, howItWorksButton);
         ViewAsserts.assertOnScreen(origin, addAccountButton);
         ViewAsserts.assertOnScreen(origin, contentWhenNoAccounts);
         assertFalse(userList.isShown());
@@ -295,10 +283,6 @@ public class AuthenticatorActivityTest extends
                 launchIntent.getComponent());
     }
 
-    public void testOptionsMenuHowItWorks() {
-        checkOptionsMenuItemWithComponent(R.id.how_it_works, IntroEnterPasswordActivity.class);
-    }
-
     public void testOptionsMenuAddAccount() {
         checkOptionsMenuItemWithComponent(R.id.add_account, AddOtherAccountActivity.class);
     }
@@ -330,67 +314,5 @@ public class AuthenticatorActivityTest extends
 
         TestUtilities.assertDialogWasDisplayed(
                 getActivity(), Utilities.DOWNLOAD_DIALOG);
-    }
-
-    ///////////////////////////   Data Import tests  /////////////////////////////
-
-    public void testLaunchingActivityStartsImportController() {
-        AuthenticatorActivity activity = getActivity();
-
-        ArgumentCaptor<Context> contextArgCaptor = ArgumentCaptor.forClass(Context.class);
-        verify(mMockDataImportController)
-                .start(contextArgCaptor.capture(), Mockito.anyObject());
-        assertEquals(activity, contextArgCaptor.getValue());
-    }
-
-    public void testImportControllerOldAppUninstallCallbackDisplaysDialog() {
-        final ImportController.Listener listener = startActivityAndGetDataImportListener();
-        assertNotNull(listener);
-        invokeDataImportListenerOnOldAppUninstallSuggestedOnMainThread(listener, new Intent());
-        invokeDataImportListenerFinishedOnMainThread(listener);
-
-        TestUtilities.assertDialogWasDisplayed(
-                getActivity(), AuthenticatorActivity.DIALOG_ID_UNINSTALL_OLD_APP);
-    }
-
-    public void testImportControllerDataImportedDoesNotBlowUp() {
-        final ImportController.Listener listener = startActivityAndGetDataImportListener();
-        assertNotNull(listener);
-        invokeDataImportListenerOnDataImportedOnMainThread(listener);
-        invokeDataImportListenerFinishedOnMainThread(listener);
-        getInstrumentation().waitForIdleSync();
-    }
-
-    public void testImportControllerUnknownFailureDoesNotBlowUp() {
-        final ImportController.Listener listener = startActivityAndGetDataImportListener();
-        assertNotNull(listener);
-        invokeDataImportListenerFinishedOnMainThread(listener);
-        getInstrumentation().waitForIdleSync();
-    }
-
-    private ImportController.Listener startActivityAndGetDataImportListener() {
-        ArgumentCaptor<ImportController.Listener> listenerArgCaptor =
-                ArgumentCaptor.forClass(ImportController.Listener.class);
-        doNothing().when(mMockDataImportController).start(
-                Mockito.anyObject(), listenerArgCaptor.capture());
-
-        getActivity();
-
-        return listenerArgCaptor.getValue();
-    }
-
-    private void invokeDataImportListenerOnOldAppUninstallSuggestedOnMainThread(
-            final ImportController.Listener listener, final Intent uninstallIntent) {
-        getInstrumentation().runOnMainSync(() -> listener.onOldAppUninstallSuggested(uninstallIntent));
-    }
-
-    private void invokeDataImportListenerOnDataImportedOnMainThread(
-            final ImportController.Listener listener) {
-        getInstrumentation().runOnMainSync(listener::onDataImported);
-    }
-
-    private void invokeDataImportListenerFinishedOnMainThread(
-            final ImportController.Listener listener) {
-        getInstrumentation().runOnMainSync(listener::onFinished);
     }
 }
