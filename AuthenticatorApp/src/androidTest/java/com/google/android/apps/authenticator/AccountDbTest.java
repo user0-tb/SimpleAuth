@@ -213,7 +213,7 @@ public class AccountDbTest extends AndroidTestCase {
         accountDb = DependencyInjector.getAccountDb();
         MoreAsserts.assertContentsInAnyOrder(
                 AccountDb.listTableColumnNamesLowerCase(accountDb.mDatabase, AccountDb.TABLE_NAME),
-                "first", AccountDb.PROVIDER_COLUMN);
+                "first", AccountDb.PROVIDER_COLUMN, AccountDb.COLOR_COLUMN);
     }
 
     private void deleteAccountDb() {

@@ -51,6 +51,9 @@ public class OtpProviderTest extends AndroidTestCase {
         super.setUp();
 
         DependencyInjector.resetForIntegrationTesting(getContext());
+        System.setProperty(
+                "dexmaker.dexcache",
+                getContext().getCacheDir().getPath());
         initMocks(this);
         DependencyInjector.setTotpClock(mockTotpClock);
 

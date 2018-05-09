@@ -103,17 +103,14 @@ public class Importer {
             }
             String typeString = accountBundle.getString(KEY_TYPE);
             AccountDb.OtpType type;
-            switch (typeString) {
-                case "totp":
-                    type = AccountDb.OtpType.TOTP;
-                    break;
-                case "hotp":
-                    type = AccountDb.OtpType.HOTP;
-                    break;
-                default:
-                    Log.w(LOG_TAG, "Skipping account #" + accountBundleKey
-                            + ": unsupported type: \"" + typeString + "\"");
-                    continue;
+            if ("totp".equals(typeString)) {
+                type = AccountDb.OtpType.TOTP;
+            } else if ("hotp".equals(typeString)) {
+                type = AccountDb.OtpType.HOTP;
+            } else {
+                Log.w(LOG_TAG, "Skipping account #" + accountBundleKey
+                        + ": unsupported type: \"" + typeString + "\"");
+                continue;
             }
 
             Integer counter =

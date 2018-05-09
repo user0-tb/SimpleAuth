@@ -18,6 +18,7 @@
 package com.google.android.apps.authenticator;
 
 import android.app.Instrumentation;
+import android.support.design.widget.FloatingActionButton;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.MoreAsserts;
 import android.test.ViewAsserts;
@@ -45,7 +46,7 @@ public class EnterKeyActivityTest extends ActivityInstrumentationTestCase2<Enter
     private EditText mKeyEntryField;
     private EditText mAccountName;
     private Spinner mType;
-    private Button mSubmitButton;
+    private FloatingActionButton mSubmitButton;
     private Collection<String> result = new ArrayList<>();
     private AccountDb mAccountDb;
 

@@ -17,6 +17,7 @@
 
 package com.google.android.apps.authenticator;
 
+import android.os.Build;
 import android.test.AndroidTestCase;
 
 import java.io.File;
@@ -36,7 +37,10 @@ public class FileUtilitiesTest extends AndroidTestCase {
             setFilePermissions(path, 0755);
 
             FileUtilities.restrictAccessToOwnerOnly(path);
-            assertEquals(0700, getFilePermissions(path) & 0777);
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                // Get file permissions has been removed in JB MR1
+                assertEquals(0700, getFilePermissions(path) & 0777);
+            }
         } finally {
             dir.delete();
         }
@@ -55,6 +59,9 @@ public class FileUtilitiesTest extends AndroidTestCase {
     }
 
     public void testGetStat_withActualDirectory() throws Exception {
+        // getStat only supported on old SDKs
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) return;
+
         File dir = createTempDirInCacheDir();
         try {
             String path = dir.getPath();
@@ -78,6 +85,8 @@ public class FileUtilitiesTest extends AndroidTestCase {
         File dir = createTempDirInCacheDir();
         assertTrue(dir.delete());
         try {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) return;
+            // getStat only supported < JB MR1
             FileUtilities.getStat(dir.getPath());
             fail();
         } catch (IOException expected) {
@@ -92,14 +101,17 @@ public class FileUtilitiesTest extends AndroidTestCase {
                 .getMethod("setPermissions", String.class, int.class, int.class, int.class)
                 .invoke(null, path, mode, -1, -1);
         assertEquals(0, errorCode);
-        assertEquals(mode, getFilePermissions(path) & 0777);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            // Get file permissions has been removed in JB MR1
+            assertEquals(mode, getFilePermissions(path) & 0777);
+        }
     }
 
+    @Deprecated
     private static int getFilePermissions(String path)
             throws Exception {
         // IMPLEMENTATION NOTE: The code below simply invokes
         // android.os.FileUtils.getPermissions(path, int[]) via Reflection.
-
         int[] modeUidAndGid = new int[3];
         int errorCode = (Integer) Class.forName("android.os.FileUtils")
                 .getMethod("getPermissions", String.class, int[].class)
