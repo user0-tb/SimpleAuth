@@ -56,6 +56,7 @@ public class AccountDb {
     private static final String TYPE_COLUMN = "type";
     // @VisibleForTesting
     static final String PROVIDER_COLUMN = "provider";
+    static final String COLOR_COLUMN = "color";
     // @VisibleForTesting
     static final String TABLE_NAME = "accounts";
     // @VisibleForTesting
@@ -114,6 +115,12 @@ public class AccountDb {
             mDatabase.execSQL(String.format(
                     "ALTER TABLE %s ADD COLUMN %s INTEGER DEFAULT %s",
                     TABLE_NAME, PROVIDER_COLUMN, PROVIDER_UNKNOWN));
+        }
+        if (!tableColumnNames.contains(COLOR_COLUMN.toLowerCase(Locale.US))) {
+            // Migrate from old schema where the COLOR_COLUMN wasn't there
+            mDatabase.execSQL(String.format(
+                    "ALTER TABLE %s ADD COLUMN %s INTEGER",
+                    TABLE_NAME, COLOR_COLUMN));
         }
     }
 
@@ -229,6 +236,19 @@ public class AccountDb {
             if (!cursorIsEmpty(cursor)) {
                 cursor.moveToFirst();
                 return cursor.getString(cursor.getColumnIndex(SECRET_COLUMN));
+            }
+        } finally {
+            tryCloseCursor(cursor);
+        }
+        return null;
+    }
+
+    public Integer getColor(String email) {
+        Cursor cursor = getAccount(email);
+        try {
+            if(!cursorIsEmpty(cursor)) {
+                cursor.moveToFirst();
+                return cursor.getInt(cursor.getColumnIndex(COLOR_COLUMN));
             }
         } finally {
             tryCloseCursor(cursor);
@@ -367,6 +387,11 @@ public class AccountDb {
      */
     public void update(String email, String secret, String oldEmail,
                        OtpType type, Integer counter, Boolean googleAccount) {
+        update(email, secret, oldEmail, type, counter, googleAccount, null);
+    }
+
+    public void update(String email, String secret, String oldEmail,
+                       OtpType type, Integer counter, Boolean googleAccount, Integer color) {
         ContentValues values = new ContentValues();
         values.put(EMAIL_COLUMN, email);
         values.put(SECRET_COLUMN, secret);
@@ -376,6 +401,10 @@ public class AccountDb {
             values.put(
                     PROVIDER_COLUMN,
                     googleAccount ? PROVIDER_GOOGLE : PROVIDER_UNKNOWN);
+        }
+
+        if(color != null) {
+            values.put(COLOR_COLUMN, color);
         }
         int updated = mDatabase.update(TABLE_NAME, values,
                 whereClause(oldEmail), null);

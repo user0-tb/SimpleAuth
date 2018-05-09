@@ -16,7 +16,20 @@
 
 package com.google.android.apps.authenticator;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * A class for handling file system related methods, such as setting permissions.
@@ -24,6 +37,8 @@ import java.io.IOException;
  * @author sarvar@google.com (Sarvar Patel)
  */
 public class FileUtilities {
+
+    private static String ICONS_DIR = "icons";
 
     /**
      * Hidden constructor to prevent instantiation.
@@ -126,4 +141,43 @@ public class FileUtilities {
         }
     }
 
+    public static void saveBitmap(Context context, String name, Bitmap bitmap) {
+        ContextWrapper contextWrapper = new ContextWrapper(context);
+        File dir = contextWrapper.getDir(ICONS_DIR, Context.MODE_PRIVATE);
+        File path = new File(dir, getMD5(name)+".png");
+        try(FileOutputStream stream = new FileOutputStream(path)) {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Bitmap getBitmap(Context context, String name) {
+        ContextWrapper contextWrapper = new ContextWrapper(context);
+        File dir = contextWrapper.getDir(ICONS_DIR, Context.MODE_PRIVATE);
+        File path = new File(dir, getMD5(name)+".png");
+        try(FileInputStream stream = new FileInputStream(path)) {
+            return BitmapFactory.decodeStream(stream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String getMD5(String text) {
+        byte[] bytes = text.getBytes();
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            digest.update(bytes);
+            String md5 = new BigInteger(1, digest.digest()).toString(16);
+            while (md5.length() < 32) {
+                md5 = "0" + md5;
+            }
+            return md5;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            Log.e("FileUtils", "MD5 is an invalid MessageDigest algorithm");
+            return null;
+        }
+    }
 }

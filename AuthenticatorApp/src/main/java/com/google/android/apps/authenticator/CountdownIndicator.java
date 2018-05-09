@@ -61,6 +61,12 @@ public class CountdownIndicator extends View {
         mRemainingSectorPaint.setColor(mBorderPaint.getColor());
     }
 
+    public void setColor(int color) {
+        mBorderPaint.setColor(color);
+        mRemainingSectorPaint.setColor(color);
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         float remainingSectorSweepAngle = (float) (mPhase * 360);

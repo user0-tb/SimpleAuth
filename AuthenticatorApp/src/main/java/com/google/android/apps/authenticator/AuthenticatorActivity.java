@@ -26,6 +26,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -701,33 +704,69 @@ public class AuthenticatorActivity extends TestableActivity {
             case CUSTOMIZE_ID:
                 mCustomizeView = getLayoutInflater().inflate(R.layout.customize,
                         findViewById(R.id.customize_root));
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.customize)
-                        .setView(mCustomizeView)
-                        .setPositiveButton(R.string.submit, null)
-                        .setNegativeButton(R.string.cancel, null)
-                        .show();
+
                 View customizeColor = mCustomizeView.findViewById(R.id.customize_color);
+                Integer dbColor = mAccountDb.getColor(user);
+                if(dbColor == null) {
+                    dbColor = getResources().getColor(R.color.theme_color);
+                }
+                int color = dbColor; // Needs to be effectively final in lambda
                 customizeColor.setOnClickListener(view -> {
-                    ColorPicker colorPicker = new ColorPicker(AuthenticatorActivity.this,0,0,0);
+                    ColorPicker colorPicker = new ColorPicker(AuthenticatorActivity.this, (color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF);
                     colorPicker.show();
-                    colorPicker.setCallback(color -> {
-                        customizeColor.setBackgroundColor(color);
+                    colorPicker.setCallback(newColor -> {
+                        customizeColor.setBackgroundColor(newColor);
                         colorPicker.dismiss();
                     });
                 });
+                customizeColor.setBackgroundColor(color);
+
                 ImageView customizeIcon = mCustomizeView.findViewById(R.id.customize_icon);
+                Bitmap icon = FileUtilities.getBitmap(getApplicationContext(), user);
                 customizeIcon.setOnClickListener(view -> {
                     Intent i = new Intent()
-                        .setType("image/*")
-                        .setAction(Intent.ACTION_GET_CONTENT)
-                        .putExtra("return-data", true)
-                        .putExtra("scale", true)
-                        .putExtra("outputX", 256)
-                        .putExtra("outputY", 256);
+                            .setType("image/*")
+                            .setAction(Intent.ACTION_GET_CONTENT)
+                            .putExtra("return-data", true)
+                            .putExtra("scale", true)
+                            .putExtra("outputX", 256)
+                            .putExtra("outputY", 256);
                     Intent chooser = Intent.createChooser(i, getString(R.string.icon));
                     startActivityForResult(chooser, CHOOSE_ICON);
                 });
+                customizeIcon.setImageBitmap(icon);
+
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.customize)
+                        .setView(mCustomizeView)
+                        .setPositiveButton(R.string.submit, (dialogInterface, i) -> {
+                            // Save color to DB
+                            Drawable colorBackground = customizeColor.getBackground();
+                            if (colorBackground != null && colorBackground instanceof ColorDrawable) {
+                                int newColor = ((ColorDrawable) colorBackground).getColor();
+                                if (newColor != color) {
+                                    mAccountDb.update(user,
+                                            mAccountDb.getSecret(user), user,
+                                            mAccountDb.getType(user),
+                                            mAccountDb.getCounter(user),
+                                            null,
+                                            newColor);
+                                }
+                            }
+
+                            // Save icon to storage
+                            Drawable iconDrawable = customizeIcon.getDrawable();
+                            if (iconDrawable != null && iconDrawable instanceof BitmapDrawable) {
+                                Bitmap newIcon = ((BitmapDrawable) iconDrawable).getBitmap();
+                                if (newIcon != icon && newIcon != null) {
+                                    FileUtilities.saveBitmap(getApplicationContext(), user, newIcon);
+                                }
+                            }
+
+                            mUserAdapter.notifyDataSetChanged();
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
                 return true;
             case RENAME_ID:
                 final Context context = this; // final so listener can see value
@@ -1170,11 +1209,21 @@ public class AuthenticatorActivity extends TestableActivity {
                 // Create a new view
                 row = inflater.inflate(R.layout.user_row, null);
             }
+
+            ImageView iconView = row.findViewById(R.id.icon);
             TextView pinView = row.findViewById(R.id.pin_value);
             TextView userView = row.findViewById(R.id.current_user);
             View buttonView = row.findViewById(R.id.next_otp);
             CountdownIndicator countdownIndicator =
                     row.findViewById(R.id.countdown_icon);
+
+            Bitmap icon = FileUtilities.getBitmap(getApplicationContext(), currentPin.user);
+            if (icon != null) {
+                iconView.setImageBitmap(icon);
+                iconView.setVisibility(View.VISIBLE);
+            } else {
+                iconView.setVisibility(View.GONE);
+            }
 
             if (currentPin.isHotp) {
                 buttonView.setVisibility(View.VISIBLE);
@@ -1193,6 +1242,10 @@ public class AuthenticatorActivity extends TestableActivity {
 
                 countdownIndicator.setVisibility(View.VISIBLE);
                 countdownIndicator.setPhase(mTotpCountdownPhase);
+                Integer color = mAccountDb.getColor(currentPin.user);
+                if (color != null) {
+                    countdownIndicator.setColor(color);
+                }
             }
 
             if (getString(R.string.empty_pin).equals(currentPin.pin)) {
