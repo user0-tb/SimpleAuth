@@ -1,5 +1,6 @@
 /*
  * Copyright 2011 Google Inc. All Rights Reserved.
+ * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,10 +37,6 @@ public class IntroEnterPasswordActivityTest
 
     public void testBackKeyFinishesActivity() throws Exception {
         assertBackKeyFinishesActivity();
-    }
-
-    public void testLeftButtonFinishesActivity() {
-        assertLeftButtonPressFinishesActivity();
     }
 
     public void testRightButtonStartsNextPage() {

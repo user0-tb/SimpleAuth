@@ -1,5 +1,6 @@
 /*
  * Copyright 2011 Google Inc. All Rights Reserved.
+ * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -111,10 +112,6 @@ public class WizardPageActivityTest
         TestUtilities.assertViewVisibleOnScreen(activity.mRightButton);
         TestUtilities.assertViewOrAnyParentVisibilityGone(activity.mMiddleButton);
         TestUtilities.assertViewOrAnyParentVisibilityGone(activity.mCancelButton);
-        assertEquals(
-                activity.getString(R.string.button_back), activity.mLeftButton.getText());
-        assertEquals(activity.getString(
-                R.string.button_next), ((TextView) activity.mRightButton).getText());
     }
 
     public void testUiStateInButtonBarMiddleButtonOnlyMode() {
