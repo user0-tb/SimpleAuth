@@ -14,7 +14,7 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"1-2-Authenticate"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Trình xác thực"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Nhập tài khoản thủ công"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"Thêm"</string>
@@ -73,7 +73,7 @@
         <item msgid="5212912099902129712">"Dựa theo bộ đếm"</item>
     </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Đã nhập thành công"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Dữ liệu của bạn đã được nhập thành công từ ứng dụng Google Authenticator không được chấp nhận. Giờ bạn có thể yên tâm gỡ phiên bản cũ của ứng dụng bằng cách nhấp vào bên dưới."</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Dữ liệu của bạn đã được nhập thành công từ ứng dụng 1-2-Authenticate không được chấp nhận. Giờ bạn có thể yên tâm gỡ phiên bản cũ của ứng dụng bằng cách nhấp vào bên dưới."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Gỡ cài đặt"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"Để đăng nhập, bạn cần nhập mật khẩu của bạn."</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Tuy nhiên, nếu bạn đang sử dụng máy tính hoặc thiết bị mới, Google sẽ yêu cầu bạn nhập một mã đặc biệt để đảm bảo rằng đó thực sự là bạn."</string>
@@ -83,5 +83,5 @@
     <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"Bạn cũng có thể chọn ghi nhớ máy tính và Google sẽ không yêu cầu bạn cung cấp mã trên máy tính đó lần nữa."</string>
     <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"Thoát"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Hàng nghìn tài khoản trực tuyến bị tấn công mỗi ngày."</string>
-    <string name="welcome_page_details" msgid="3484579068463805365">"Xác minh 2 bước bảo vệ tài khoản Google của bạn ngay cả khi mật khẩu của bạn bị lấy cắp."</string>
+    <string name="welcome_page_details" msgid="3484579068463805365">Xác minh 2 bước bảo vệ tài khoản của bạn ngay cả khi mật khẩu của bạn bị lấy cắp.</string>
 </resources>

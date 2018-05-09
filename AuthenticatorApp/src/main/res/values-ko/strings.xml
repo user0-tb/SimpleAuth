@@ -83,5 +83,5 @@
     <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"컴퓨터를 기억하도록 선택하면 해당 컴퓨터에서 로그인할 때 Google에서 코드를 다시 묻지 않습니다."</string>
     <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"나가기"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"매일 수천 개의 온라인 계정이 무단으로 도용되고 있습니다."</string>
-    <string name="welcome_page_details" msgid="3484579068463805365">"2단계 인증을 사용하면 비밀번호가 유출되더라도 Google 계정을 보호할 수 있습니다."</string>
+    <string name="welcome_page_details" msgid="3484579068463805365">2단계 인증을 사용하면 비밀번호가 유출되더라도 계정을 보호할 수 있습니다.</string>
 </resources>

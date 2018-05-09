@@ -14,7 +14,7 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"1-2-Authenticate"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Authenticator"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Handmatige accountinvoer"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"Toevoegen"</string>
@@ -76,7 +76,7 @@
         <item msgid="5212912099902129712">"Op basis van telling"</item>
     </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Importeren is geslaagd"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Uw gegevens zijn geïmporteerd vanuit de verouderde Google Authenticator-app. U kunt nu hieronder klikken om de vorige versie van de app te verwijderen."</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Uw gegevens zijn geïmporteerd vanuit de verouderde 1-2-Authenticate-app. U kunt nu hieronder klikken om de vorige versie van de app te verwijderen."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Verwijderen"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"U moet uw wachtwoord opgeven om u aan te melden."</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Als u op een nieuwe computer of nieuw apparaat werkt, vraagt Google u om een ​​speciale code om uw identiteit te kunnen verifiëren."</string>
@@ -86,5 +86,5 @@
     <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"U kunt er ook voor kiezen de ​​computer te laten onthouden. U wordt op deze computer dan niet meer door Google om een code gevraagd."</string>
     <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"Afsluiten"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Er worden elke dag duizenden accounts gehackt."</string>
-    <string name="welcome_page_details" msgid="3484579068463805365">"Authenticatie in twee stappen beschermt uw Google-account, zelfs wanneer uw wachtwoord wordt gestolen."</string>
+    <string name="welcome_page_details" msgid="3484579068463805365">Authenticatie in twee stappen beschermt uw accounts, zelfs wanneer uw wachtwoord wordt gestolen.</string>
 </resources>

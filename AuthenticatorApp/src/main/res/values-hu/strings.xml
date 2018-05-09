@@ -83,5 +83,5 @@
     <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"Azt is választhatja, hogy a Google emlékezzen a számítógépre, és ne kérjen többé kódot róla."</string>
     <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"Kilépés"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Naponta több ezer online fiókot törnek fel."</string>
-    <string name="welcome_page_details" msgid="3484579068463805365">"A kétlépcsős azonosítás akkor is megvédi Google Fiókját, ha a jelszavát ellopják."</string>
+    <string name="welcome_page_details" msgid="3484579068463805365">A kétlépcsős azonosítás akkor is megvédi Fiókját, ha a jelszavát ellopják.</string>
 </resources>

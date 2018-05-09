@@ -83,5 +83,5 @@
     <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"Futhi ungakhetha ukukhumbula ikhompyutha bese i-Google ngeke ikucele ikhodi futhi."</string>
     <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"Phuma"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Izinkulungwane zama-akhawunti ku-inthanethi ziyatshontshwa nsuku zonke."</string>
-    <string name="welcome_page_details" msgid="3484579068463805365">"Ukuqinisekiswa kwezinyathelo ezingu-2 kuvikela i-akhawunti yakho yakwa-Google ngisho noma iphasiwedi yakho itshontshiwe."</string>
+    <string name="welcome_page_details" msgid="3484579068463805365">Ukuqinisekiswa okuzinyathelo ezimbili kuvikela i-Akhawunti yakho ngisho nalapho iphasiwedi yakho isusiwe.</string>
 </resources>

@@ -14,7 +14,7 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"1-2-Authenticate"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Kithibitishaji"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Mwongozo wa ingizo ya akaunti"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"Ongeza"</string>
@@ -83,5 +83,5 @@
     <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"Unaweza pia kuchagua kukumbuka kompyuta na Google haitakuuliza msimbo hapo tena."</string>
     <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"Toka"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Maelfu ya akaunti za mtandaoni hutekwa nyara kila siku."</string>
-    <string name="welcome_page_details" msgid="3484579068463805365">"Uthibitishaji wa hatua 2 hulinda akaunti Google yako hata kama nenosiri lako limeibwa."</string>
+    <string name="welcome_page_details" msgid="3484579068463805365">Uthibitishaji wa hatua 2 hulinda akaunti yako hata kama nenosiri lako limeibwa.</string>
 </resources>

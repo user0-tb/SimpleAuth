@@ -14,7 +14,7 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google Authenticator"</string>
+    <string name="app_name" msgid="5078996080612406301">"1-2-Authenticate"</string>
     <string name="app_name_short" msgid="6268465073167241020">"Authenticator"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Ввод аккаунта вручную"</string>
     <string name="enter_key_page_add_button" msgid="7145413404890383746">"Добавить"</string>
@@ -73,7 +73,7 @@
         <item msgid="5212912099902129712">"По счетчику"</item>
     </string-array>
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Импорт завершен"</string>
-    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Данные успешно импортированы из устаревшей версии Google Authenticator. Теперь ее можно удалить."</string>
+    <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Данные успешно импортированы из устаревшей версии 1-2-Authenticate. Теперь ее можно удалить."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Удалить"</string>
     <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"Чтобы войти в аккаунт, вы будете указывать пароль."</string>
     <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Если вы будете входить в аккаунт с незнакомого компьютера или устройства, вам потребуется подтвердить свою личность, введя специальный код."</string>
@@ -83,5 +83,5 @@
     <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"Если сохранить в Google данные об этом компьютере, при входе в аккаунт с его помощью код требоваться не будет."</string>
     <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"Выход"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Ежедневно взламываются тысячи аккаунтов."</string>
-    <string name="welcome_page_details" msgid="3484579068463805365">"Благодаря двухэтапной аутентификации ваш аккаунт Google будет в безопасности, даже если злоумышленники узнают его пароль."</string>
+    <string name="welcome_page_details" msgid="3484579068463805365">Благодаря двухэтапной аутентификации ваш аккаунт будет в безопасности, даже если злоумышленники узнают его пароль.</string>
 </resources>
