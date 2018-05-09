@@ -1,5 +1,6 @@
 /*
  * Copyright 2011 Google Inc. All Rights Reserved.
+ * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,9 +99,6 @@ public class WizardPageActivity<WizardState extends Serializable> extends Testab
         mLeftRightButtonBar = findViewById(R.id.button_bar_left_right_buttons);
         mMiddleButtonOnlyBar = findViewById(R.id.button_bar_middle_button_only);
         mPageContentView = findViewById(R.id.page_content);
-
-        mLeftButton = mLeftRightButtonBar.findViewById(R.id.button_left);
-        mLeftButton.setOnClickListener(v -> onLeftButtonPressed());
 
         mRightButton = findViewById(R.id.button_right);
         mRightButton.setOnClickListener(v -> onRightButtonPressed());

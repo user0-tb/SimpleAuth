@@ -1,5 +1,6 @@
 /*
  * Copyright 2011 Google Inc. All Rights Reserved.
+ * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +18,7 @@
 package com.google.android.apps.authenticator;
 
 import android.app.Instrumentation;
+import android.support.design.widget.FloatingActionButton;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.MoreAsserts;
 import android.test.ViewAsserts;
@@ -44,7 +46,7 @@ public class EnterKeyActivityTest extends ActivityInstrumentationTestCase2<Enter
     private EditText mKeyEntryField;
     private EditText mAccountName;
     private Spinner mType;
-    private Button mSubmitButton;
+    private FloatingActionButton mSubmitButton;
     private Collection<String> result = new ArrayList<>();
     private AccountDb mAccountDb;
 

@@ -1,5 +1,6 @@
 /*
  * Copyright 2011 Google Inc. All Rights Reserved.
+ * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +51,9 @@ public class OtpProviderTest extends AndroidTestCase {
         super.setUp();
 
         DependencyInjector.resetForIntegrationTesting(getContext());
+        System.setProperty(
+                "dexmaker.dexcache",
+                getContext().getCacheDir().getPath());
         initMocks(this);
         DependencyInjector.setTotpClock(mockTotpClock);
 

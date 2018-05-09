@@ -1,5 +1,6 @@
 /*
  * Copyright 2011 Google Inc. All Rights Reserved.
+ * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -212,7 +213,7 @@ public class AccountDbTest extends AndroidTestCase {
         accountDb = DependencyInjector.getAccountDb();
         MoreAsserts.assertContentsInAnyOrder(
                 AccountDb.listTableColumnNamesLowerCase(accountDb.mDatabase, AccountDb.TABLE_NAME),
-                "first", AccountDb.PROVIDER_COLUMN);
+                "first", AccountDb.PROVIDER_COLUMN, AccountDb.COLOR_COLUMN);
     }
 
     private void deleteAccountDb() {

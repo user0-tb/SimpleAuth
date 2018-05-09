@@ -1,5 +1,6 @@
 /*
  * Copyright 2011 Google Inc. All Rights Reserved.
+ * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.File;
@@ -72,6 +74,7 @@ public class FileUtilities {
     /*
      * Uses reflection to call android.os.FileUtils.getFileStatus(path) which returns FileStatus.
      */
+    @Deprecated
     public static StatStruct getStat(String path) throws IOException {
         boolean success;
 
@@ -103,7 +106,10 @@ public class FileUtilities {
         } catch (Exception e) {
             // Can't chain exception because IOException doesn't have the right constructor on Froyo
             // and below
-            throw new IOException("Failed to get FileStatus: " + e);
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                throw new IOException("Failed to get FileStatus: " + e);
+            }
+            return null;
         }
     }
 

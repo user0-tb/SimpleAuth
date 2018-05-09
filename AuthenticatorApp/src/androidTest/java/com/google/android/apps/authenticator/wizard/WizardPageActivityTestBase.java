@@ -1,5 +1,6 @@
 /*
  * Copyright 2011 Google Inc. All Rights Reserved.
+ * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,11 +84,6 @@ public class WizardPageActivityTestBase<
         assertFalse(getActivity().isFinishing());
     }
 
-    protected void assertLeftButtonPressFinishesActivity() {
-        pressButton(R.id.button_left);
-        assertTrue(getActivity().isFinishing());
-    }
-
     private void pressButton(int buttonViewId) {
         View button = getActivity().findViewById(buttonViewId);
         // The button can only be pressed if it's on screen and visible
@@ -97,10 +93,6 @@ public class WizardPageActivityTestBase<
         TestUtilities.assertViewVisibleOnScreen(button);
 
         TestUtilities.clickView(getInstrumentation(), button);
-    }
-
-    protected void pressLeftButton() {
-        pressButton(R.id.button_left);
     }
 
     protected void pressRightButton() {

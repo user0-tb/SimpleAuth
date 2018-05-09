@@ -1,5 +1,6 @@
 /*
  * Copyright 2011 Google Inc. All Rights Reserved.
+ * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -225,9 +226,11 @@ public class AuthenticatorActivityTest extends
                 getActivity(),
                 listEntry0,
                 AuthenticatorActivity.REMOVE_ID);
+        // Wait for webview loading
+        Thread.sleep(1000);
         // Select Remove on confirmation dialog to remove account.
-        sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
-        sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+        sendKeys(KeyEvent.KEYCODE_TAB);
+        TestUtilities.tapDialogPositiveButton(this);
         // check main  screen gets focus back;
         TestUtilities.waitForWindowFocus(listEntry0);
         // check that account is deleted in database.
@@ -248,7 +251,7 @@ public class AuthenticatorActivityTest extends
         sendKeys("21*DPAD_RIGHT");  // move right to end;
         sendKeys("21*DEL"); // delete the entire name
         sendKeys("N E W N A M E AT G M A I L PERIOD C O M");
-        sendKeys("DPAD_DOWN");
+        sendKeys("TAB");
         TestUtilities.tapDialogPositiveButton(this); // select save on the dialog
         // check main  screen gets focus back;
         listEntry0 = userList.getChildAt(0);
