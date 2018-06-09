@@ -249,7 +249,11 @@ public class AccountDb {
         try {
             if(!cursorIsEmpty(cursor)) {
                 cursor.moveToFirst();
-                return cursor.getInt(cursor.getColumnIndex(COLOR_COLUMN));
+                try {
+                    return Integer.valueOf(cursor.getString(cursor.getColumnIndex(COLOR_COLUMN)));
+                } catch (NumberFormatException e) {
+                    return null;
+                }
             }
         } finally {
             tryCloseCursor(cursor);

@@ -162,10 +162,12 @@ public class FileUtilities {
         ContextWrapper contextWrapper = new ContextWrapper(context);
         File dir = contextWrapper.getDir(ICONS_DIR, Context.MODE_PRIVATE);
         File path = new File(dir, getMD5(name)+".png");
-        try(FileInputStream stream = new FileInputStream(path)) {
-            return BitmapFactory.decodeStream(stream);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(path.exists()) {
+            try (FileInputStream stream = new FileInputStream(path)) {
+                return BitmapFactory.decodeStream(stream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }

@@ -53,6 +53,7 @@ import android.webkit.WebView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -792,30 +793,9 @@ public class AuthenticatorActivity extends TestableActivity {
                         .show();
                 return true;
             case REMOVE_ID:
-                // Use a WebView to display the prompt because it contains non-trivial markup, such as list
-                View promptContentView =
-                        getLayoutInflater().inflate(R.layout.remove_account_prompt, null, false);
-                WebView webView = promptContentView.findViewById(R.id.web_view);
-                webView.setBackgroundColor(Color.TRANSPARENT);
-                // Make the WebView use the same font size as for the mEnterPinPrompt field
-                double pixelsPerDip =
-                        TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()) / 10d;
-                webView.getSettings().setDefaultFontSize(
-                        (int) (mEnterPinPrompt.getTextSize() / pixelsPerDip));
-                Utilities.setWebViewHtml(
-                        webView,
-                        "<html><body style=\"background-color: transparent;\" text=\"white\">"
-                                + getString(
-                                mAccountDb.isGoogleAccount(user)
-                                        ? R.string.remove_google_account_dialog_message
-                                        : R.string.remove_account_dialog_message)
-                                + "</body></html>");
-
                 new AlertDialog.Builder(this)
                         .setTitle(getString(R.string.remove_account_dialog_title, user))
-                        .setView(promptContentView)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_dialog_alert)
                         .setPositiveButton(R.string.remove_account_dialog_button_remove,
                                 (dialog, whichButton) -> {
                                     mAccountDb.delete(user);
@@ -1286,7 +1266,7 @@ public class AuthenticatorActivity extends TestableActivity {
             ImageView iconView = row.findViewById(R.id.icon);
             TextView pinView = row.findViewById(R.id.pin_value);
             TextView userView = row.findViewById(R.id.current_user);
-            View buttonView = row.findViewById(R.id.next_otp);
+            ImageButton buttonView = row.findViewById(R.id.next_otp);
             CountdownIndicator countdownIndicator =
                     row.findViewById(R.id.countdown_icon);
 
@@ -1298,9 +1278,18 @@ public class AuthenticatorActivity extends TestableActivity {
                 iconView.setVisibility(View.GONE);
             }
 
+            Integer color = mAccountDb.getColor(currentPin.user);
+            if(color == null)
+                color = getResources().getColor(R.color.theme_color);
+
             if (currentPin.isHotp) {
                 buttonView.setVisibility(View.VISIBLE);
                 buttonView.setEnabled(currentPin.hotpCodeGenerationAllowed);
+                if (buttonView.isEnabled()) {
+                    buttonView.setColorFilter(color);
+                } else {
+                    buttonView.clearColorFilter();
+                }
                 ((ViewGroup) row).setDescendantFocusability(
                         ViewGroup.FOCUS_BLOCK_DESCENDANTS); // makes long press work
                 NextOtpButtonListener clickListener = new NextOtpButtonListener(currentPin);
@@ -1315,10 +1304,7 @@ public class AuthenticatorActivity extends TestableActivity {
 
                 countdownIndicator.setVisibility(View.VISIBLE);
                 countdownIndicator.setPhase(mTotpCountdownPhase);
-                Integer color = mAccountDb.getColor(currentPin.user);
-                if (color != null) {
-                    countdownIndicator.setColor(color);
-                }
+                countdownIndicator.setColor(color);
             }
 
             if (getString(R.string.empty_pin).equals(currentPin.pin)) {
@@ -1328,6 +1314,7 @@ public class AuthenticatorActivity extends TestableActivity {
             }
             pinView.setText(currentPin.pin);
             userView.setText(currentPin.user);
+            userView.setTextColor(color);
 
             return row;
         }
