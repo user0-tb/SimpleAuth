@@ -25,6 +25,10 @@
     <string name="main_preference_screen_title" msgid="5971154576421128196">"Instellingen"</string>
     <string name="about_preference_title" msgid="2797539814683187124">"Over"</string>
     <string name="settings_menu_item" msgid="3175383868365284896">"Instellingen"</string>
+    <string name="import_menu_item">"Importeren"</string>
+    <string name="export_menu_item">"Exporteren"</string>
+    <string name="exported_to">Geëxporteerd naar</string>
+    <string name="import_choose">Kies bestand om te importeren</string>
     <string name="button_add_account_manual_entry" msgid="7234157710472604378">"Handmatig een account toevoegen"</string>
     <string name="button_add_account_scan_barcode" msgid="4400516455038574606">"Streepjescode scannen"</string>
     <string name="button_next" msgid="2321252361372851972">"Volgende"</string>

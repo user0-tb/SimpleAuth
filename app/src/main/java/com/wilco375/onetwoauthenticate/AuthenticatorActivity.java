@@ -32,6 +32,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
@@ -63,9 +64,22 @@ import com.wilco375.onetwoauthenticate.testability.TestableActivity;
 import com.wilco375.onetwoauthenticate.R;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The main activity that displays usernames and codes
@@ -841,6 +855,12 @@ public class AuthenticatorActivity extends TestableActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.import_entries :
+                importEntries();
+                return true;
+            case R.id.export_entries :
+                exportEntries();
+                return true;
             case R.id.settings:
                 showSettings();
                 return true;
@@ -902,6 +922,74 @@ public class AuthenticatorActivity extends TestableActivity {
         Intent intent = new Intent();
         intent.setClass(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    private void importEntries() {
+        File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        List<String> exports = new ArrayList<>();
+        for (String fileName : directory.list()) {
+            if(fileName.endsWith(".json")) {
+                exports.add(fileName);
+            }
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.import_choose);
+        builder.setItems(exports.toArray(new String[0]), (dialogInterface, index) -> {
+            dialogInterface.dismiss();
+
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(new File(directory, exports.get(index))));
+                String jsonString = reader.readLine();
+                JSONArray json = new JSONArray(jsonString);
+
+                for (int i = 0; i < json.length(); i++) {
+                    JSONObject item = json.getJSONObject(i);
+
+                    System.out.println(item);
+                    System.out.println(item.getString("email"));
+
+                    saveSecretAndRefreshUserList(
+                            item.getString("email"),
+                            item.getString("secret"),
+                            item.getString("email"),
+                            OtpType.valueOf(item.getString("type")),
+                            item.getInt("counter")
+                    );
+                }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+        });
+        builder.show();
+    }
+
+    private void exportEntries() {
+        List<String> usernames = new ArrayList<>();
+        mAccountDb.getNames(usernames);
+        try {
+            JSONArray json = new JSONArray();
+            for (String username : usernames) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("email", username);
+                jsonObject.put("secret", mAccountDb.getSecret(username));
+                jsonObject.put("counter", mAccountDb.getCounter(username));
+                jsonObject.put("type", mAccountDb.getType(username).toString());
+                jsonObject.put("color", mAccountDb.getColor(username));
+                json.put(jsonObject);
+            }
+            String jsonString = json.toString();
+
+            File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File file = new File(directory, "1-2-authenticate-export-"+System.currentTimeMillis()+".json");
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file));
+            writer.append(jsonString);
+            writer.close();
+
+            Toast.makeText(this, R.string.exported_to, Toast.LENGTH_LONG).show();
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

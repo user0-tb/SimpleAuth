@@ -54,6 +54,10 @@
 
     <!-- Application settings menu item in the main screen's menu. -->
     <string name="settings_menu_item">Settings</string>
+    <string name="import_menu_item">Import</string>
+    <string name="export_menu_item">Export</string>
+    <string name="exported_to">Exported to</string>
+    <string name="import_choose">Choose file to import</string>
 
     <!-- Button on the Add Other Account screen that lets the user add an account by manually entering
          account details. -->

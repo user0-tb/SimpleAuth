@@ -16,8 +16,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/normal_grp">
         <item
+            android:id="@+id/import_entries"
+            android:icon="@drawable/ic_menu_import"
+            android:title="@string/import_menu_item" />
+        <item
+            android:id="@+id/export_entries"
+            android:icon="@drawable/ic_menu_export"
+            android:title="@string/export_menu_item" />
+        <item
             android:id="@+id/settings"
-            android:icon="@android:drawable/ic_menu_preferences"
+            android:icon="@drawable/ic_menu_preferences"
             android:title="@string/settings_menu_item" />
     </group>
 </menu>
