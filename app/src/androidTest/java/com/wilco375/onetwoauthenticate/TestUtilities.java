@@ -305,7 +305,12 @@ public class TestUtilities {
     public static void openOptionsMenuAndInvokeItem(
             Instrumentation instrumentation, final Activity activity, final int itemId) {
         if (!instrumentation.invokeMenuActionSync(activity, itemId, 0)) {
-            throw new RuntimeException("Failed to invoke options menu item ID " + itemId);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            throw new RuntimeException("Failed to invoke options menu item ID " + itemId + "in activity "+activity);
         }
         instrumentation.waitForIdleSync();
     }

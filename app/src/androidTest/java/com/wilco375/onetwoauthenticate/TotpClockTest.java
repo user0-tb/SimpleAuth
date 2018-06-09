@@ -75,16 +75,6 @@ public class TotpClockTest extends AndroidTestCase {
         assertEquals(42, mClock.getTimeCorrectionMinutes());
     }
 
-    public void testTimeCorrectionCaching() {
-        // Check that the preference is only read first time the the time correction value is requested
-        SharedPreferences preferences =
-                PreferenceManager.getDefaultSharedPreferences(DependencyInjector.getContext());
-        assertTrue(preferences.edit().putInt(TotpClock.PREFERENCE_KEY_OFFSET_MINUTES, 7).commit());
-        assertEquals(7, mClock.getTimeCorrectionMinutes());
-        assertTrue(preferences.edit().putInt(TotpClock.PREFERENCE_KEY_OFFSET_MINUTES, 42).commit());
-        assertEquals(7, mClock.getTimeCorrectionMinutes());
-    }
-
     private static void assertInRangeInclusive(
             long actual, long expectedMinValue, long expectedMaxValue) {
         if ((actual < expectedMinValue) || (actual > expectedMaxValue)) {

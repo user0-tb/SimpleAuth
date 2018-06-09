@@ -283,14 +283,6 @@ public class AuthenticatorActivityTest extends
                 launchIntent.getComponent());
     }
 
-    public void testOptionsMenuAddAccount() {
-        checkOptionsMenuItemWithComponent(R.id.add_account, AddOtherAccountActivity.class);
-    }
-
-    public void testOptionsMenuSettings() {
-        checkOptionsMenuItemWithComponent(R.id.settings, SettingsActivity.class);
-    }
-
     public void testIntentActionScanBarcode_withScannerInstalled() {
         setActivityIntent(new Intent(AuthenticatorActivity.ACTION_SCAN_BARCODE));
         getActivity();
