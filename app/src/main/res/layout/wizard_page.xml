@@ -1,37 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2011 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2011 Google Inc.
+     Modified Copyright 2018 Wilco van Beijnum.
 
-         Licensed under the Apache License, Version 2.0 (the "License");
-         you may not use this file except in compliance with the License.
-         You may obtain a copy of the License at
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
 
-                 http://www.apache.org/licenses/LICENSE-2.0
+             http://www.apache.org/licenses/LICENSE-2.0
 
-         Unless required by applicable law or agreed to in writing, software
-         distributed under the License is distributed on an "AS IS" BASIS,
-         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-         See the License for the specific language governing permissions and
-         limitations under the License.
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="fill_parent"
-    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:orientation="vertical">
     <!-- Body -->
     <FrameLayout
         android:id="@+id/page_content"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:paddingTop="10sp"
         android:paddingBottom="10sp"
         android:paddingLeft="10sp"
-        android:paddingRight="10sp"></FrameLayout>
+        android:paddingRight="10sp" />
     <!-- Progress -->
     <LinearLayout
         android:id="@+id/inline_progress"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:layout_gravity="bottom"
@@ -44,13 +45,13 @@
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true" />
     </LinearLayout>
     <!-- Button bar -->
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5sp"
         android:paddingLeft="10sp"
@@ -63,7 +64,7 @@
         <!-- Two buttons, each in its own half of the bar: Back Next -->
         <RelativeLayout
             android:id="@+id/button_bar_left_right_buttons"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.design.widget.FloatingActionButton
@@ -77,26 +78,28 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 style="?attr/directionalButtonRightStyle"
-                app:backgroundTint="@color/theme_color" />
+                app:backgroundTint="@color/theme_color"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10sp" />
         </RelativeLayout>
 
         <!-- One button spanning the whole width of the bar -->
         <LinearLayout
             android:id="@+id/button_bar_middle_button_only"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/button_middle"
                 android:text="@string/button_next"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <!-- One button in the left half of the bar: Cancel -->
         <LinearLayout
             android:id="@+id/button_bar_cancel_only"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="1.0">
 
@@ -106,7 +109,8 @@
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:layout_marginRight="5sp" />
+                android:layout_marginRight="5sp"
+                android:layout_marginEnd="5sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

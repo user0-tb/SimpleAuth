@@ -15,13 +15,9 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" msgid="5078996080612406301">"1-2-Authenticate"</string>
-    <string name="app_name_short" msgid="6268465073167241020">"Authenticator"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Handmatige accountinvoer"</string>
-    <string name="enter_key_page_add_button" msgid="7145413404890383746">"Toevoegen"</string>
     <string name="button_add_account" msgid="4301500554118934829">"Account toevoegen"</string>
-    <string name="button_how_it_works" msgid="5576563994507351533">"Bekijk hoe het werkt"</string>
     <string name="add_account_menu_item" msgid="6422163385921921789">"Account toevoegen"</string>
-    <string name="how_it_works_menu_item" msgid="7162080619184257276">"Hoe het werkt"</string>
     <string name="main_preference_screen_title" msgid="5971154576421128196">"Instellingen"</string>
     <string name="about_preference_title" msgid="2797539814683187124">"Over"</string>
     <string name="settings_menu_item" msgid="3175383868365284896">"Instellingen"</string>
@@ -32,7 +28,6 @@
     <string name="button_add_account_manual_entry" msgid="7234157710472604378">"Handmatig een account toevoegen"</string>
     <string name="button_add_account_scan_barcode" msgid="4400516455038574606">"Streepjescode scannen"</string>
     <string name="button_next" msgid="2321252361372851972">"Volgende"</string>
-    <string name="button_back" msgid="414120249698283380">"Terug"</string>
     <string name="enter_account_label" msgid="1488259241384211529">"Accountnaam opgeven"</string>
     <string name="enter_key_hint" msgid="480564521423532185">"Geef uw sleutel op"</string>
     <string name="enter_key_too_short" msgid="1883571748860519725">"Sleutelwaarde is te kort"</string>
@@ -52,8 +47,6 @@
     <string name="about_preference_screen_title" msgid="8056864904503664711">"Over"</string>
     <string name="version_preference_title" msgid="5388130414499892219">"Versie"</string>
     <string name="opensource_preference_title" msgid="9222719496327822081">"Open-sourceproject"</string>
-    <string name="terms_preference_title" msgid="2016562579825643136">"Servicevoorwaarden"</string>
-    <string name="privacy_preference_title" msgid="5170441521661957179">"Privacybeleid"</string>
     <string name="check_code" msgid="8970489904648838257">"Als u zeker wilt weten of u de juiste sleutelwaarde voor <xliff:g id="ACCOUNT">%1$s</xliff:g> gebruikt, controleert u of de waarde hier overeenkomt met de integriteitscontrolewaarde die de server levert:&lt;br/&gt;"</string>
     <string name="general_security_exception" msgid="2356961798953009046">"Algemene beveiligingsuitzondering"</string>
     <string name="decoding_exception" msgid="7778970130063776199">"Uitzondering bij decoderen"</string>
@@ -62,8 +55,6 @@
     <string name="context_menu_remove_account" msgid="2776049374428247354">"Verwijderen"</string>
     <string name="remove_account_dialog_button_remove" msgid="1115752492175745669">"Account verwijderen"</string>
     <string name="remove_account_dialog_title" msgid="3627142692332624397">"<xliff:g id="ACCOUNT">%1$s</xliff:g> verwijderen?"</string>
-    <string name="remove_account_dialog_message" msgid="5152134907192755352">"Als u dit account verwijdert, kunt u &lt;b&gt;geen codes meer genereren&lt;/b&gt;, maar wordt authenticatie in twee factoren &lt;b&gt;niet&lt;/b&gt; uitgeschakeld. Hierdoor kunt u zich mogelijk niet aanmelden bij uw account. &lt;p&gt; Voordat u verwijdert: &lt;ul&gt; &lt;li&gt;Schakel authenticatie in twee factoren uit voor dit account, of&lt;/li&gt; &lt;li&gt;Zorg ervoor dat u een alternatieve methode voor het genereren van codes heeft.&lt;/li&gt; &lt;/ul&gt;"</string>
-    <string name="remove_google_account_dialog_message" msgid="5734774722876234898">"Als u dit account verwijdert, kunt u &lt;b&gt;geen codes meer genereren&lt;/b&gt;, maar wordt authenticatie in twee stappen niet uitgeschakeld. Hierdoor kunt u zich mogelijk niet aanmelden bij uw account. &lt;p&gt; Voordat u verwijdert: &lt;ul&gt; &lt;li&gt;Schakel authenticatie in twee stappen uit voor dit account, of&lt;/li&gt; &lt;li&gt;Zorg ervoor dat u een alternatieve methode voor het genereren van codes heeft.&lt;/li&gt; &lt;/ul&gt;"</string>
     <string name="rename" msgid="4407492613148938173">"Naam wijzigen"</string>
     <string name="rename_message" msgid="5929955206098259018">"Naam van <xliff:g id="ACCOUNT">%1$s</xliff:g> wijzigen"</string>
     <string name="customize">"Aanpassen"</string>
@@ -82,13 +73,6 @@
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Importeren is geslaagd"</string>
     <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Uw gegevens zijn geïmporteerd vanuit de verouderde 1-2-Authenticate-app. U kunt nu hieronder klikken om de vorige versie van de app te verwijderen."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Verwijderen"</string>
-    <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"U moet uw wachtwoord opgeven om u aan te melden."</string>
-    <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Als u op een nieuwe computer of nieuw apparaat werkt, vraagt Google u om een ​​speciale code om uw identiteit te kunnen verifiëren."</string>
-    <string name="howitworks_page_enter_code_title" msgid="8720355376154774463">"Geef op een nieuwe computer een code op via uw telefoon."</string>
-    <string name="howitworks_page_enter_code_details" msgid="2285856515167753320">"Deze app genereert de code die nodig is om u aan te melden."</string>
-    <string name="howitworks_page_verify_device_title" msgid="8577354518261339174">"U bent nu aangemeld."</string>
-    <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"U kunt er ook voor kiezen de ​​computer te laten onthouden. U wordt op deze computer dan niet meer door Google om een code gevraagd."</string>
-    <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"Afsluiten"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Er worden elke dag duizenden accounts gehackt."</string>
     <string name="welcome_page_details" msgid="3484579068463805365">Authenticatie in twee stappen beschermt uw accounts, zelfs wanneer uw wachtwoord wordt gestolen.</string>
 </resources>

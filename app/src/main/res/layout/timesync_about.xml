@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!-- Copyright 2012 Google Inc. All Rights Reserved.
+     Modified Copyright 2018 Wilco van Beijnum.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -13,11 +14,12 @@
      limitations under the License.
 -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent" android:layout_width="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
@@ -25,7 +27,7 @@
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_marginTop="20sp"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -33,7 +35,7 @@
             android:text="@string/timesync_about_feature_screen_details"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_marginTop="30sp"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>

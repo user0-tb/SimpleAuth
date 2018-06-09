@@ -15,20 +15,15 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" msgid="5078996080612406301">"1-2-Authenticate"</string>
-    <string name="app_name_short" msgid="6268465073167241020">"Kithibitishaji"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Mwongozo wa ingizo ya akaunti"</string>
-    <string name="enter_key_page_add_button" msgid="7145413404890383746">"Ongeza"</string>
     <string name="button_add_account" msgid="4301500554118934829">"Ongeza akaunti"</string>
-    <string name="button_how_it_works" msgid="5576563994507351533">"Angalia inavyofanya kazi"</string>
     <string name="add_account_menu_item" msgid="6422163385921921789">"Ongeza akaunti"</string>
-    <string name="how_it_works_menu_item" msgid="7162080619184257276">"Jinsi inavyofanya kazi"</string>
     <string name="main_preference_screen_title" msgid="5971154576421128196">"Mipangilio"</string>
     <string name="about_preference_title" msgid="2797539814683187124">"Kuhusu"</string>
     <string name="settings_menu_item" msgid="3175383868365284896">"Mipangilio"</string>
     <string name="button_add_account_manual_entry" msgid="7234157710472604378">"Ongeza akaunti kikuli"</string>
     <string name="button_add_account_scan_barcode" msgid="4400516455038574606">"Changanua msimbopau"</string>
     <string name="button_next" msgid="2321252361372851972">"Inayofuata"</string>
-    <string name="button_back" msgid="414120249698283380">"Nyuma"</string>
     <string name="enter_account_label" msgid="1488259241384211529">"Ingiza jina la akaunti"</string>
     <string name="enter_key_hint" msgid="480564521423532185">"Ingiza msimbo yako"</string>
     <string name="enter_key_too_short" msgid="1883571748860519725">"Thamani ya msimbo ni mafupi mno"</string>
@@ -48,8 +43,6 @@
     <string name="about_preference_screen_title" msgid="8056864904503664711">"Kuhusu"</string>
     <string name="version_preference_title" msgid="5388130414499892219">"Toleo"</string>
     <string name="opensource_preference_title" msgid="9222719496327822081">"Mradi wa chanzo huria"</string>
-    <string name="terms_preference_title" msgid="2016562579825643136">"Masharti ya huduma"</string>
-    <string name="privacy_preference_title" msgid="5170441521661957179">"Sera ya faragha"</string>
     <string name="check_code" msgid="8970489904648838257">"Ili kuangalia kwamba una thamani sawa ya msimbo wa <xliff:g id="ACCOUNT">%1$s</xliff:g> thibitisha kuwa thamani hapa inalingana na kuangalia uadilifu wa thamani iliyotolewa na seva: &lt;br/&gt;"</string>
     <string name="general_security_exception" msgid="2356961798953009046">"Kwa kawaida isipokuwa usalama"</string>
     <string name="decoding_exception" msgid="7778970130063776199">"Isipokuwa usimbuaji"</string>
@@ -58,8 +51,6 @@
     <string name="context_menu_remove_account" msgid="2776049374428247354">"Ondoa"</string>
     <string name="remove_account_dialog_button_remove" msgid="1115752492175745669">"Ondoa akaunti"</string>
     <string name="remove_account_dialog_title" msgid="3627142692332624397">"Ondoa <xliff:g id="ACCOUNT">%1$s</xliff:g>?"</string>
-    <string name="remove_account_dialog_message" msgid="5152134907192755352">"Kuondoa akaunti hii &lt;b&gt;kutaondoa uwezo wako wa&lt;/b&gt;kuzalisha misimbo, hata hivyo, kutazima&lt;b&gt;not&lt;/b&gt; uthibitishaji wa hatua 2. Huenda hii ikakuzuia dhidi ya kuingia katika akaunti yako. &lt;p&gt; Kabla ya kuondoa:&lt;ul&gt;Zima uthibitishaji wa hatua 2 wa akaunti hii, au&lt;/li&gt; &lt;li&gt;Hakikisha kuwa una utaratibu mbadala wa kuzalisha misimbo.&lt;/li&gt; &lt;/ul&gt;"</string>
-    <string name="remove_google_account_dialog_message" msgid="5734774722876234898">"Kuondoa akaunti hii &lt;b&gt;kutaondoa uwezo wako wa&lt;/b&gt;kuzalisha misimbo, hata hivyo, hakutazima&lt;b&gt;not&lt;/b&gt; uthibitishaji wa hatua 2. Huenda hii ikakuzuia dhidi ya kuingia katika akaunti yako. &lt;p&gt; Kabla ya kuondoa:&lt;ul&gt;Zima uthibitishaji wa hatua 2 wa akaunti hii, au&lt;/li&gt; &lt;li&gt;Hakikisha kuwa una utaratibu mbadala wa kuzalisha misimbo.&lt;/li&gt; &lt;/ul&gt;"</string>
     <string name="rename" msgid="4407492613148938173">"Badili jina"</string>
     <string name="rename_message" msgid="5929955206098259018">"Badili jina <xliff:g id="ACCOUNT">%1$s</xliff:g>"</string>
     <string name="error_exists" msgid="9037595140877350695">"Samahani, jina hilo tayari liko katika matumizi."</string>
@@ -75,13 +66,6 @@
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Kuleta kumefaulu"</string>
     <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Data yako imefanikiwa kuletwa kutoka kwa programu yenye malalamishi ya Kithibitishaji cha Google. Sasa ni salama kusanidua toleo la awali la programu kwa kubofya hapa chini."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Sanidua"</string>
-    <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"Ili kuingia, utaingiza nenosiri lako."</string>
-    <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Hata hivyo, kama uko kwenye kompyuta au kifaa kipya, Google itakuuliza msimbo maalum ili kuhakikisha kweli ni wewe."</string>
-    <string name="howitworks_page_enter_code_title" msgid="8720355376154774463">"Kama uko kwenye kompyuta mpya, ingiza msimbo kutoka kwenye simu yako."</string>
-    <string name="howitworks_page_enter_code_details" msgid="2285856515167753320">"Programu hii itazalisha msimbo unaohitajika ili kuendelea kuingia."</string>
-    <string name="howitworks_page_verify_device_title" msgid="8577354518261339174">"Basi umeingia."</string>
-    <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"Unaweza pia kuchagua kukumbuka kompyuta na Google haitakuuliza msimbo hapo tena."</string>
-    <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"Toka"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Maelfu ya akaunti za mtandaoni hutekwa nyara kila siku."</string>
     <string name="welcome_page_details" msgid="3484579068463805365">Uthibitishaji wa hatua 2 hulinda akaunti yako hata kama nenosiri lako limeibwa.</string>
 </resources>

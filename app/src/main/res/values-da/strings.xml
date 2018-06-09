@@ -15,20 +15,15 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" msgid="5078996080612406301">"Google Autentificering"</string>
-    <string name="app_name_short" msgid="6268465073167241020">"Autentificering"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Manuel angivelse af konto"</string>
-    <string name="enter_key_page_add_button" msgid="7145413404890383746">"Tilføj"</string>
     <string name="button_add_account" msgid="4301500554118934829">"Tilføj en konto"</string>
-    <string name="button_how_it_works" msgid="5576563994507351533">"Se, hvordan det fungerer"</string>
     <string name="add_account_menu_item" msgid="6422163385921921789">"Tilføj konto"</string>
-    <string name="how_it_works_menu_item" msgid="7162080619184257276">"Sådan fungerer det"</string>
     <string name="main_preference_screen_title" msgid="5971154576421128196">"Indstillinger"</string>
     <string name="about_preference_title" msgid="2797539814683187124">"Om"</string>
     <string name="settings_menu_item" msgid="3175383868365284896">"Indstillinger"</string>
     <string name="button_add_account_manual_entry" msgid="7234157710472604378">"Tilføj konto manuelt"</string>
     <string name="button_add_account_scan_barcode" msgid="4400516455038574606">"Scan stregkode"</string>
     <string name="button_next" msgid="2321252361372851972">"Næste"</string>
-    <string name="button_back" msgid="414120249698283380">"Tilbage"</string>
     <string name="enter_account_label" msgid="1488259241384211529">"Angiv kontonavn"</string>
     <string name="enter_key_hint" msgid="480564521423532185">"Angiv din nøgle"</string>
     <string name="enter_key_too_short" msgid="1883571748860519725">"Nøgleværdien er for kort"</string>
@@ -48,8 +43,6 @@
     <string name="about_preference_screen_title" msgid="8056864904503664711">"Om"</string>
     <string name="version_preference_title" msgid="5388130414499892219">"Version"</string>
     <string name="opensource_preference_title" msgid="9222719496327822081">"Open source-projekt"</string>
-    <string name="terms_preference_title" msgid="2016562579825643136">"Servicevilkår"</string>
-    <string name="privacy_preference_title" msgid="5170441521661957179">"Privatlivspolitik"</string>
     <string name="check_code" msgid="8970489904648838257">"For at kontrollere at du har den rette nøgleværdi for <xliff:g id="ACCOUNT">%1$s</xliff:g>, skal du bekræfte, at værdien her matcher integritetskontrolværdien fra serveren: &lt;br/&gt;"</string>
     <string name="general_security_exception" msgid="2356961798953009046">"Generel sikkerhedsundtagelse"</string>
     <string name="decoding_exception" msgid="7778970130063776199">"Afkodning af undtagelse"</string>
@@ -58,8 +51,6 @@
     <string name="context_menu_remove_account" msgid="2776049374428247354">"Fjern"</string>
     <string name="remove_account_dialog_button_remove" msgid="1115752492175745669">"Fjern konto"</string>
     <string name="remove_account_dialog_title" msgid="3627142692332624397">"Vil du fjerne <xliff:g id="ACCOUNT">%1$s</xliff:g>?"</string>
-    <string name="remove_account_dialog_message" msgid="5152134907192755352">"Fjernelse af denne konto vil &lt;b&gt;fjerne din mulighed&lt;/b&gt; for at generere koder, men det vil &lt;b&gt;ikke&lt;/b&gt; slå godkendelse via to faktorer fra. Dette kan forhindre dig i at logge ind på din konto. &lt;p&gt; Før fjernelse: &lt;ul&gt; &lt;li&gt;Sluk for godkendelse via to faktorer for denne konto, eller&lt;/li&gt; &lt;li&gt;kontroller, at du har en alternativ mekanisme til generering af koder.&lt;/li&gt; &lt;/ul&gt;"</string>
-    <string name="remove_google_account_dialog_message" msgid="5734774722876234898">"Fjernelse af denne konto vil &lt;b&gt;fjerne din mulighed&lt;/b&gt; for at generere koder, men det vil &lt;b&gt;ikke&lt;/b&gt; slå godkendelse via to faktorer fra. Dette kan forhindre dig i at logge ind på din konto. &lt;p&gt; Inden du fjerner kontoen: &lt;ul&gt; &lt;li&gt;Slå totrinsbekræftelse fra for denne konto, eller&lt;/li&gt; &lt;li&gt;kontroller, at du har en alternativ metode til at generere koder.&lt;/li&gt; &lt;/ul&gt;"</string>
     <string name="rename" msgid="4407492613148938173">"Omdøb"</string>
     <string name="rename_message" msgid="5929955206098259018">"Omdøb <xliff:g id="ACCOUNT">%1$s</xliff:g>"</string>
     <string name="error_exists" msgid="9037595140877350695">"Det navn bruges allerede."</string>
@@ -75,13 +66,6 @@
     <string name="dataimport_import_succeeded_uninstall_dialog_title" msgid="6215126097026112170">"Importen er fuldført"</string>
     <string name="dataimport_import_succeeded_uninstall_dialog_prompt" msgid="4298949858655509063">"Dine data er blevet importeret fra den forældede udgave af appen Google Autentificering. Det er nu sikkert at afinstallere den tidligere version af appen ved at klikke nedenfor."</string>
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Afinstaller"</string>
-    <string name="howitworks_page_enter_password_title" msgid="2162365548375599624">"For at logge ind, angiver du din adgangskode."</string>
-    <string name="howitworks_page_enter_password_details" msgid="1637264390208452667">"Men hvis du bruger en ny computer eller enhed, vil Google bede dig om en særlig kode for at sikre, at det virkelig er dig."</string>
-    <string name="howitworks_page_enter_code_title" msgid="8720355376154774463">"Hvis du bruger en ny computer, skal du indtaste en kode fra din telefon."</string>
-    <string name="howitworks_page_enter_code_details" msgid="2285856515167753320">"Denne app genererer koden, som du skal bruge for at logge ind."</string>
-    <string name="howitworks_page_verify_device_title" msgid="8577354518261339174">"Så er du logget ind."</string>
-    <string name="howitworks_page_verify_device_details" msgid="9198940182976285367">"Hvis du vælger at huske computeren, beder Google dig ikke om at angive en kode på den computer igen."</string>
-    <string name="button_exit_howitworks_flow" msgid="6789714209015077393">"Afslut"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Tusinder af konti på nettet kapres hver dag."</string>
     <string name="welcome_page_details" msgid="3484579068463805365">Totrinsbekræftelse beskytter din konto, selv hvis din adgangskode bliver stjålet.</string>
 </resources>
