@@ -21,7 +21,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 
 import com.wilco375.onetwoauthenticate.testability.TestablePreferenceActivity;
-import com.wilco375.onetwoauthenticate.R;
 
 /**
  * Activity that displays the "About" preferences.

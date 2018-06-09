@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -39,7 +38,6 @@ import android.provider.MediaStore;
 import android.text.ClipboardManager;
 import android.text.Html;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -49,7 +47,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
-import android.webkit.WebView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -59,11 +56,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.wilco375.onetwoauthenticate.AccountDb.OtpType;
 import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
 import com.wilco375.onetwoauthenticate.testability.TestableActivity;
-import com.wilco375.onetwoauthenticate.R;
-import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,12 +67,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -132,7 +125,6 @@ public class AuthenticatorActivity extends TestableActivity {
 
     private View mContentNoAccounts;
     private View mContentAccountsPresent;
-    private TextView mEnterPinPrompt;
     private ListView mUserList;
     private PinListAdapter mUserAdapter;
     private PinInfo[] mUsers = {};
@@ -178,11 +170,6 @@ public class AuthenticatorActivity extends TestableActivity {
      * the minimum targetted SDK, this contrived code can be removed.
      */
     private Intent mOldAppUninstallIntent;
-
-    /**
-     * Whether the importing of data from the "old" app has been started and has not yet finished.
-     */
-    private boolean mDataImportInProgress;
 
     /**
      * Key under which the {@link #mSaveKeyDialogParams} is stored in the instance state
@@ -273,7 +260,6 @@ public class AuthenticatorActivity extends TestableActivity {
                 Html.fromHtml(getString(R.string.welcome_page_details)));
 
         findViewById(R.id.add_account_button).setOnClickListener(v -> addAccount());
-        mEnterPinPrompt = findViewById(R.id.enter_pin_prompt);
 
         mUserAdapter = new PinListAdapter(this, R.layout.user_row, mUsers);
 
@@ -717,7 +703,7 @@ public class AuthenticatorActivity extends TestableActivity {
 
                 View customizeColor = mCustomizeView.findViewById(R.id.customize_color);
                 Integer dbColor = mAccountDb.getColor(user);
-                if(dbColor == null) {
+                if (dbColor == null) {
                     dbColor = getResources().getColor(R.color.theme_color);
                 }
                 int color = dbColor; // Needs to be effectively final in lambda
@@ -835,10 +821,10 @@ public class AuthenticatorActivity extends TestableActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.import_entries :
+            case R.id.import_entries:
                 importEntries();
                 return true;
-            case R.id.export_entries :
+            case R.id.export_entries:
                 exportEntries();
                 return true;
             case R.id.settings:
@@ -853,7 +839,7 @@ public class AuthenticatorActivity extends TestableActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.i(getString(R.string.app_name), LOCAL_TAG + ": onActivityResult");
         if (resultCode == Activity.RESULT_OK) {
-            switch(requestCode) {
+            switch (requestCode) {
                 case SCAN_REQUEST:
                     // Grab the scan results and convert it into a URI
                     String scanResult = (intent != null) ? intent.getStringExtra("SCAN_RESULT") : null;
@@ -862,10 +848,10 @@ public class AuthenticatorActivity extends TestableActivity {
                     break;
                 case CHOOSE_ICON:
                     Uri data = intent.getData();
-                    if(data != null) {
+                    if (data != null) {
                         try {
                             Bitmap icon = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data);
-                            if(mCustomizeView != null) {
+                            if (mCustomizeView != null) {
                                 ImageView customizeIcon = mCustomizeView.findViewById(R.id.customize_icon);
                                 customizeIcon.setImageBitmap(icon);
                             }
@@ -908,7 +894,7 @@ public class AuthenticatorActivity extends TestableActivity {
         File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         List<String> exports = new ArrayList<>();
         for (String fileName : directory.list()) {
-            if(fileName.endsWith(".json")) {
+            if (fileName.endsWith(".json")) {
                 exports.add(fileName);
             }
         }
@@ -961,7 +947,7 @@ public class AuthenticatorActivity extends TestableActivity {
             String jsonString = json.toString();
 
             File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File file = new File(directory, "1-2-authenticate-export-"+System.currentTimeMillis()+".json");
+            File file = new File(directory, "1-2-authenticate-export-" + System.currentTimeMillis() + ".json");
             OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file));
             writer.append(jsonString);
             writer.close();
@@ -1279,7 +1265,7 @@ public class AuthenticatorActivity extends TestableActivity {
             }
 
             Integer color = mAccountDb.getColor(currentPin.user);
-            if(color == null)
+            if (color == null)
                 color = getResources().getColor(R.color.theme_color);
 
             if (currentPin.isHotp) {

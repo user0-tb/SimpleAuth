@@ -71,15 +71,15 @@
             android:label="@string/main_preference_screen_title" />
 
         <activity
-            android:name="com.wilco375.onetwoauthenticate.timesync.SettingsTimeCorrectionActivity"
+            android:name=".timesync.SettingsTimeCorrectionActivity"
             android:label="@string/timesync_preference_screen_title" />
 
         <activity
-            android:name="com.wilco375.onetwoauthenticate.timesync.AboutActivity"
+            android:name=".timesync.AboutActivity"
             android:label="@string/timesync_about_feature_screen_title" />
 
         <activity
-            android:name="com.wilco375.onetwoauthenticate.timesync.SyncNowActivity"
+            android:name=".timesync.SyncNowActivity"
             android:label="@string/timesync_sync_now_screen_title" />
 
     </application>

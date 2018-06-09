@@ -23,8 +23,6 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.wilco375.onetwoauthenticate.R;
-
 /**
  * Custom view that shows the user, pin, and "Get New Code" button (if enabled).
  * The layout for this is under res/layout/user_row.xml

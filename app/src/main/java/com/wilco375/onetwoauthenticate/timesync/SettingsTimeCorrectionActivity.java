@@ -19,8 +19,8 @@ package com.wilco375.onetwoauthenticate.timesync;
 
 import android.os.Bundle;
 
-import com.wilco375.onetwoauthenticate.testability.TestablePreferenceActivity;
 import com.wilco375.onetwoauthenticate.R;
+import com.wilco375.onetwoauthenticate.testability.TestablePreferenceActivity;
 
 /**
  * Activity that displays the "Time correction" preferences.

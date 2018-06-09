@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.wilco375.onetwoauthenticate.wizard.WizardPageActivity;
-import com.wilco375.onetwoauthenticate.R;
 
 import java.io.Serializable;
 

@@ -27,7 +27,6 @@ import android.widget.Spinner;
 import com.wilco375.onetwoauthenticate.AccountDb.OtpType;
 import com.wilco375.onetwoauthenticate.Base32String.DecodingException;
 import com.wilco375.onetwoauthenticate.wizard.WizardPageActivity;
-import com.wilco375.onetwoauthenticate.R;
 
 import java.io.Serializable;
 

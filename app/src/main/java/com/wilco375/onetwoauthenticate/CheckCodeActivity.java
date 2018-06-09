@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import com.wilco375.onetwoauthenticate.Base32String.DecodingException;
 import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
-import com.wilco375.onetwoauthenticate.R;
 
 import java.security.GeneralSecurityException;
 

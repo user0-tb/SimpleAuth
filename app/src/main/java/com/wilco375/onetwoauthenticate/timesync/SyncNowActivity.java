@@ -23,8 +23,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
-import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
 import com.wilco375.onetwoauthenticate.R;
+import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
 
 /**
  * Activity that adjusts the application's internal system time offset (for the purposes of

@@ -26,7 +26,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -106,7 +105,7 @@ public class FileUtilities {
         } catch (Exception e) {
             // Can't chain exception because IOException doesn't have the right constructor on Froyo
             // and below
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 throw new IOException("Failed to get FileStatus: " + e);
             }
             return null;
@@ -150,8 +149,8 @@ public class FileUtilities {
     public static void saveBitmap(Context context, String name, Bitmap bitmap) {
         ContextWrapper contextWrapper = new ContextWrapper(context);
         File dir = contextWrapper.getDir(ICONS_DIR, Context.MODE_PRIVATE);
-        File path = new File(dir, getMD5(name)+".png");
-        try(FileOutputStream stream = new FileOutputStream(path)) {
+        File path = new File(dir, getMD5(name) + ".png");
+        try (FileOutputStream stream = new FileOutputStream(path)) {
             bitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -161,8 +160,8 @@ public class FileUtilities {
     public static Bitmap getBitmap(Context context, String name) {
         ContextWrapper contextWrapper = new ContextWrapper(context);
         File dir = contextWrapper.getDir(ICONS_DIR, Context.MODE_PRIVATE);
-        File path = new File(dir, getMD5(name)+".png");
-        if(path.exists()) {
+        File path = new File(dir, getMD5(name) + ".png");
+        if (path.exists()) {
             try (FileInputStream stream = new FileInputStream(path)) {
                 return BitmapFactory.decodeStream(stream);
             } catch (IOException e) {

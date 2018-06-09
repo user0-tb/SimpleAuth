@@ -20,7 +20,6 @@ package com.wilco375.onetwoauthenticate;
 import android.os.Bundle;
 
 import com.wilco375.onetwoauthenticate.testability.TestablePreferenceActivity;
-import com.wilco375.onetwoauthenticate.R;
 
 /**
  * Top-level preferences Activity.

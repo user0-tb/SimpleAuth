@@ -18,16 +18,12 @@
 package com.wilco375.onetwoauthenticate;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
-
-import com.wilco375.onetwoauthenticate.R;
 
 /**
  * Circular countdown indicator. The indicator is a filled arc which starts as a full circle ({@code

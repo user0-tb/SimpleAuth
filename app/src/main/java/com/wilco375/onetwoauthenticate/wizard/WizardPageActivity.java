@@ -27,8 +27,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.wilco375.onetwoauthenticate.AuthenticatorActivity;
-import com.wilco375.onetwoauthenticate.testability.TestableActivity;
 import com.wilco375.onetwoauthenticate.R;
+import com.wilco375.onetwoauthenticate.testability.TestableActivity;
 
 import java.io.Serializable;
 

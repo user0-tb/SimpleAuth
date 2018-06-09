@@ -247,7 +247,7 @@ public class AccountDb {
     public Integer getColor(String email) {
         Cursor cursor = getAccount(email);
         try {
-            if(!cursorIsEmpty(cursor)) {
+            if (!cursorIsEmpty(cursor)) {
                 cursor.moveToFirst();
                 try {
                     return Integer.valueOf(cursor.getString(cursor.getColumnIndex(COLOR_COLUMN)));
@@ -408,7 +408,7 @@ public class AccountDb {
                     googleAccount ? PROVIDER_GOOGLE : PROVIDER_UNKNOWN);
         }
 
-        if(color != null) {
+        if (color != null) {
             values.put(COLOR_COLUMN, color);
         }
         int updated = mDatabase.update(TABLE_NAME, values,
