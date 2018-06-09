@@ -58,7 +58,7 @@ public class WizardPageActivity<WizardState extends Serializable> extends Testab
      */
     private enum ButtonBarType {
         LEFT_RIGHT_BUTTONS,
-        MIDDLE_BUTTON_ONLY,
+        RIGHT_BUTTON_ONLY,
         CANCEL_BUTTON_ONLY,
     }
 
@@ -84,6 +84,8 @@ public class WizardPageActivity<WizardState extends Serializable> extends Testab
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         WizardState wizardState;
         if (savedInstanceState == null) {
@@ -133,8 +135,8 @@ public class WizardPageActivity<WizardState extends Serializable> extends Testab
         return view;
     }
 
-    protected void setButtonBarModeMiddleButtonOnly() {
-        setButtonBarType(ButtonBarType.MIDDLE_BUTTON_ONLY);
+    protected void setButtonBarModeRightButtonOnly() {
+        setButtonBarType(ButtonBarType.RIGHT_BUTTON_ONLY);
     }
 
     /**
@@ -229,9 +231,9 @@ public class WizardPageActivity<WizardState extends Serializable> extends Testab
                 mMiddleButtonOnlyBar.setVisibility(View.GONE);
                 mCancelButtonOnlyBar.setVisibility(View.GONE);
                 break;
-            case MIDDLE_BUTTON_ONLY:
-                mMiddleButtonOnlyBar.setVisibility(View.VISIBLE);
-                mLeftRightButtonBar.setVisibility(View.GONE);
+            case RIGHT_BUTTON_ONLY:
+                mMiddleButtonOnlyBar.setVisibility(View.GONE);
+                mLeftRightButtonBar.setVisibility(View.VISIBLE);
                 mCancelButtonOnlyBar.setVisibility(View.GONE);
                 break;
             case CANCEL_BUTTON_ONLY:

@@ -116,7 +116,7 @@ public class WizardPageActivityTest
 
     public void testUiStateInButtonBarMiddleButtonOnlyMode() {
         WizardPageActivity<WizardState> activity = startActivity();
-        activity.setButtonBarModeMiddleButtonOnly();
+        activity.setButtonBarModeRightButtonOnly();
         TestUtilities.assertViewVisibleOnScreen(activity.mMiddleButton);
         TestUtilities.assertViewOrAnyParentVisibilityGone(activity.mLeftButton);
         TestUtilities.assertViewOrAnyParentVisibilityGone(activity.mRightButton);
@@ -145,7 +145,7 @@ public class WizardPageActivityTest
 
     public void testButtonBarModeRestoredAfterDismissingInlineProgress() {
         WizardPageActivity<WizardState> activity = startActivity();
-        activity.setButtonBarModeMiddleButtonOnly();
+        activity.setButtonBarModeRightButtonOnly();
         activity.showInlineProgress(null);
         activity.dismissInlineProgress();
 
@@ -211,7 +211,7 @@ public class WizardPageActivityTest
 
     public void testMiddleButtonInvokesOnMiddleButtonPressed() {
         TestableWizardPageActivity activity = startActivity();
-        activity.setButtonBarModeMiddleButtonOnly();
+        activity.setButtonBarModeRightButtonOnly();
         activity.mMiddleButton.performClick();
 
         assertTrue(activity.mOnMiddleButtonPressedInvoked);

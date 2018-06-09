@@ -20,6 +20,7 @@ package com.wilco375.onetwoauthenticate;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
@@ -39,7 +40,7 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @author sweis@google.com (Steve Weis)
  */
-public class CheckCodeActivity extends Activity {
+public class CheckCodeActivity extends AppCompatActivity {
     private TextView mCheckCodeTextView;
     private TextView mCodeTextView;
     private TextView mCounterValue;

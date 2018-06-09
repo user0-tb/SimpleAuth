@@ -1018,7 +1018,7 @@ public class AuthenticatorActivity extends TestableActivity {
                 AlertDialog.Builder dlBuilder = new AlertDialog.Builder(this);
                 dlBuilder.setTitle(R.string.install_dialog_title);
                 dlBuilder.setMessage(R.string.install_dialog_message);
-                dlBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+                dlBuilder.setIcon(R.drawable.ic_dialog_alert);
                 dlBuilder.setPositiveButton(R.string.install_button,
                         (dialog14, whichButton) -> {
                             Intent intent = new Intent(Intent.ACTION_VIEW,
@@ -1041,7 +1041,7 @@ public class AuthenticatorActivity extends TestableActivity {
                 dialog = new AlertDialog.Builder(this)
                         .setTitle(R.string.save_key_message)
                         .setMessage(saveKeyDialogParams.user)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_dialog_alert)
                         .setPositiveButton(R.string.ok,
                                 (dialog13, whichButton) -> saveSecretAndRefreshUserList(
                                         saveKeyDialogParams.user,
@@ -1063,13 +1063,13 @@ public class AuthenticatorActivity extends TestableActivity {
 
             case Utilities.INVALID_QR_CODE:
                 dialog = createOkAlertDialog(R.string.error_title, R.string.error_qr,
-                        android.R.drawable.ic_dialog_alert);
+                        R.drawable.ic_dialog_alert);
                 markDialogAsResultOfSaveKeyIntent(dialog);
                 break;
 
             case Utilities.INVALID_SECRET_IN_QR_CODE:
                 dialog = createOkAlertDialog(
-                        R.string.error_title, R.string.error_uri, android.R.drawable.ic_dialog_alert);
+                        R.string.error_title, R.string.error_uri, R.drawable.ic_dialog_alert);
                 markDialogAsResultOfSaveKeyIntent(dialog);
                 break;
 

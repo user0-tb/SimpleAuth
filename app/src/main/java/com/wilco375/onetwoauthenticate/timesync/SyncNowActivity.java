@@ -107,7 +107,7 @@ public class SyncNowActivity extends Activity implements SyncNowController.Prese
                         .setCancelable(false)
                         .setTitle(R.string.timesync_sync_now_time_already_correct_dialog_title)
                         .setMessage(R.string.timesync_sync_now_time_already_correct_dialog_details)
-                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setIcon(R.drawable.ic_dialog_info)
                         .setNeutralButton(R.string.ok, (dialog, which) -> finish())
                         .create()
                         .show();
@@ -117,7 +117,7 @@ public class SyncNowActivity extends Activity implements SyncNowController.Prese
                         .setCancelable(false)
                         .setTitle(R.string.timesync_sync_now_time_corrected_dialog_title)
                         .setMessage(R.string.timesync_sync_now_time_corrected_dialog_details)
-                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setIcon(R.drawable.ic_dialog_info)
                         .setNeutralButton(R.string.ok, (dialog, which) -> finish())
                         .create()
                         .show();
@@ -127,7 +127,7 @@ public class SyncNowActivity extends Activity implements SyncNowController.Prese
                         .setCancelable(false)
                         .setTitle(R.string.timesync_sync_now_connectivity_error_dialog_title)
                         .setMessage(R.string.timesync_sync_now_connectivity_error_dialog_details)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_dialog_alert)
                         .setNeutralButton(R.string.ok, (dialog, which) -> finish())
                         .create()
                         .show();

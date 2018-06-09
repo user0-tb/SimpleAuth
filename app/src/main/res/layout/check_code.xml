@@ -41,7 +41,7 @@
             android:layout_marginTop="20dip">
 
             <ImageView
-                android:src="@android:drawable/ic_lock_lock"
+                android:src="@drawable/ic_lock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
@@ -64,13 +64,11 @@
             android:layout_marginTop="10dip">
 
             <ImageView
-                android:src="@android:drawable/ic_menu_recent_history"
+                android:src="@drawable/ic_menu_recent_history"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
                 android:layout_gravity="center_vertical"
-                android:maxHeight="32px"
-                android:maxWidth="32px"
                 android:adjustViewBounds="true" />
 
             <TextView

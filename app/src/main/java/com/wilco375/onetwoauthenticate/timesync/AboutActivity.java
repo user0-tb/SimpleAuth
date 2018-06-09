@@ -38,12 +38,18 @@ public class AboutActivity extends WizardPageActivity<Serializable> {
         setPageContentView(R.layout.timesync_about);
         setTextViewHtmlFromResource(R.id.details, R.string.timesync_about_feature_screen_details);
 
-        setButtonBarModeMiddleButtonOnly();
-        mMiddleButton.setText(R.string.ok);
+        setButtonBarModeRightButtonOnly();
+        mRightButton.setImageResource(R.drawable.ic_check_white_24dp);
     }
 
     @Override
-    protected void onMiddleButtonPressed() {
+    protected void onRightButtonPressed() {
         onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
