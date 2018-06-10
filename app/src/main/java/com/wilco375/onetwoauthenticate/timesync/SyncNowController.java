@@ -20,9 +20,8 @@ package com.wilco375.onetwoauthenticate.timesync;
 import android.os.Handler;
 import android.util.Log;
 
-import com.wilco375.onetwoauthenticate.RunOnThisLooperThreadExecutor;
-import com.wilco375.onetwoauthenticate.TotpClock;
-import com.wilco375.onetwoauthenticate.Utilities;
+import com.wilco375.onetwoauthenticate.otp.totp.TotpClock;
+import com.wilco375.onetwoauthenticate.util.Utilities;
 
 import java.io.IOException;
 import java.util.concurrent.Executor;

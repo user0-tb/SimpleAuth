@@ -22,6 +22,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
+import com.wilco375.onetwoauthenticate.activity.AuthenticatorActivity;
+import com.wilco375.onetwoauthenticate.database.AccountDb;
+import com.wilco375.onetwoauthenticate.otp.OtpSource;
+import com.wilco375.onetwoauthenticate.otp.OtpSourceException;
+import com.wilco375.onetwoauthenticate.otp.totp.TotpClock;
+
 /**
  * Interface for providing functionality not available in Market builds without having to modify
  * the codebase shared between the Market and non-Market builds.

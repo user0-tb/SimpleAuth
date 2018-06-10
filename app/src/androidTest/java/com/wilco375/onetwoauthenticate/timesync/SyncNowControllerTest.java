@@ -17,9 +17,8 @@
 
 package com.wilco375.onetwoauthenticate.timesync;
 
-import com.wilco375.onetwoauthenticate.RunImmediatelyOnCallingThreadExecutor;
-import com.wilco375.onetwoauthenticate.TotpClock;
-import com.wilco375.onetwoauthenticate.Utilities;
+import com.wilco375.onetwoauthenticate.otp.totp.TotpClock;
+import com.wilco375.onetwoauthenticate.util.Utilities;
 
 import junit.framework.TestCase;
 

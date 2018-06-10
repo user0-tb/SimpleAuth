@@ -22,12 +22,12 @@ import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.test.RenamingDelegatingContext;
 
-import com.wilco375.onetwoauthenticate.AccountDb;
-import com.wilco375.onetwoauthenticate.AuthenticatorActivity;
+import com.wilco375.onetwoauthenticate.database.AccountDb;
+import com.wilco375.onetwoauthenticate.activity.AuthenticatorActivity;
 import com.wilco375.onetwoauthenticate.MarketBuildOptionalFeatures;
 import com.wilco375.onetwoauthenticate.OptionalFeatures;
-import com.wilco375.onetwoauthenticate.OtpSource;
-import com.wilco375.onetwoauthenticate.TotpClock;
+import com.wilco375.onetwoauthenticate.otp.OtpSource;
+import com.wilco375.onetwoauthenticate.otp.totp.TotpClock;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;

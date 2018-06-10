@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Google Inc. All Rights Reserved.
+ * Copyright 2011 Google Inc. All Rights Reserved.
  * Modified Copyright 2018 Wilco van Beijnum.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,41 +15,24 @@
  * limitations under the License.
  */
 
-package com.wilco375.onetwoauthenticate.timesync;
+package com.wilco375.onetwoauthenticate.activity;
 
 import android.os.Bundle;
 
 import com.wilco375.onetwoauthenticate.R;
-import com.wilco375.onetwoauthenticate.activity.wizard.WizardPageActivity;
-
-import java.io.Serializable;
+import com.wilco375.onetwoauthenticate.testability.TestablePreferenceActivity;
 
 /**
- * Activity that displays more information about the Time Correction/Sync feature.
+ * Top-level preferences Activity.
  *
  * @author klyubin@google.com (Alex Klyubin)
  */
-public class AboutActivity extends WizardPageActivity<Serializable> {
+public class SettingsActivity extends TestablePreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setPageContentView(R.layout.timesync_about);
-        setTextViewHtmlFromResource(R.id.details, R.string.timesync_about_feature_screen_details);
-
-        setButtonBarModeRightButtonOnly();
-        mRightButton.setImageResource(R.drawable.ic_check_white_24dp);
-    }
-
-    @Override
-    protected void onRightButtonPressed() {
-        onBackPressed();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        addPreferencesFromResource(R.xml.preferences);
     }
 }

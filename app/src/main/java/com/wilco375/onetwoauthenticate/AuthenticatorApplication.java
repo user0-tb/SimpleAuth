@@ -20,6 +20,7 @@ package com.wilco375.onetwoauthenticate;
 import android.app.Application;
 
 import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
+import com.wilco375.onetwoauthenticate.util.FileUtilities;
 
 /**
  * Authenticator application which is one of the first things instantiated when our process starts.

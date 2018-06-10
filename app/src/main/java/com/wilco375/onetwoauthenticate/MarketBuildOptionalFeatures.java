@@ -23,6 +23,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
+import com.wilco375.onetwoauthenticate.activity.AddOtherAccountActivity;
+import com.wilco375.onetwoauthenticate.activity.AuthenticatorActivity;
+import com.wilco375.onetwoauthenticate.database.AccountDb;
+import com.wilco375.onetwoauthenticate.otp.OtpProvider;
+import com.wilco375.onetwoauthenticate.otp.OtpSource;
+import com.wilco375.onetwoauthenticate.otp.OtpSourceException;
+import com.wilco375.onetwoauthenticate.otp.totp.TotpClock;
+
 /**
  * {@link OptionalFeatures} implementation used in Market builds.
  *
