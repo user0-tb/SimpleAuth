@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,7 +36,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
-import android.text.ClipboardManager;
+import android.content.ClipboardManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -266,10 +267,17 @@ public class AuthenticatorActivity extends TestableActivity {
         mUserList.setVisibility(View.GONE);
         mUserList.setAdapter(mUserAdapter);
         mUserList.setOnItemClickListener((unusedParent, row, unusedPosition, unusedId) -> {
-            NextOtpButtonListener clickListener = (NextOtpButtonListener) row.getTag();
+            /*NextOtpButtonListener clickListener = (NextOtpButtonListener) row.getTag();
             View nextOtp = row.findViewById(R.id.next_otp);
             if ((clickListener != null) && nextOtp.isEnabled()) {
                 clickListener.onClick(row);
+            } else {
+
+            }*/
+            TextView pinTextView = row.findViewById(R.id.pin_value);
+            String pin = pinTextView.getText().toString();
+            if (!pin.equals(getString(R.string.empty_pin))) {
+                copyPinToClipboard(pin);
             }
             mUserList.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
         });
@@ -680,6 +688,14 @@ public class AuthenticatorActivity extends TestableActivity {
         menu.add(0, REMOVE_ID, 0, R.string.context_menu_remove_account);
     }
 
+    private void copyPinToClipboard(String pin) {
+        ClipboardManager clipboard =
+                (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText(getString(R.string.app_name), pin);
+        clipboard.setPrimaryClip(clipData);
+        Toast.makeText(this, R.string.pin_copied, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
@@ -687,9 +703,7 @@ public class AuthenticatorActivity extends TestableActivity {
         final String user = idToEmail(info.id); // final so listener can see value
         switch (item.getItemId()) {
             case COPY_TO_CLIPBOARD_ID:
-                ClipboardManager clipboard =
-                        (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                clipboard.setText(mUsers[(int) info.id].pin);
+                copyPinToClipboard(mUsers[(int) info.id].pin);
                 return true;
             case CHECK_KEY_VALUE_ID:
                 intent = new Intent(Intent.ACTION_VIEW);
