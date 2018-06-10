@@ -27,7 +27,6 @@ with user_row_legacy.xml -->
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
         android:id="@+id/icon"
-        android:background="#ff0000"
         android:layout_marginStart="20dp" />
 
     <com.wilco375.onetwoauthenticate.UserRowView
