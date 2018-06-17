@@ -7,8 +7,8 @@ public class EncryptionUtilitiesTest extends TestCase {
         String source = "Hello world!";
         String key = "1-2-Authenticate";
 
-        String encrypted = EncryptionUtilities.encrypt(source, key);
-        assertFalse(source.equals(encrypted));
+        byte[] encrypted = EncryptionUtilities.encrypt(source, key);
+        assertFalse(new String(encrypted).equals(source));
 
         String decrypted = EncryptionUtilities.decrypt(encrypted, key);
         assertEquals(source, decrypted);

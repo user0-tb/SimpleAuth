@@ -1,7 +1,7 @@
 package com.wilco375.onetwoauthenticate.util;
 
 import java.security.GeneralSecurityException;
-import android.util.Base64;
+import java.security.MessageDigest;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -10,33 +10,36 @@ public class EncryptionUtilities {
     private EncryptionUtilities() {
     }
 
-    public static String encrypt(String toEncrypt, String encryptWith) {
+    public static byte[] encrypt(String toEncrypt, String encryptWith) {
         try {
-            SecretKeySpec secret = new SecretKeySpec(encryptWith.getBytes(), "AES");
+            SecretKeySpec secret = new SecretKeySpec(getKeyForPassword(encryptWith), "AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secret);
 
-            byte[] output = cipher.doFinal(toEncrypt.getBytes());
-
-            return Base64.encodeToString(output, Base64.DEFAULT);
+            return cipher.doFinal(toEncrypt.getBytes());
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
-            return toEncrypt;
+            return toEncrypt.getBytes();
         }
     }
 
-    public static String decrypt(String toDecrypt, String decryptWith) {
+    public static String decrypt(byte[] toDecrypt, String decryptWith) {
         try {
-            SecretKeySpec secret = new SecretKeySpec(decryptWith.getBytes(), "AES");
+            SecretKeySpec secret = new SecretKeySpec(getKeyForPassword(decryptWith), "AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, secret);
 
-            byte[] output = cipher.doFinal(Base64.decode(toDecrypt, Base64.DEFAULT));
+            byte[] output = cipher.doFinal(toDecrypt);
 
             return new String(output);
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
-            return toDecrypt;
+            return new String(toDecrypt);
         }
+    }
+
+    private static byte[] getKeyForPassword(String password) throws GeneralSecurityException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        return digest.digest(password.getBytes());
     }
 }

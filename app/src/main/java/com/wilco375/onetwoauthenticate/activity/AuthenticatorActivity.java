@@ -60,6 +60,7 @@ import android.widget.Toast;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.wilco375.onetwoauthenticate.database.AccountDb;
 import com.wilco375.onetwoauthenticate.database.AccountDb.OtpType;
+import com.wilco375.onetwoauthenticate.util.EncryptionUtilities;
 import com.wilco375.onetwoauthenticate.view.CountdownIndicator;
 import com.wilco375.onetwoauthenticate.util.FileUtilities;
 import com.wilco375.onetwoauthenticate.otp.OtpSource;
@@ -76,13 +77,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -918,7 +923,7 @@ public class AuthenticatorActivity extends TestableActivity {
         File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         List<String> exports = new ArrayList<>();
         for (String fileName : directory.list()) {
-            if (fileName.endsWith(".json")) {
+            if (fileName.endsWith(".json") || fileName.endsWith(".json.aes")) {
                 exports.add(fileName);
             }
         }
@@ -926,60 +931,85 @@ public class AuthenticatorActivity extends TestableActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.import_choose);
         builder.setItems(exports.toArray(new String[0]), (dialogInterface, index) -> {
-            dialogInterface.dismiss();
+            AlertDialog.Builder passwordDialogBuilder = new AlertDialog.Builder(this);
+            passwordDialogBuilder.setTitle(R.string.enter_password);
+            EditText passwordEditText = new EditText(this);
+            passwordDialogBuilder.setView(passwordEditText);
+            passwordDialogBuilder.setPositiveButton(android.R.string.ok, (passwordDialogInterface, passwordButtonIndex) -> {
+                File file = new File(directory, exports.get(index));
+                try (FileInputStream is = new FileInputStream(file)) {
+                    int size = (int) file.length();
+                    byte bytes[] = new byte[size];
+                    byte buffer[] = new byte[size];
+                    int read = is.read(bytes, 0, size);
+                    if (read < size) {
+                        int remain = size - read;
+                        while (remain > 0) {
+                            read = is.read(buffer, 0, remain);
+                            System.arraycopy(buffer, 0, bytes, size - remain, read);
+                            remain -= read;
+                        }
+                    }
 
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(new File(directory, exports.get(index))));
-                String jsonString = reader.readLine();
-                JSONArray json = new JSONArray(jsonString);
+                    String jsonString = EncryptionUtilities.decrypt(bytes, passwordEditText.getText().toString());
+                    JSONArray json = new JSONArray(jsonString);
 
-                for (int i = 0; i < json.length(); i++) {
-                    JSONObject item = json.getJSONObject(i);
+                    for (int i = 0; i < json.length(); i++) {
+                        JSONObject item = json.getJSONObject(i);
 
-                    System.out.println(item);
-                    System.out.println(item.getString("email"));
-
-                    saveSecretAndRefreshUserList(
-                            item.getString("email"),
-                            item.getString("secret"),
-                            item.getString("email"),
-                            OtpType.valueOf(item.getString("type")),
-                            item.getInt("counter")
-                    );
+                        saveSecretAndRefreshUserList(
+                                item.getString("email"),
+                                item.getString("secret"),
+                                item.getString("email"),
+                                OtpType.valueOf(item.getString("type")),
+                                item.getInt("counter")
+                        );
+                    }
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, R.string.import_failed, Toast.LENGTH_LONG).show();
                 }
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
+            });
+            passwordDialogBuilder.setNegativeButton(android.R.string.cancel, null);
+            passwordDialogBuilder.show();
         });
         builder.show();
     }
 
     private void exportEntries() {
-        List<String> usernames = new ArrayList<>();
-        mAccountDb.getNames(usernames);
-        try {
-            JSONArray json = new JSONArray();
-            for (String username : usernames) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("email", username);
-                jsonObject.put("secret", mAccountDb.getSecret(username));
-                jsonObject.put("counter", mAccountDb.getCounter(username));
-                jsonObject.put("type", mAccountDb.getType(username).toString());
-                jsonObject.put("color", mAccountDb.getColor(username));
-                json.put(jsonObject);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.enter_password);
+        EditText passwordEditText = new EditText(this);
+        builder.setView(passwordEditText);
+        builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+            List<String> usernames = new ArrayList<>();
+            mAccountDb.getNames(usernames);
+            try {
+                JSONArray json = new JSONArray();
+                for (String username : usernames) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("email", username);
+                    jsonObject.put("secret", mAccountDb.getSecret(username));
+                    jsonObject.put("counter", mAccountDb.getCounter(username));
+                    jsonObject.put("type", mAccountDb.getType(username).toString());
+                    jsonObject.put("color", mAccountDb.getColor(username));
+                    json.put(jsonObject);
+                }
+                String jsonString = json.toString();
+
+                File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                File file = new File(directory, "1-2-authenticate-export-" + System.currentTimeMillis() + ".json.aes");
+                OutputStream os = new FileOutputStream(file);
+                os.write(EncryptionUtilities.encrypt(jsonString, passwordEditText.getText().toString()));
+                os.close();
+
+                Toast.makeText(this, String.format(getString(R.string.exported_to), file.toString()), Toast.LENGTH_LONG).show();
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
             }
-            String jsonString = json.toString();
-
-            File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File file = new File(directory, "1-2-authenticate-export-" + System.currentTimeMillis() + ".json");
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file));
-            writer.append(jsonString);
-            writer.close();
-
-            Toast.makeText(this, R.string.exported_to, Toast.LENGTH_LONG).show();
-        } catch (JSONException | IOException e) {
-            e.printStackTrace();
-        }
+        });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.show();
     }
 
     /**
