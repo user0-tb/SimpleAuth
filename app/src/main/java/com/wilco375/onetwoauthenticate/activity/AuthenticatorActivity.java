@@ -919,6 +919,10 @@ public class AuthenticatorActivity extends TestableActivity {
         startActivity(intent);
     }
 
+    /**
+     * Shows a dialog with a list of exports and imports the selected one.
+     * If it is encrypted, asks for a password.
+     */
     private void importEntries() {
         File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         List<String> exports = new ArrayList<>();
@@ -931,51 +935,71 @@ public class AuthenticatorActivity extends TestableActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.import_choose);
         builder.setItems(exports.toArray(new String[0]), (dialogInterface, index) -> {
-            AlertDialog.Builder passwordDialogBuilder = new AlertDialog.Builder(this);
-            passwordDialogBuilder.setTitle(R.string.enter_password);
-            EditText passwordEditText = new EditText(this);
-            passwordDialogBuilder.setView(passwordEditText);
-            passwordDialogBuilder.setPositiveButton(android.R.string.ok, (passwordDialogInterface, passwordButtonIndex) -> {
-                File file = new File(directory, exports.get(index));
-                try (FileInputStream is = new FileInputStream(file)) {
-                    int size = (int) file.length();
-                    byte bytes[] = new byte[size];
-                    byte buffer[] = new byte[size];
-                    int read = is.read(bytes, 0, size);
-                    if (read < size) {
-                        int remain = size - read;
-                        while (remain > 0) {
-                            read = is.read(buffer, 0, remain);
-                            System.arraycopy(buffer, 0, bytes, size - remain, read);
-                            remain -= read;
-                        }
-                    }
+            File file = new File(directory, exports.get(index));
 
-                    String jsonString = EncryptionUtilities.decrypt(bytes, passwordEditText.getText().toString());
-                    JSONArray json = new JSONArray(jsonString);
-
-                    for (int i = 0; i < json.length(); i++) {
-                        JSONObject item = json.getJSONObject(i);
-
-                        saveSecretAndRefreshUserList(
-                                item.getString("email"),
-                                item.getString("secret"),
-                                item.getString("email"),
-                                OtpType.valueOf(item.getString("type")),
-                                item.getInt("counter")
-                        );
-                    }
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, R.string.import_failed, Toast.LENGTH_LONG).show();
-                }
-            });
-            passwordDialogBuilder.setNegativeButton(android.R.string.cancel, null);
-            passwordDialogBuilder.show();
+            if(file.getName().endsWith(".aes")) {
+                // File is encrypted, ask for password and try to decrypt it
+                AlertDialog.Builder passwordDialogBuilder = new AlertDialog.Builder(this);
+                passwordDialogBuilder.setTitle(R.string.enter_password);
+                EditText passwordEditText = new EditText(this);
+                passwordDialogBuilder.setView(passwordEditText);
+                passwordDialogBuilder.setPositiveButton(android.R.string.ok, (passwordDialogInterface, passwordButtonIndex) -> {
+                    importEntriesFile(file, passwordEditText.getText().toString());
+                });
+                passwordDialogBuilder.setNegativeButton(android.R.string.cancel, null);
+                passwordDialogBuilder.show();
+            } else {
+                // File should not be encrypted
+                importEntriesFile(file, "");
+            }
         });
         builder.show();
     }
 
+    /**
+     * Import a specific file.
+     * @param file file to import
+     * @param password password to decrypt the file with, or empty string if it is not encrypted
+     */
+    private void importEntriesFile(File file, String password) {
+        try (FileInputStream is = new FileInputStream(file)) {
+            int size = (int) file.length();
+            byte bytes[] = new byte[size];
+            byte buffer[] = new byte[size];
+            int read = is.read(bytes, 0, size);
+            if (read < size) {
+                int remain = size - read;
+                while (remain > 0) {
+                    read = is.read(buffer, 0, remain);
+                    System.arraycopy(buffer, 0, bytes, size - remain, read);
+                    remain -= read;
+                }
+            }
+
+            String jsonString = EncryptionUtilities.decrypt(bytes, password);
+            JSONArray json = new JSONArray(jsonString);
+
+            for (int i = 0; i < json.length(); i++) {
+                JSONObject item = json.getJSONObject(i);
+
+                saveSecretAndRefreshUserList(
+                        item.getString("email"),
+                        item.getString("secret"),
+                        item.getString("email"),
+                        OtpType.valueOf(item.getString("type")),
+                        item.getInt("counter")
+                );
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(this, R.string.import_failed, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Export all the entries. Shows a dialog with the option to enter a password.
+     * Will encrypt the export if a password is entered or otherwise store it as plain JSON text.
+     */
     private void exportEntries() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.enter_password);
@@ -997,10 +1021,12 @@ public class AuthenticatorActivity extends TestableActivity {
                 }
                 String jsonString = json.toString();
 
+                String password = passwordEditText.getText().toString();
                 File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                File file = new File(directory, "1-2-authenticate-export-" + System.currentTimeMillis() + ".json.aes");
+                String extension = password.equals("") ? ".json" : ".json.aes";
+                File file = new File(directory, "1-2-authenticate-export-" + System.currentTimeMillis() + extension);
                 OutputStream os = new FileOutputStream(file);
-                os.write(EncryptionUtilities.encrypt(jsonString, passwordEditText.getText().toString()));
+                os.write(EncryptionUtilities.encrypt(jsonString, password));
                 os.close();
 
                 Toast.makeText(this, String.format(getString(R.string.exported_to), file.toString()), Toast.LENGTH_LONG).show();
