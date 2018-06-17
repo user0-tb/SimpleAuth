@@ -39,6 +39,8 @@ public class EncryptionUtilities {
     }
 
     private static byte[] getKeyForPassword(String password) throws GeneralSecurityException {
+        if (password.length() == 0) throw new GeneralSecurityException("Password is empty");
+
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         return digest.digest(password.getBytes());
     }
