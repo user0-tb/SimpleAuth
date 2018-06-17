@@ -52,8 +52,10 @@
     <string name="settings_menu_item">Settings</string>
     <string name="import_menu_item">Import</string>
     <string name="export_menu_item">Export</string>
-    <string name="exported_to">Exported to</string>
+    <string name="exported_to">Exported to %s</string>
     <string name="import_choose">Choose file to import</string>
+    <string name="enter_password">Enter password</string>
+    <string name="import_failed">Import failed. Did you enter the right password?</string>
 
     <!-- Button on the Add Other Account screen that lets the user add an account by manually entering
          account details. -->
