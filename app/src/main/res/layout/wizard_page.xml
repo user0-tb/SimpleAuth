@@ -77,7 +77,6 @@
                 android:layout_marginBottom="15sp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                style="?attr/directionalButtonRightStyle"
                 app:backgroundTint="@color/theme_color"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="10sp" />

@@ -135,49 +135,11 @@ public class AccountDb {
             try {
                 return context.openOrCreateDatabase(PATH, Context.MODE_PRIVATE, null);
             } catch (SQLiteException e) {
-                if (count < 2) {
-                    continue;
-                } else {
-                    throw new AccountDbOpenException("Failed to open AccountDb database in three tries.\n"
-                            + getAccountDbOpenFailedErrorString(context), e);
+                if (count >= 2) {
+                    throw new AccountDbOpenException("Failed to open AccountDb database in three tries.\n", e);
                 }
             }
         }
-    }
-
-    private String getAccountDbOpenFailedErrorString(Context context) {
-        String dataPackageDir = context.getApplicationInfo().dataDir;
-        String databaseDirPathname = context.getDatabasePath(PATH).getParent();
-        String databasePathname = context.getDatabasePath(PATH).getAbsolutePath();
-        String[] dirsToStat = new String[]{dataPackageDir, databaseDirPathname, databasePathname};
-        StringBuilder error = new StringBuilder();
-        int myUid = Process.myUid();
-        for (String directory : dirsToStat) {
-            try {
-                FileUtilities.StatStruct stat = FileUtilities.getStat(directory);
-                String ownerUidName = null;
-                try {
-                    if (stat.uid == 0) {
-                        ownerUidName = "root";
-                    } else {
-                        PackageManager packageManager = context.getPackageManager();
-                        ownerUidName = (packageManager != null) ? packageManager.getNameForUid(stat.uid) : null;
-                    }
-                } catch (Exception e) {
-                    ownerUidName = e.toString();
-                }
-                error.append(directory + " directory stat (my UID: " + myUid);
-                if (ownerUidName == null) {
-                    error.append("): ");
-                } else {
-                    error.append(", dir owner UID name: " + ownerUidName + "): ");
-                }
-                error.append(stat.toString() + "\n");
-            } catch (IOException e) {
-                error.append(directory + " directory stat threw an exception: " + e + "\n");
-            }
-        }
-        return error.toString();
     }
 
     /**

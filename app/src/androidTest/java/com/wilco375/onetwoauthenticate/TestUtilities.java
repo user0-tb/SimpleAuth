@@ -111,20 +111,6 @@ public class TestUtilities {
         return editText.getText().toString();
     }
 
-    /*
-     * Sends a string to a EditText box.
-     *
-     * @return the resulting string read from the editText - this should equal text.
-     */
-    public static String enterText(
-            Instrumentation instr, final EditText editText, final String text) {
-        instr.runOnMainSync(editText::requestFocus);
-        // TODO(sarvar): decide on using touch mode and how to do it consistently. e.g.,
-        //               the above could be replaced by "TouchUtils.tapView(this, editText);"
-        instr.sendStringSync(text);
-        return editText.getText().toString();
-    }
-
     /**
      * Taps the specified preference displayed by the provided Activity.
      */
@@ -340,29 +326,6 @@ public class TestUtilities {
             throw new RuntimeException("Failed to open context menu and select a menu item", e);
         }
         instrumentation.waitForIdleSync();
-    }
-
-    /**
-     * Asserts that the provided {@link Activity} displayed a dialog with the provided ID at some
-     * point in the past. Note that this does not necessarily mean that the dialog is still being
-     * displayed.
-     * <p>
-     * <p>
-     * <b>Note:</b> this method resets the "was displayed" state of the dialog. This means that a
-     * consecutive invocation of this method for the same dialog ID will fail unless the dialog
-     * was displayed again prior to the invocation of this method.
-     */
-    public static void assertDialogWasDisplayed(Activity activity, int dialogId) {
-        // IMPLEMENTATION NOTE: This code below relies on the fact that, if a dialog with the ID was
-        // every displayed, then dismissDialog will succeed, whereas if the dialog with the ID has
-        // never been shown, then dismissDialog throws an IllegalArgumentException.
-        try {
-            activity.dismissDialog(dialogId);
-            // Reset the "was displayed" state
-            activity.removeDialog(dialogId);
-        } catch (IllegalArgumentException e) {
-            Assert.fail("No dialog with ID " + dialogId + " was ever displayed");
-        }
     }
 
     /**

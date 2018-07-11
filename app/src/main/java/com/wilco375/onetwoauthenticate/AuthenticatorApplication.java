@@ -18,6 +18,9 @@
 package com.wilco375.onetwoauthenticate;
 
 import android.app.Application;
+import android.os.Build;
+import android.system.ErrnoException;
+import android.system.Os;
 
 import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
 import com.wilco375.onetwoauthenticate.util.FileUtilities;
@@ -43,11 +46,14 @@ public class AuthenticatorApplication extends Application {
         // security vulnerability where SQLite database transaction journals are world-readable.
         // NOTE: This also prevents all files in the data dir from being world-accessible, which is fine
         // because this application does not need world-accessible files.
-        try {
-            FileUtilities.restrictAccessToOwnerOnly(
-                    getApplicationContext().getApplicationInfo().dataDir);
-        } catch (Throwable e) {
-            // Ignore this exception and don't log anything to avoid attracting attention to this fix
+        if (Build.VERSION.SDK_INT >= 24) {
+            try {
+                String path = getApplicationContext().getApplicationInfo().dataDir;
+                Os.chmod(path, 0700);
+                Os.chown(path, getApplicationContext().getApplicationInfo().uid, -1);
+            } catch (ErrnoException e) {
+                e.printStackTrace();
+            }
         }
 
         // During test runs the injector may have been configured already. Thus we take care to avoid

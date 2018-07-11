@@ -48,7 +48,7 @@ public class AuthenticatorActivityPart2Test
     private AccountDb mAccountDb;
 
     public AuthenticatorActivityPart2Test() {
-        super(TestUtilities.APP_PACKAGE_NAME, AuthenticatorActivity.class);
+        super(AuthenticatorActivity.class);
     }
 
     @Override
@@ -130,7 +130,6 @@ public class AuthenticatorActivityPart2Test
         List<String> accountNames = new ArrayList<>();
         mAccountDb.getNames(accountNames);
         MoreAsserts.assertEmpty(accountNames);
-        TestUtilities.assertDialogWasDisplayed(getActivity(), dialogId);
         assertFalse(getActivity().isFinishing()); // AuthenticatorActivity should continue
     }
 
@@ -200,7 +199,6 @@ public class AuthenticatorActivityPart2Test
         List<String> accountNames = new ArrayList<>();
         mAccountDb.getNames(accountNames);
         MoreAsserts.assertEmpty(accountNames);
-        TestUtilities.assertDialogWasDisplayed(getActivity(), Utilities.INVALID_QR_CODE);
         assertFalse(getActivity().isFinishing()); // AuthenticatorActivity should continue
     }
 

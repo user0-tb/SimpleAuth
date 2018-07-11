@@ -228,8 +228,7 @@
     <string name="type_prompt">Type of key</string>
 
     <!-- NOTE: order matters here and must be the same as AccountDb.TYPE_*
-         TODO(adhintz): make order not matter by using something like enums -->
-    <!-- Different type of OTP accounts, displayed in drop-down menu when manually adding accounts.
+         Different type of OTP accounts, displayed in drop-down menu when manually adding accounts.
          Codes can be generated either based on time or based on an incrementing counter. -->
     <string-array name="type">
         <item>Time based</item>

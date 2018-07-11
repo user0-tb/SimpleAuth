@@ -18,7 +18,7 @@
 package com.wilco375.onetwoauthenticate.testability;
 
 import android.content.Context;
-import android.os.Build;
+import android.net.http.AndroidHttpClient;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.params.HttpClientParams;
@@ -68,20 +68,14 @@ final class HttpClientFactory {
      * @param context context for reusing SSL sessions.
      */
     static HttpClient createHttpClient(Context context) {
-        HttpClient client;
-        // TODO(klyubin): Remove this complicated code once the minimum target is Froyo.
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ECLAIR_MR1) {
-            try {
-                client = createHttpClientForFroyoAndHigher(context);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to create HttpClient", e);
-            }
-        } else {
-            client = createHttpClientForEclair();
-        }
+        try {
+            HttpClient client = AndroidHttpClient.newInstance(null, context);
 
-        configureHttpClient(client);
-        return client;
+            configureHttpClient(client);
+            return client;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create HttpClient", e);
+        }
     }
 
     private static void configureHttpClient(HttpClient httpClient) {
@@ -97,20 +91,6 @@ final class HttpClientFactory {
 
         // Don't handle authentication automatically
         HttpClientParams.setAuthenticating(params, false);
-    }
-
-    private static HttpClient createHttpClientForFroyoAndHigher(Context context)
-            throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException,
-            InvocationTargetException {
-        // IMPLEMENTATION NOTE: We create the instance via Reflection API to avoid raising the
-        // target SDK version to 8 because that will cause Eclipse to complain for no good reason.
-        // The code below invokes:
-        //   AndroidHttpClient.newInstance(null, getContext())
-        Class<?> androidHttpClientClass =
-                context.getClassLoader().loadClass("android.net.http.AndroidHttpClient");
-        Method newInstanceMethod =
-                androidHttpClientClass.getMethod("newInstance", String.class, Context.class);
-        return (HttpClient) newInstanceMethod.invoke(null, null, context);
     }
 
     /**

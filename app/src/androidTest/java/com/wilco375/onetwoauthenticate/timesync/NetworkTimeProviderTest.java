@@ -57,11 +57,6 @@ public class NetworkTimeProviderTest extends TestCase {
         mProvider = new NetworkTimeProvider(mMockHttpClient);
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testRequest() throws Exception {
         withHttpRequestThrowing(new IOException("arbitrary"));
         try {

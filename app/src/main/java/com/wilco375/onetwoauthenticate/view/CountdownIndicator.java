@@ -36,6 +36,7 @@ import com.wilco375.onetwoauthenticate.R;
 public class CountdownIndicator extends View {
     private final Paint mRemainingSectorPaint;
     private final Paint mBorderPaint;
+    private final RectF mDrawingRect;
 
     /**
      * Countdown phase starting with {@code 1} when a full cycle is remaining and shrinking to
@@ -58,6 +59,8 @@ public class CountdownIndicator extends View {
         mBorderPaint.setColor(color);
         mRemainingSectorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mRemainingSectorPaint.setColor(mBorderPaint.getColor());
+
+        mDrawingRect = new RectF(1, 1, getWidth() - 1, getHeight() - 1);
     }
 
     public void setColor(int color) {
@@ -71,24 +74,27 @@ public class CountdownIndicator extends View {
         float remainingSectorSweepAngle = (float) (mPhase * 360);
         float remainingSectorStartAngle = 270 - remainingSectorSweepAngle;
 
+        // Update drawing rectangle size in case the size of the view has changed
+        mDrawingRect.right = getWidth() - 1;
+        mDrawingRect.bottom = getHeight() - 1;
+
         // Draw the sector/filled arc
         // We need to leave the leftmost column and the topmost row out of the drawingRect because
         // in anti-aliased mode drawArc and drawOval use these areas for some reason.
-        RectF drawingRect = new RectF(1, 1, getWidth() - 1, getHeight() - 1);
         if (remainingSectorStartAngle < 360) {
             canvas.drawArc(
-                    drawingRect,
+                    mDrawingRect,
                     remainingSectorStartAngle,
                     remainingSectorSweepAngle,
                     true,
                     mRemainingSectorPaint);
         } else {
             // 360 degrees is equivalent to 0 degrees for drawArc, hence the drawOval below.
-            canvas.drawOval(drawingRect, mRemainingSectorPaint);
+            canvas.drawOval(mDrawingRect, mRemainingSectorPaint);
         }
 
         // Draw the outer border
-        canvas.drawOval(drawingRect, mBorderPaint);
+        canvas.drawOval(mDrawingRect, mBorderPaint);
     }
 
     /**

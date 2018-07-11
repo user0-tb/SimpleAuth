@@ -53,14 +53,11 @@ public class EnterKeyActivityTest extends ActivityInstrumentationTestCase2<Enter
     private AccountDb mAccountDb;
 
     public EnterKeyActivityTest() {
-        super(TestUtilities.APP_PACKAGE_NAME, EnterKeyActivity.class);
+        super(EnterKeyActivity.class);
     }
 
     @Override
     public void setUp() throws Exception {
-        // TODO(sarvar): sending keys require that emulators have their keyguards
-        // unlocked. We could do this with code here, this would require giving
-        // permission in the apps AndroidManifest.xml. Consider if this is needed.
         super.setUp();
 
         DependencyInjector.resetForIntegrationTesting(getInstrumentation().getTargetContext());
@@ -177,7 +174,6 @@ public class EnterKeyActivityTest extends ActivityInstrumentationTestCase2<Enter
         assertEquals(mActivity.getString(R.string.enter_key_too_short), mKeyEntryField.getError());
     }
 
-    // TODO(sarvar): Consider not allowing acceptance of such bad account names.
     public void testSubmitWithEmptyAccountName() {
         assertEquals("7777777777777777",
                 TestUtilities.setText(mInstr, mKeyEntryField, "7777777777777777"));
@@ -193,7 +189,6 @@ public class EnterKeyActivityTest extends ActivityInstrumentationTestCase2<Enter
         assertEquals("7777777777777777", mAccountDb.getSecret(""));
     }
 
-    // TODO(sarvar): Consider not allowing acceptance of such bad account names.
     public void testSubmitWithWierdAccountName() {
         assertEquals("7777777777777777",
                 TestUtilities.setText(mInstr, mKeyEntryField, "7777777777777777"));

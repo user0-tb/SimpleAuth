@@ -39,7 +39,7 @@ import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
 public class CheckCodeActivityTest extends ActivityInstrumentationTestCase2<CheckCodeActivity> {
 
     public CheckCodeActivityTest() {
-        super(TestUtilities.APP_PACKAGE_NAME, CheckCodeActivity.class);
+        super(CheckCodeActivity.class);
     }
 
     @Override

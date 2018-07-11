@@ -35,7 +35,7 @@ public class SettingsAboutActivityTest
         extends ActivityInstrumentationTestCase2<SettingsAboutActivity> {
 
     public SettingsAboutActivityTest() {
-        super(TestUtilities.APP_PACKAGE_NAME, SettingsAboutActivity.class);
+        super(SettingsAboutActivity.class);
     }
 
     @Override

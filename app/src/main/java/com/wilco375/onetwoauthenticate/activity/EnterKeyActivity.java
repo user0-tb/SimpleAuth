@@ -102,11 +102,8 @@ public class EnterKeyActivity extends WizardPageActivity<Serializable> implement
 
     @Override
     protected void onRightButtonPressed() {
-        // TODO(cemp): This depends on the OtpType enumeration to correspond
-        // to array indices for the dropdown with different OTP modes.
-        OtpType mode = mType.getSelectedItemPosition() == OtpType.TOTP.value ?
-                OtpType.TOTP :
-                OtpType.HOTP;
+        OtpType mode = mType.getSelectedItemPosition() ==
+                OtpType.TOTP.value ? OtpType.TOTP : OtpType.HOTP;
         if (validateKeyAndUpdateStatus(true)) {
             AuthenticatorActivity.saveSecret(this,
                     mAccountName.getText().toString(),

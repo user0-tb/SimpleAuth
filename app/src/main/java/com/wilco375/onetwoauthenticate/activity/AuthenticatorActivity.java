@@ -17,6 +17,7 @@
 
 package com.wilco375.onetwoauthenticate.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -26,6 +27,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -37,6 +39,9 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.content.ClipboardManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -131,6 +136,9 @@ public class AuthenticatorActivity extends TestableActivity {
     // @VisibleForTesting
     static final int DIALOG_ID_SAVE_KEY = 13;
 
+    static final int PERMISSION_WRITE_STORAGE_IMPORT = 1;
+    static final int PERMISSION_WRITE_STORAGE_EXPORT = 2;
+
     /**
      * Intent action to that tells this Activity to initiate the scanning of barcode to add an
      * account.
@@ -182,7 +190,7 @@ public class AuthenticatorActivity extends TestableActivity {
      * <p>
      * <p>
      * Note: this field is persisted in the instance state {@link Bundle}. We need to resolve to this
-     * error-prone mechanism because showDialog on Eclair doesn't take parameters. Once Froyo is
+     * error-prone mechanism because createDialog on Eclair doesn't take parameters. Once Froyo is
      * the minimum targetted SDK, this contrived code can be removed.
      */
     private Intent mOldAppUninstallIntent;
@@ -198,7 +206,7 @@ public class AuthenticatorActivity extends TestableActivity {
      * <p>
      * <p>
      * Note: this field is persisted in the instance state {@link Bundle}. We need to resolve to this
-     * error-prone mechanism because showDialog on Eclair doesn't take parameters. Once Froyo is
+     * error-prone mechanism because createDialog on Eclair doesn't take parameters. Once Froyo is
      * the minimum targetted SDK, this contrived code can be removed.
      */
     private SaveKeyDialogParams mSaveKeyDialogParams;
@@ -550,7 +558,7 @@ public class AuthenticatorActivity extends TestableActivity {
 
         if (!OTP_SCHEME.equals(scheme)) {
             Log.e(getString(R.string.app_name), LOCAL_TAG + ": Invalid or missing scheme in uri");
-            showDialog(Utilities.INVALID_QR_CODE);
+            createDialog(Utilities.INVALID_QR_CODE);
             return;
         }
 
@@ -568,7 +576,7 @@ public class AuthenticatorActivity extends TestableActivity {
                         counter = Integer.parseInt(counterParameter);
                     } catch (NumberFormatException e) {
                         Log.e(getString(R.string.app_name), LOCAL_TAG + ": Invalid counter in uri");
-                        showDialog(Utilities.INVALID_QR_CODE);
+                        createDialog(Utilities.INVALID_QR_CODE);
                         return;
                     }
                 } else {
@@ -577,14 +585,14 @@ public class AuthenticatorActivity extends TestableActivity {
                 break;
             default:
                 Log.e(getString(R.string.app_name), LOCAL_TAG + ": Invalid or missing authority in uri");
-                showDialog(Utilities.INVALID_QR_CODE);
+                createDialog(Utilities.INVALID_QR_CODE);
                 return;
         }
 
         user = validateAndGetUserInPath(path);
         if (user == null) {
             Log.e(getString(R.string.app_name), LOCAL_TAG + ": Missing user id in uri");
-            showDialog(Utilities.INVALID_QR_CODE);
+            createDialog(Utilities.INVALID_QR_CODE);
             return;
         }
 
@@ -593,13 +601,13 @@ public class AuthenticatorActivity extends TestableActivity {
         if (secret == null || secret.length() == 0) {
             Log.e(getString(R.string.app_name), LOCAL_TAG +
                     ": Secret key not found in URI");
-            showDialog(Utilities.INVALID_SECRET_IN_QR_CODE);
+            createDialog(Utilities.INVALID_SECRET_IN_QR_CODE);
             return;
         }
 
         if (AccountDb.getSigningOracle(secret) == null) {
             Log.e(getString(R.string.app_name), LOCAL_TAG + ": Invalid secret key");
-            showDialog(Utilities.INVALID_SECRET_IN_QR_CODE);
+            createDialog(Utilities.INVALID_SECRET_IN_QR_CODE);
             return;
         }
 
@@ -611,7 +619,7 @@ public class AuthenticatorActivity extends TestableActivity {
 
         if (confirmBeforeSave) {
             mSaveKeyDialogParams = new SaveKeyDialogParams(user, secret, type, counter);
-            showDialog(DIALOG_ID_SAVE_KEY);
+            createDialog(DIALOG_ID_SAVE_KEY);
         } else {
             saveSecretAndRefreshUserList(user, secret, null, type, counter);
         }
@@ -664,10 +672,6 @@ public class AuthenticatorActivity extends TestableActivity {
             AccountDb accountDb = DependencyInjector.getAccountDb();
             accountDb.update(user, secret, originalUser, type, counter);
             DependencyInjector.getOptionalFeatures().onAuthenticatorActivityAccountSaved(context, user);
-            // TODO: Consider having a display message that activities can call and it
-            //       will present a toast with a uniform duration, and perhaps update
-            //       status messages (presuming we have a way to remove them after they
-            //       are stale).
             Toast.makeText(context, R.string.secret_saved, Toast.LENGTH_LONG).show();
             ((Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE))
                     .vibrate(VIBRATE_DURATION);
@@ -767,7 +771,7 @@ public class AuthenticatorActivity extends TestableActivity {
                         .setPositiveButton(R.string.submit, (dialogInterface, i) -> {
                             // Save color to DB
                             Drawable colorBackground = customizeColor.getBackground();
-                            if (colorBackground != null && colorBackground instanceof ColorDrawable) {
+                            if (colorBackground instanceof ColorDrawable) {
                                 int newColor = ((ColorDrawable) colorBackground).getColor();
                                 if (newColor != color) {
                                     mAccountDb.update(user,
@@ -781,7 +785,7 @@ public class AuthenticatorActivity extends TestableActivity {
 
                             // Save icon to storage
                             Drawable iconDrawable = customizeIcon.getDrawable();
-                            if (iconDrawable != null && iconDrawable instanceof BitmapDrawable) {
+                            if (iconDrawable instanceof BitmapDrawable) {
                                 Bitmap newIcon = ((BitmapDrawable) iconDrawable).getBitmap();
                                 if (newIcon != icon && newIcon != null) {
                                     FileUtilities.saveBitmap(getApplicationContext(), user, newIcon);
@@ -904,7 +908,7 @@ public class AuthenticatorActivity extends TestableActivity {
         try {
             startActivityForResult(intentScan, SCAN_REQUEST);
         } catch (ActivityNotFoundException error) {
-            showDialog(Utilities.DOWNLOAD_DIALOG);
+            createDialog(Utilities.DOWNLOAD_DIALOG);
         }
     }
 
@@ -924,6 +928,8 @@ public class AuthenticatorActivity extends TestableActivity {
      * If it is encrypted, asks for a password.
      */
     private void importEntries() {
+        if (!checkStoragePermission(PERMISSION_WRITE_STORAGE_IMPORT)) return;
+
         File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         List<String> exports = new ArrayList<>();
         for (String fileName : directory.list()) {
@@ -1001,6 +1007,8 @@ public class AuthenticatorActivity extends TestableActivity {
      * Will encrypt the export if a password is entered or otherwise store it as plain JSON text.
      */
     private void exportEntries() {
+        if (!checkStoragePermission(PERMISSION_WRITE_STORAGE_EXPORT)) return;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.enter_password);
         EditText passwordEditText = new EditText(this);
@@ -1039,6 +1047,39 @@ public class AuthenticatorActivity extends TestableActivity {
     }
 
     /**
+     * Check if the app has permissions to read and write from/to the external storage
+     *
+     * @param request request id to use if the app does not have permission yet
+     * @return false if the permission is not granted yet, true otherwise
+     */
+    private boolean checkStoragePermission(int request) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, request);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Called when the user has accepted or denied a requested permission
+     *
+     * @param requestCode  request code used with the permission request
+     * @param permissions  permissions that were requested
+     * @param grantResults if the permissions were granted or not
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == PERMISSION_WRITE_STORAGE_EXPORT) {
+                exportEntries();
+            } else if (requestCode == PERMISSION_WRITE_STORAGE_IMPORT) {
+                importEntries();
+            }
+        }
+    }
+
+    /**
      * Interprets the QR code that was scanned by the user.  Decides whether to
      * launch the key provisioning sequence or the OTP seed setting sequence.
      *
@@ -1070,7 +1111,7 @@ public class AuthenticatorActivity extends TestableActivity {
 
         // Sanity check
         if (scanResult == null) {
-            showDialog(Utilities.INVALID_QR_CODE);
+            createDialog(Utilities.INVALID_QR_CODE);
             return;
         }
 
@@ -1078,19 +1119,18 @@ public class AuthenticatorActivity extends TestableActivity {
         if (OTP_SCHEME.equals(scanResult.getScheme()) && scanResult.getAuthority() != null) {
             parseSecret(scanResult, confirmBeforeSave);
         } else {
-            showDialog(Utilities.INVALID_QR_CODE);
+            createDialog(Utilities.INVALID_QR_CODE);
         }
     }
 
     /**
-     * This method is deprecated in SDK level 8, but we have to use it because the
-     * new method, which replaces this one, does not exist before SDK level 8
+     * Creates and shows the specified dialog
+     * @param id id of the dialog
      */
-    @Override
-    protected Dialog onCreateDialog(final int id) {
-        Dialog dialog = null;
+    protected void createDialog(final int id) {
+        Dialog dialog;
         switch (id) {
-            /**
+            /*
              * Prompt to download ZXing from Market. If Market app is not installed,
              * such as on a development phone, open the HTTPS URI for the ZXing apk.
              */
@@ -1131,12 +1171,7 @@ public class AuthenticatorActivity extends TestableActivity {
                                         saveKeyDialogParams.counter))
                         .setNegativeButton(R.string.cancel, null)
                         .create();
-                // Ensure that whenever this dialog is to be displayed via showDialog, it displays the
-                // correct (latest) user/account name. If this dialog is not explicitly removed after it's
-                // been dismissed, then next time showDialog is invoked, onCreateDialog will not be invoked
-                // and the dialog will display the previous user/account name instead of the current one.
                 dialog.setOnDismissListener(dialog12 -> {
-                    removeDialog(id);
                     onSaveKeyIntentConfirmationPromptDismissed();
                 });
                 break;
@@ -1171,12 +1206,9 @@ public class AuthenticatorActivity extends TestableActivity {
             default:
                 dialog =
                         DependencyInjector.getOptionalFeatures().onAuthenticatorActivityCreateDialog(this, id);
-                if (dialog == null) {
-                    dialog = super.onCreateDialog(id);
-                }
                 break;
         }
-        return dialog;
+        dialog.show();
     }
 
     private void markDialogAsResultOfSaveKeyIntent(Dialog dialog) {

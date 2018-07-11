@@ -67,11 +67,6 @@ public class SyncNowControllerTest extends TestCase {
         withImmediateExecutors();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testAdjustmentMade() throws Exception {
         withTotpClockTimeCorrectionMinutes(7);
         withNetworkTimeProviderReturningMillis(

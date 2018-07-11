@@ -23,7 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
-import android.text.ClipboardManager;
+import android.content.ClipboardManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -60,7 +60,7 @@ public class AuthenticatorActivityTest extends
     private AccountDb mAccountDb;
 
     public AuthenticatorActivityTest() {
-        super(TestUtilities.APP_PACKAGE_NAME, AuthenticatorActivity.class);
+        super(AuthenticatorActivity.class);
     }
 
     @Override
@@ -275,7 +275,7 @@ public class AuthenticatorActivityTest extends
         Context context = getInstrumentation().getTargetContext();
         ClipboardManager clipboard =
                 (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        assertEquals(pin, clipboard.getText());
+        assertEquals(pin, clipboard.getPrimaryClip().getItemAt(0).getText().toString());
     }
 
     ///////////////////////////   Options Menu Tests  /////////////////////////////
@@ -308,8 +308,5 @@ public class AuthenticatorActivityTest extends
 
         setActivityIntent(new Intent(AuthenticatorActivity.ACTION_SCAN_BARCODE));
         getActivity();
-
-        TestUtilities.assertDialogWasDisplayed(
-                getActivity(), Utilities.DOWNLOAD_DIALOG);
     }
 }
