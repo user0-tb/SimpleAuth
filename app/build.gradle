@@ -9,7 +9,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 22
-        versionName "3.0-beta"
+        versionName "3.0.1-beta"
     }
 
     lintOptions{
