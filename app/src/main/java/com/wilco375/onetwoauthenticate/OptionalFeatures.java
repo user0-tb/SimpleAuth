@@ -67,11 +67,6 @@ public interface OptionalFeatures {
     Dialog onAuthenticatorActivityCreateDialog(AuthenticatorActivity activity, int id);
 
     /**
-     * Invoked when {@link AuthenticatorActivity} was asked to initiate the Add Account flow.
-     */
-    void onAuthenticatorActivityAddAccount(AuthenticatorActivity activity);
-
-    /**
      * Invoked when a URI has been scanned.
      *
      * @return {@code true} if the URI has been consumed by these optional features, {@code false}

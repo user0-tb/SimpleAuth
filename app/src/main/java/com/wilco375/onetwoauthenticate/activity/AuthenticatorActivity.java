@@ -285,8 +285,6 @@ public class AuthenticatorActivity extends TestableActivity {
         mContentNoAccounts.setVisibility((mUsers.size() > 0) ? View.GONE : View.VISIBLE);
         mContentAccountsPresent.setVisibility((mUsers.size() > 0) ? View.VISIBLE : View.GONE);
 
-        findViewById(R.id.add_account_button).setOnClickListener(v -> addAccount());
-
         mUserAdapter = new PinListAdapter(this, R.layout.user_row, mUsers);
 
         mUserList.setVisibility(View.GONE);
@@ -324,7 +322,8 @@ public class AuthenticatorActivity extends TestableActivity {
             }
         });
 
-        findViewById(R.id.add_account_fab).setOnClickListener(view -> addAccount());
+        findViewById(R.id.add_account_manual).setOnClickListener(view -> manuallyEnterAccountDetails());
+        findViewById(R.id.add_account_scan).setOnClickListener(view -> scanBarcode());
 
         if (savedInstanceState == null) {
             // This is the first time this Activity is starting (i.e., not restoring previous state which
@@ -942,8 +941,11 @@ public class AuthenticatorActivity extends TestableActivity {
         }
     }
 
-    private void addAccount() {
-        DependencyInjector.getOptionalFeatures().onAuthenticatorActivityAddAccount(this);
+
+    private void manuallyEnterAccountDetails() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setClass(this, EnterKeyActivity.class);
+        startActivity(intent);
     }
 
     private void scanBarcode() {

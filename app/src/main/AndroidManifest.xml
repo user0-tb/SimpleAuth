@@ -56,10 +56,6 @@
             android:label="@string/about_preference_screen_title" />
 
         <activity
-            android:name=".activity.AddOtherAccountActivity"
-            android:label="@string/add_account_menu_item" />
-
-        <activity
             android:name=".activity.EnterKeyActivity"
             android:label="@string/enter_key_title" />
 
