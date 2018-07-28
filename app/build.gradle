@@ -8,8 +8,8 @@ android {
         applicationId "com.wilco375.onetwoauthenticate"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 23
-        versionName "3.1.1-beta"
+        versionCode 24
+        versionName "3.2"
     }
 
     lintOptions{
@@ -34,7 +34,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
 
     implementation 'com.pes.materialcolorpicker:library:1.2.0'
-    
+
     implementation 'com.github.wilco375:SlideAndDragListView:0.7.9'
 
     androidTestImplementation 'org.mockito:mockito-core:1.9.5'
