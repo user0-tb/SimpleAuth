@@ -18,6 +18,7 @@
 package com.wilco375.onetwoauthenticate.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -46,13 +47,16 @@ import android.text.Html;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -77,6 +81,7 @@ import com.wilco375.onetwoauthenticate.otp.totp.TotpCounter;
 import com.wilco375.onetwoauthenticate.util.Utilities;
 import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
 import com.wilco375.onetwoauthenticate.testability.TestableActivity;
+import com.yydcdut.sdlv.SlideAndDragListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -149,9 +154,9 @@ public class AuthenticatorActivity extends TestableActivity {
 
     private View mContentNoAccounts;
     private View mContentAccountsPresent;
-    private ListView mUserList;
+    private SlideAndDragListView mUserList;
     private PinListAdapter mUserAdapter;
-    private PinInfo[] mUsers = {};
+    private ArrayList<PinInfo> mUsers = new ArrayList<>();
     private View mCustomizeView;
 
     /**
@@ -259,7 +264,7 @@ public class AuthenticatorActivity extends TestableActivity {
         // restore state on screen rotation
         Object savedState = getLastCustomNonConfigurationInstance();
         if (savedState != null) {
-            mUsers = (PinInfo[]) savedState;
+            mUsers = (ArrayList<PinInfo>) savedState;
             // Re-enable the Get Code buttons on all HOTP accounts, otherwise they'll stay disabled.
             for (PinInfo account : mUsers) {
                 if (account.isHotp) {
@@ -277,32 +282,46 @@ public class AuthenticatorActivity extends TestableActivity {
         mUserList = findViewById(R.id.user_list);
         mContentNoAccounts = findViewById(R.id.content_no_accounts);
         mContentAccountsPresent = findViewById(R.id.content_accounts_present);
-        mContentNoAccounts.setVisibility((mUsers.length > 0) ? View.GONE : View.VISIBLE);
-        mContentAccountsPresent.setVisibility((mUsers.length > 0) ? View.VISIBLE : View.GONE);
-        TextView noAccountsPromptDetails = findViewById(R.id.details);
-        noAccountsPromptDetails.setText(
-                Html.fromHtml(getString(R.string.welcome_page_details)));
+        mContentNoAccounts.setVisibility((mUsers.size() > 0) ? View.GONE : View.VISIBLE);
+        mContentAccountsPresent.setVisibility((mUsers.size() > 0) ? View.VISIBLE : View.GONE);
 
         findViewById(R.id.add_account_button).setOnClickListener(v -> addAccount());
 
         mUserAdapter = new PinListAdapter(this, R.layout.user_row, mUsers);
 
         mUserList.setVisibility(View.GONE);
+        mUserList.setMenu(new com.yydcdut.sdlv.Menu(false, 0));
         mUserList.setAdapter(mUserAdapter);
-        mUserList.setOnItemClickListener((unusedParent, row, unusedPosition, unusedId) -> {
-            /*NextOtpButtonListener clickListener = (NextOtpButtonListener) row.getTag();
-            View nextOtp = row.findViewById(R.id.next_otp);
-            if ((clickListener != null) && nextOtp.isEnabled()) {
-                clickListener.onClick(row);
-            } else {
+        mUserList.setDragOnLongPress(false);
+        mUserList.setOnDragDropListener(new SlideAndDragListView.OnDragDropListener() {
+            @Override
+            public void onDragViewStart(int beginPosition) {
 
-            }*/
+            }
+
+            @Override
+            public void onDragDropViewMoved(int fromPosition, int toPosition) {
+                PinInfo pinInfo = mUsers.remove(fromPosition);
+                mUsers.add(toPosition, pinInfo);
+            }
+
+            @Override
+            public void onDragViewDown(int finalPosition) {
+                String[] usernames = new String[mUsers.size()];
+                for (int i = 0; i < mUsers.size(); i++) {
+                    usernames[i] = mUsers.get(i).user;
+                }
+                // Save order to DB
+                mAccountDb.reorder(usernames);
+            }
+        });
+
+        mUserList.setOnItemClickListener((unusedParent, row, unusedPosition, unusedId) -> {
             TextView pinTextView = row.findViewById(R.id.pin_value);
             String pin = pinTextView.getText().toString();
             if (!pin.equals(getString(R.string.empty_pin))) {
                 copyPinToClipboard(pin);
             }
-            mUserList.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
         });
 
         findViewById(R.id.add_account_fab).setOnClickListener(view -> addAccount());
@@ -460,9 +479,12 @@ public class AuthenticatorActivity extends TestableActivity {
         int userCount = usernames.size();
 
         if (userCount > 0) {
-            boolean newListRequired = isAccountModified || mUsers.length != userCount;
+            boolean newListRequired = isAccountModified || mUsers.size() != userCount;
             if (newListRequired) {
-                mUsers = new PinInfo[userCount];
+                mUsers.clear();
+                for (int i = 0; i < userCount; i++) {
+                    mUsers.add(null);
+                }
             }
 
             for (int i = 0; i < userCount; ++i) {
@@ -487,15 +509,15 @@ public class AuthenticatorActivity extends TestableActivity {
                 registerForContextMenu(mUserList);
             }
         } else {
-            mUsers = new PinInfo[0]; // clear any existing user PIN state
+            mUsers.clear(); // clear any existing user PIN state
             mUserList.setVisibility(View.GONE);
         }
 
         // Display the list of accounts if there are accounts, otherwise display a
         // different layout explaining the user how this app works and providing the user with an easy
         // way to add an account.
-        mContentNoAccounts.setVisibility((mUsers.length > 0) ? View.GONE : View.VISIBLE);
-        mContentAccountsPresent.setVisibility((mUsers.length > 0) ? View.VISIBLE : View.GONE);
+        mContentNoAccounts.setVisibility((mUsers.size() > 0) ? View.GONE : View.VISIBLE);
+        mContentAccountsPresent.setVisibility((mUsers.size() > 0) ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -511,8 +533,8 @@ public class AuthenticatorActivity extends TestableActivity {
                                      boolean computeHotp) throws OtpSourceException {
 
         PinInfo currentPin;
-        if (mUsers[position] != null) {
-            currentPin = mUsers[position]; // existing PinInfo, so we'll update it
+        if (mUsers.get(position) != null) {
+            currentPin = mUsers.get(position); // existing PinInfo, so we'll update it
         } else {
             currentPin = new PinInfo();
             currentPin.pin = getString(R.string.empty_pin);
@@ -533,7 +555,7 @@ public class AuthenticatorActivity extends TestableActivity {
             currentPin.hotpCodeGenerationAllowed = true;
         }
 
-        mUsers[position] = currentPin;
+        mUsers.set(position, currentPin);
     }
 
     /**
@@ -687,7 +709,7 @@ public class AuthenticatorActivity extends TestableActivity {
      * Converts user list ordinal id to user email
      */
     private String idToEmail(long id) {
-        return mUsers[(int) id].user;
+        return mUsers.get((int) id).user;
     }
 
     @Override
@@ -722,7 +744,7 @@ public class AuthenticatorActivity extends TestableActivity {
         final String user = idToEmail(info.id); // final so listener can see value
         switch (item.getItemId()) {
             case COPY_TO_CLIPBOARD_ID:
-                copyPinToClipboard(mUsers[(int) info.id].pin);
+                copyPinToClipboard(mUsers.get((int) info.id).pin);
                 return true;
             case CHECK_KEY_VALUE_ID:
                 intent = new Intent(Intent.ACTION_VIEW);
@@ -1322,13 +1344,7 @@ public class AuthenticatorActivity extends TestableActivity {
          * @return {@code 0}-based position or {@code -1} if the account is not in the list.
          */
         private int findAccountPositionInList() {
-            for (int i = 0, len = mUsers.length; i < len; i++) {
-                if (mUsers[i] == mAccount) {
-                    return i;
-                }
-            }
-
-            return -1;
+            return mUsers.indexOf(mAccount);
         }
     }
 
@@ -1339,7 +1355,7 @@ public class AuthenticatorActivity extends TestableActivity {
      */
     private class PinListAdapter extends ArrayAdapter<PinInfo> {
 
-        public PinListAdapter(Context context, int userRowId, PinInfo[] items) {
+        public PinListAdapter(Context context, int userRowId, ArrayList<PinInfo> items) {
             super(context, userRowId, items);
         }
 
@@ -1347,6 +1363,7 @@ public class AuthenticatorActivity extends TestableActivity {
          * Displays the user and OTP for the specified position. For HOTP, displays
          * the button for generating the next OTP value; for TOTP, displays the countdown indicator.
          */
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = getLayoutInflater();
@@ -1367,6 +1384,16 @@ public class AuthenticatorActivity extends TestableActivity {
             ImageButton buttonView = row.findViewById(R.id.next_otp);
             CountdownIndicator countdownIndicator =
                     row.findViewById(R.id.countdown_icon);
+
+            View.OnTouchListener dragOnTouch = (v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mUserList.startDrag(position);
+                    return true;
+                }
+                return false;
+            };
+            countdownIndicator.setOnTouchListener(dragOnTouch);
+            iconView.setOnTouchListener(dragOnTouch);
 
             Bitmap icon = FileUtilities.getBitmap(getApplicationContext(), currentPin.user);
             if (icon != null) {
@@ -1434,4 +1461,6 @@ public class AuthenticatorActivity extends TestableActivity {
             this.counter = counter;
         }
     }
+
+
 }

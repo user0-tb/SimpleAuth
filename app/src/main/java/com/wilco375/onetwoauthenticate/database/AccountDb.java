@@ -225,6 +225,14 @@ public class AccountDb {
         return null;
     }
 
+    public void reorder(String[] emails) {
+        String query = "";
+        for (int i = 0; i < emails.length; i++) {
+            query += "UPDATE "+TABLE_NAME+" SET "+ID_COLUMN+" = "+i+" WHERE "+EMAIL_COLUMN+" = "+DatabaseUtils.sqlEscapeString(emails[i])+"; ";
+        }
+        mDatabase.execSQL(query);
+    }
+
     public static Signer getSigningOracle(String secret) {
         try {
             byte[] keyBytes = decodeKey(secret);
@@ -383,12 +391,12 @@ public class AccountDb {
     }
 
     private Cursor getNames() {
-        return mDatabase.query(TABLE_NAME, null, null, null, null, null, null, null);
+        return mDatabase.query(TABLE_NAME, null, null, null, null, null, ID_COLUMN, null);
     }
 
     private Cursor getAccount(String email) {
         return mDatabase.query(TABLE_NAME, null, EMAIL_COLUMN + "= ?",
-                new String[]{email}, null, null, null);
+                new String[]{email}, null, null, ID_COLUMN);
     }
 
     /**
