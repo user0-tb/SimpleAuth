@@ -19,20 +19,16 @@ package com.wilco375.onetwoauthenticate.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.os.Process;
 import android.util.Log;
 
+import com.wilco375.onetwoauthenticate.otp.PasscodeGenerator.Signer;
 import com.wilco375.onetwoauthenticate.util.Base32String;
 import com.wilco375.onetwoauthenticate.util.Base32String.DecodingException;
-import com.wilco375.onetwoauthenticate.otp.PasscodeGenerator.Signer;
-import com.wilco375.onetwoauthenticate.util.FileUtilities;
 
-import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -57,7 +53,7 @@ public class AccountDb {
     private static final String SECRET_COLUMN = "secret";
     private static final String COUNTER_COLUMN = "counter";
     private static final String TYPE_COLUMN = "type";
-    // @VisibleForTesting
+    private static final String ORDER_COLUMN = "sort";
     static final String PROVIDER_COLUMN = "provider";
     static final String COLOR_COLUMN = "color";
     // @VisibleForTesting
@@ -124,6 +120,12 @@ public class AccountDb {
             mDatabase.execSQL(String.format(
                     "ALTER TABLE %s ADD COLUMN %s INTEGER",
                     TABLE_NAME, COLOR_COLUMN));
+        }
+        if (!tableColumnNames.contains(ORDER_COLUMN.toLowerCase(Locale.US))) {
+            // Migrate from old schema where the ORDER_COLUMN wasn't there
+            mDatabase.execSQL(String.format(
+                    "ALTER TABLE %s ADD COLUMN %s INTEGER",
+                    TABLE_NAME, ORDER_COLUMN));
         }
     }
 
@@ -226,11 +228,13 @@ public class AccountDb {
     }
 
     public void reorder(String[] emails) {
-        String query = "";
-        for (int i = 0; i < emails.length; i++) {
-            query += "UPDATE "+TABLE_NAME+" SET "+ID_COLUMN+" = "+i+" WHERE "+EMAIL_COLUMN+" = "+DatabaseUtils.sqlEscapeString(emails[i])+"; ";
+        try {
+            for (int i = 0; i < emails.length; i++) {
+                mDatabase.execSQL("UPDATE " + TABLE_NAME + " SET " + ORDER_COLUMN + " = " + i + " WHERE " + EMAIL_COLUMN + " = " + DatabaseUtils.sqlEscapeString(emails[i]) + "; ");
+            }
+        } catch (SQLiteException e) {
+            e.printStackTrace();
         }
-        mDatabase.execSQL(query);
     }
 
     public static Signer getSigningOracle(String secret) {
@@ -391,12 +395,12 @@ public class AccountDb {
     }
 
     private Cursor getNames() {
-        return mDatabase.query(TABLE_NAME, null, null, null, null, null, ID_COLUMN, null);
+        return mDatabase.query(TABLE_NAME, null, null, null, null, null, ORDER_COLUMN, null);
     }
 
     private Cursor getAccount(String email) {
         return mDatabase.query(TABLE_NAME, null, EMAIL_COLUMN + "= ?",
-                new String[]{email}, null, null, ID_COLUMN);
+                new String[]{email}, null, null, ORDER_COLUMN);
     }
 
     /**
@@ -450,4 +454,15 @@ public class AccountDb {
         }
     }
 
+    private String cursorToString(Cursor c) {
+        String result = "";
+        while (c.moveToNext()) {
+            for (int i = 0; i < c.getColumnCount(); i++) {
+                result += c.getString(i);
+                if (i != c.getColumnCount() - 1) result += ", ";
+            }
+            result += "\n";
+        }
+        return result;
+    }
 }
