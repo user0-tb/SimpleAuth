@@ -539,7 +539,12 @@ public class AuthenticatorActivity extends TestableActivity {
             currentPin = new PinInfo();
             currentPin.pin = getString(R.string.empty_pin);
             currentPin.hotpCodeGenerationAllowed = true;
-            currentPin.color = mAccountDb.getColor(user);
+            Integer color = mAccountDb.getColor(user);
+            if (color == null)
+                currentPin.color = getResources().getColor(R.color.theme_color);
+            else
+                currentPin.color = color;
+
             Bitmap bitmap = FileUtilities.getBitmap(getApplicationContext(), user);
             if (bitmap != null) {
                 // Resize image
