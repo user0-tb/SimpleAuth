@@ -17,6 +17,7 @@
 
 package com.wilco375.onetwoauthenticate.util;
 
+import android.content.res.Resources;
 import android.webkit.WebView;
 
 /**
@@ -59,5 +60,9 @@ public class Utilities {
      */
     public static void setWebViewHtml(WebView view, String html) {
         view.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }

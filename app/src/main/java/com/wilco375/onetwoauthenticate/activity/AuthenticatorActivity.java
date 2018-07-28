@@ -539,6 +539,14 @@ public class AuthenticatorActivity extends TestableActivity {
             currentPin = new PinInfo();
             currentPin.pin = getString(R.string.empty_pin);
             currentPin.hotpCodeGenerationAllowed = true;
+            currentPin.color = mAccountDb.getColor(user);
+            Bitmap bitmap = FileUtilities.getBitmap(getApplicationContext(), user);
+            if (bitmap != null) {
+                // Resize image
+                int size = Utilities.dpToPx(70);
+                currentPin.image = Bitmap.createScaledBitmap(bitmap, size, size, false);
+                bitmap.recycle();
+            }
         }
 
         OtpType type = mAccountDb.getType(user);
@@ -790,7 +798,15 @@ public class AuthenticatorActivity extends TestableActivity {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.customize)
                         .setView(mCustomizeView)
-                        .setPositiveButton(R.string.submit, (dialogInterface, i) -> {
+                        .setPositiveButton(R.string.submit, (dialogInterface, index) -> {
+                            PinInfo pinInfoToUpdate = null;
+                            for (PinInfo pinInfo : mUsers) {
+                                if (pinInfo.user.equals(user)) {
+                                    pinInfoToUpdate = pinInfo;
+                                    break;
+                                }
+                            }
+
                             // Save color to DB
                             Drawable colorBackground = customizeColor.getBackground();
                             if (colorBackground instanceof ColorDrawable) {
@@ -802,6 +818,7 @@ public class AuthenticatorActivity extends TestableActivity {
                                             mAccountDb.getCounter(user),
                                             null,
                                             newColor);
+                                    pinInfoToUpdate.color = newColor;
                                 }
                             }
 
@@ -811,6 +828,7 @@ public class AuthenticatorActivity extends TestableActivity {
                                 Bitmap newIcon = ((BitmapDrawable) iconDrawable).getBitmap();
                                 if (newIcon != icon && newIcon != null) {
                                     FileUtilities.saveBitmap(getApplicationContext(), user, newIcon);
+                                    pinInfoToUpdate.image = newIcon;
                                 }
                             }
 
@@ -1266,6 +1284,8 @@ public class AuthenticatorActivity extends TestableActivity {
         private String pin; // calculated OTP, or a placeholder if not calculated
         private String user;
         private boolean isHotp = false; // used to see if button needs to be displayed
+        private Bitmap image;
+        private int color;
 
         /**
          * HOTP only: Whether code generation is allowed for this account.
@@ -1378,6 +1398,8 @@ public class AuthenticatorActivity extends TestableActivity {
                 row = inflater.inflate(R.layout.user_row, null);
             }
 
+            if (currentPin == null) return row;
+
             ImageView iconView = row.findViewById(R.id.icon);
             TextView pinView = row.findViewById(R.id.pin_value);
             TextView userView = row.findViewById(R.id.current_user);
@@ -1395,23 +1417,18 @@ public class AuthenticatorActivity extends TestableActivity {
             countdownIndicator.setOnTouchListener(dragOnTouch);
             iconView.setOnTouchListener(dragOnTouch);
 
-            Bitmap icon = FileUtilities.getBitmap(getApplicationContext(), currentPin.user);
-            if (icon != null) {
-                iconView.setImageBitmap(icon);
+            if (currentPin.image != null) {
+                iconView.setImageBitmap(currentPin.image);
                 iconView.setVisibility(View.VISIBLE);
             } else {
                 iconView.setVisibility(View.GONE);
             }
 
-            Integer color = mAccountDb.getColor(currentPin.user);
-            if (color == null)
-                color = getResources().getColor(R.color.theme_color);
-
             if (currentPin.isHotp) {
                 buttonView.setVisibility(View.VISIBLE);
                 buttonView.setEnabled(currentPin.hotpCodeGenerationAllowed);
                 if (buttonView.isEnabled()) {
-                    buttonView.setColorFilter(color);
+                    buttonView.setColorFilter(currentPin.color);
                 } else {
                     buttonView.clearColorFilter();
                 }
@@ -1429,7 +1446,7 @@ public class AuthenticatorActivity extends TestableActivity {
 
                 countdownIndicator.setVisibility(View.VISIBLE);
                 countdownIndicator.setPhase(mTotpCountdownPhase);
-                countdownIndicator.setColor(color);
+                countdownIndicator.setColor(currentPin.color);
             }
 
             if (getString(R.string.empty_pin).equals(currentPin.pin)) {
@@ -1439,7 +1456,7 @@ public class AuthenticatorActivity extends TestableActivity {
             }
             pinView.setText(currentPin.pin);
             userView.setText(currentPin.user);
-            userView.setTextColor(color);
+            userView.setTextColor(currentPin.color);
 
             return row;
         }
