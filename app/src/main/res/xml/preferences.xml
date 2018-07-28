@@ -31,6 +31,6 @@
         android:persistent="false">
         <intent
             android:targetPackage="@string/app_package_name"
-            android:targetClass="com.wilco375.onetwoauthenticate.SettingsAboutActivity" />
+            android:targetClass="com.wilco375.onetwoauthenticate.activity.SettingsAboutActivity" />
     </PreferenceScreen>
 </PreferenceScreen>

@@ -136,6 +136,7 @@
 
     <!-- DO NOT TRANSLATE. URL of the Open-Source project's page. -->
     <string name="opensource_page_url" translatable="false">https://github.com/wilco375/google-authenticator-android</string>
+    <string name="author_page_url" translatable="false">https://wilco375.com/</string>
 
     <!-- Preference title, used to view the terms of service from Google web page -->
 
@@ -284,4 +285,5 @@
     <!-- Subheading in the main screen of the app when there are no accounts configured (yet).  -->
     <string name="welcome_page_details">"     2-step verification protects your accounts even if your password is stolen.   "</string>
 
+    <string name="author">Author</string>
 </resources>

@@ -18,8 +18,10 @@
 package com.wilco375.onetwoauthenticate.activity;
 
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.os.Bundle;
 
+import com.wilco375.onetwoauthenticate.BuildConfig;
 import com.wilco375.onetwoauthenticate.R;
 import com.wilco375.onetwoauthenticate.testability.TestablePreferenceActivity;
 
@@ -36,11 +38,6 @@ public class SettingsAboutActivity extends TestablePreferenceActivity {
 
         addPreferencesFromResource(R.xml.preferences_about);
 
-        String packageVersion = "";
-        try {
-            packageVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (NameNotFoundException e) {
-        }
-        findPreference("version").setSummary(packageVersion);
+        findPreference("version").setSummary(BuildConfig.VERSION_NAME);
     }
 }
