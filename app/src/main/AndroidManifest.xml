@@ -21,6 +21,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+
     <!--
     NOTE: android:allowBackup is set to false below to prevent the key material from being extracted
     from the device using various backup methods (e.g., adb backup introduced in ICS).
