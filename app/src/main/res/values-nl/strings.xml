@@ -84,4 +84,5 @@
     <string name="license_fail_title">Licensie check mislukt</string>
     <string name="license_fail_desc">Applicatie licensie is ongeldig (Error code %d). Koop deze applicatie alsjeblieft in de Google Play Store. Als je denkt dat dit een error is, neem dan alsjeblieft contact met me op via support@wilco375.com</string>
     <string name="retry">Probeer opnieuw</string>
+    <string name="no_accounts">Geen items gevonden. Voeg je eerste website toe met de actieknop hieronder.</string>
 </resources>

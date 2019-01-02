@@ -16,13 +16,6 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- The package of the application flavor, for use within preferences, etc. -->
-    <string name="app_package_name" translatable="false">com.wilco375.onetwoauthenticate</string>
-
-    <!-- Name of the application -->
-
-    <!-- Shortened version of the application name -->
-
     <!-- Title displayed at the top when adding new OTP account manually -->
     <string name="enter_key_title">Manual account entry</string>
 
