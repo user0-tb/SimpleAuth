@@ -41,6 +41,7 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.content.ClipboardManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -66,9 +67,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
+import com.wilco375.onetwoauthenticate.BuildConfig;
 import com.wilco375.onetwoauthenticate.database.AccountDb;
 import com.wilco375.onetwoauthenticate.database.AccountDb.OtpType;
+import com.wilco375.onetwoauthenticate.licensing.License;
 import com.wilco375.onetwoauthenticate.util.EncryptionUtilities;
 import com.wilco375.onetwoauthenticate.view.CountdownIndicator;
 import com.wilco375.onetwoauthenticate.util.FileUtilities;
@@ -322,8 +326,47 @@ public class AuthenticatorActivity extends TestableActivity {
             }
         });
 
-        findViewById(R.id.add_account_manual).setOnClickListener(view -> manuallyEnterAccountDetails());
-        findViewById(R.id.add_account_scan).setOnClickListener(view -> scanBarcode());
+        FloatingActionMenu fam = findViewById(R.id.add_account_fab);
+        if (!BuildConfig.PRO) {
+            fam.setOnMenuButtonClickListener(view -> {
+                if (fam.isOpened()) {
+                    fam.close(true);
+                } else {
+                    if (mUsers.size() < 8) {
+                        fam.open(true);
+                    } else {
+                        Snackbar snackbar = Snackbar.make(
+                                findViewById(R.id.content),
+                                getString(R.string.buy_pro_text, 8),
+                                Snackbar.LENGTH_LONG
+                        );
+                        snackbar.setAction(R.string.buy_pro_button, button -> {
+                            try {
+                                startActivity(
+                                        new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("market://details?id=com.wilco375.onetwoauthenticatepro"))
+                                );
+                            } catch (ActivityNotFoundException e) {
+                                startActivity(
+                                        new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("https://play.google.com/store/apps/details?id=com.wilco375.onetwoauthenticatepro"))
+                                );
+                            }
+                        });
+                        snackbar.show();
+                    }
+                }
+            });
+        }
+
+        findViewById(R.id.add_account_manual).setOnClickListener(view -> {
+            fam.close(true);
+            manuallyEnterAccountDetails();
+        });
+        findViewById(R.id.add_account_scan).setOnClickListener(view -> {
+            fam.close(true);
+            scanBarcode();
+        });
 
         if (savedInstanceState == null) {
             // This is the first time this Activity is starting (i.e., not restoring previous state which

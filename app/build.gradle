@@ -23,6 +23,21 @@ android {
         }
     }
 
+    flavorDimensions "tier"
+    productFlavors {
+        free {
+            dimension "tier"
+            buildConfigField "boolean", "PRO", "false"
+            resValue "string", "app_name", "1-2-Authenticate"
+        }
+        pro {
+            dimension "tier"
+            applicationId "com.wilco375.onetwoauthenticatepro"
+            buildConfigField "boolean", "PRO", "true"
+            resValue "string", "app_name", "1-2-Authenticate Pro"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

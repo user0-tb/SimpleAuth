@@ -14,7 +14,6 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"Google autentifikators"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Manuāla konta ievade"</string>
     <string name="button_add_account" msgid="4301500554118934829">"Pievienot kontu"</string>
     <string name="add_account_menu_item" msgid="6422163385921921789">"Pievienot kontu"</string>

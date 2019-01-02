@@ -14,7 +14,6 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5078996080612406301">"1-2-Authenticate"</string>
     <string name="enter_key_title" msgid="3762128630776563361">"Handmatige accountinvoer"</string>
     <string name="button_add_account" msgid="4301500554118934829">"Account toevoegen"</string>
     <string name="add_account_menu_item" msgid="6422163385921921789">"Account toevoegen"</string>
@@ -79,4 +78,6 @@
     <string name="welcome_page_title" msgid="1597640810952332788">"Er worden elke dag duizenden accounts gehackt."</string>
     <string name="welcome_page_details" msgid="3484579068463805365">Authenticatie in twee stappen beschermt uw accounts, zelfs wanneer uw wachtwoord wordt gestolen.</string>
     <string name="author">Auteur</string>
+    <string name="buy_pro_text">Je hebt het maximum van %d items bereikt. Koop alsjeblieft de pro versie.</string>
+    <string name="buy_pro_button">Koop Pro</string>
 </resources>
