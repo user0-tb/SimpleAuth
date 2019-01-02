@@ -67,4 +67,8 @@
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Copot pemasangan"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Ribuan akun online dibajak setiap harinya."</string>
     <string name="welcome_page_details" msgid="3484579068463805365">Verifikasi 2 langkah untuk melindungi akun Anda meskipun sandi dicuri.</string>
+    <string name="checking_license">Memeriksa Lisensi, Mohon tunggu...</string>
+    <string name="license_fail_title">Cek Lisensi gagal</string>
+    <string name="license_fail_desc">Lisensi aplikasi tidak valid (Error code %d). Silahkan membeli aplikasi dari Google Play Store. Jika Kamu yakin ini adalah kesalahan, silakan hubungi saya di wilco@wilco375.com</string>
+    <string name="retry">Ulangi</string>
 </resources>

@@ -67,4 +67,8 @@
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Deinstallieren"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Täglich werden Tausende von Online-Konten gehackt"</string>
     <string name="welcome_page_details" msgid="3484579068463805365">Die Bestätigung in zwei Schritten schützt Ihr Konto selbst dann, wenn jemand Ihr Passwort herausfindet.</string>
+    <string name="checking_license">Prüfe Lizenz, bitte warten…</string>
+    <string name="license_fail_title">Lizenzprüfung fehlgeschlagen</string>
+    <string name="license_fail_desc">Anwendungs-Lizenz ist ungültig (Fehlercode %d). Bitte erwerbe die Anwendung aus dem Google Play Store. Wenn Du meinst dies ist ein Fehler, dann kontaktiere mich bitte unter support@wilco375.com</string>
+    <string name="retry">Wiederholen</string>
 </resources>

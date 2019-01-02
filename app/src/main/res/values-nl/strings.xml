@@ -80,4 +80,8 @@
     <string name="author">Auteur</string>
     <string name="buy_pro_text">Je hebt het maximum van %d items bereikt. Koop alsjeblieft de pro versie.</string>
     <string name="buy_pro_button">Koop Pro</string>
+    <string name="checking_license">Licensie controleren, een moment aljeblieft…</string>
+    <string name="license_fail_title">Licensie check mislukt</string>
+    <string name="license_fail_desc">Applicatie licensie is ongeldig (Error code %d). Koop deze applicatie alsjeblieft in de Google Play Store. Als je denkt dat dit een error is, neem dan alsjeblieft contact met me op via support@wilco375.com</string>
+    <string name="retry">Probeer opnieuw</string>
 </resources>

@@ -67,4 +67,8 @@
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Odinstalovat"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Denně jsou ukradeny tisíce internetových účtů."</string>
     <string name="welcome_page_details" msgid="3484579068463805365">Verifikace ve dvou krocích chrání váš účet, i když je vaše heslo odcizeno.</string>
+    <string name="checking_license">Kontroluji licenci, prosím počkejte...</string>
+    <string name="license_fail_title">Kontrola licence skončila chybou</string>
+    <string name="license_fail_desc">Licence aplikace je neplatná (chyba %d).</string>
+    <string name="retry">Znovu</string>
 </resources>

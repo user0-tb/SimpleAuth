@@ -253,6 +253,8 @@ public class AuthenticatorActivity extends TestableActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        new License().checkLicense(this);
+
         mAccountDb = DependencyInjector.getAccountDb();
         mOtpProvider = DependencyInjector.getOtpProvider();
 

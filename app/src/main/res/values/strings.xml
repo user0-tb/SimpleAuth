@@ -287,4 +287,8 @@
     <string name="author">Author</string>
     <string name="buy_pro_text">You have reached the maximum of %d entries. Please buy the pro version.</string>
     <string name="buy_pro_button">Buy Pro</string>
+    <string name="checking_license">Checking license, please wait…</string>
+    <string name="license_fail_title">License check failed</string>
+    <string name="license_fail_desc">Application license is invalid (Error code %d). Please buy the application from the Google Play Store. If you believe this is an error, please contact me at support@wilco375.com</string>
+    <string name="retry">Retry</string>
 </resources>

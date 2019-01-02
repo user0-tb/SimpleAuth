@@ -67,4 +67,8 @@
     <string name="button_uninstall_old_app" msgid="425412851508359894">"卸载"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"每天都有数千个在线帐户被盗用。"</string>
     <string name="welcome_page_details" msgid="3484579068463805365">"即使您的密码被盗，两步验证也能保护您的 Google 帐户。"</string>
+    <string name="checking_license">正在检查许可，请稍后</string>
+    <string name="license_fail_title">许可检查失败</string>
+    <string name="license_fail_desc">许可验证错误(错误码 %d)，请在谷歌商店购买后再来。如果你相信这是一个错误，请在support@wilco375.com联系我。（国内可能需要科学上网）</string>
+    <string name="retry">重试</string>
 </resources>

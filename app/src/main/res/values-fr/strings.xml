@@ -67,4 +67,8 @@
     <string name="button_uninstall_old_app" msgid="425412851508359894">"Désinstaller"</string>
     <string name="welcome_page_title" msgid="1597640810952332788">"Des milliers de comptes en ligne sont piratés chaque jour"</string>
     <string name="welcome_page_details" msgid="3484579068463805365">La vérification en deux étapes permet de protéger votre compte même si votre mot de passe est compromis.</string>
+    <string name="checking_license">Vérification de la licence, veuillez patienter…</string>
+    <string name="license_fail_title">Échec de vérification de la license</string>
+    <string name="license_fail_desc">La license de l\'application est invalide (Erreur %d). Veuillez l\'acheter depuis le Google Play Store.</string>
+    <string name="retry">Réessayer</string>
 </resources>
