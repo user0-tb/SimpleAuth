@@ -26,6 +26,7 @@ import android.widget.Spinner;
 
 import com.wilco375.onetwoauthenticate.database.AccountDb;
 import com.wilco375.onetwoauthenticate.database.AccountDb.OtpType;
+import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
 import com.wilco375.onetwoauthenticate.util.Base32String;
 import com.wilco375.onetwoauthenticate.util.Base32String.DecodingException;
 import com.wilco375.onetwoauthenticate.R;
@@ -81,7 +82,17 @@ public class EnterKeyActivity extends WizardPageActivity<Serializable> implement
      * Verify that the input field contains a valid base32 string,
      * and meets minimum key requirements.
      */
-    private boolean validateKeyAndUpdateStatus(boolean submitting) {
+    private boolean validateNameAndKeyAndUpdateStatus(boolean submitting) {
+        boolean success = true;
+
+        String userEnteredName = mAccountName.getText().toString();
+        if (DependencyInjector.getAccountDb().nameExists(userEnteredName)) {
+            mAccountName.setError(submitting ? getString(R.string.error_exists) : null);
+            success = false;
+        } else {
+            mAccountName.setError(null);
+        }
+
         String userEnteredKey = getEnteredKey();
         try {
             byte[] decoded = Base32String.decode(userEnteredKey);
@@ -89,22 +100,22 @@ public class EnterKeyActivity extends WizardPageActivity<Serializable> implement
                 // If the user is trying to submit a key that's too short, then
                 // display a message saying it's too short.
                 mKeyEntryField.setError(submitting ? getString(R.string.enter_key_too_short) : null);
-                return false;
+                success = false;
             } else {
                 mKeyEntryField.setError(null);
-                return true;
             }
         } catch (DecodingException e) {
             mKeyEntryField.setError(getString(R.string.enter_key_illegal_char));
-            return false;
+            success = false;
         }
+        return success;
     }
 
     @Override
     protected void onRightButtonPressed() {
         OtpType mode = mType.getSelectedItemPosition() ==
                 OtpType.TOTP.value ? OtpType.TOTP : OtpType.HOTP;
-        if (validateKeyAndUpdateStatus(true)) {
+        if (validateNameAndKeyAndUpdateStatus(true)) {
             AuthenticatorActivity.saveSecret(this,
                     mAccountName.getText().toString(),
                     getEnteredKey(),
@@ -120,7 +131,7 @@ public class EnterKeyActivity extends WizardPageActivity<Serializable> implement
      */
     @Override
     public void afterTextChanged(Editable userEnteredValue) {
-        validateKeyAndUpdateStatus(false);
+        validateNameAndKeyAndUpdateStatus(false);
     }
 
     /**
