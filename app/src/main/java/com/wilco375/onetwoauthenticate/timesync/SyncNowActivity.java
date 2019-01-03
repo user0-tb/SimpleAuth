@@ -18,10 +18,10 @@
 package com.wilco375.onetwoauthenticate.timesync;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 
 import com.wilco375.onetwoauthenticate.R;
 import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
