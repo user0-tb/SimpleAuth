@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2009 Google Inc. All Rights Reserved.
+<?xml version="1.0" encoding="utf-8"?><!--
+ Copyright 2009 Google Inc. All Rights Reserved.
      Modified Copyright 2018 Wilco van Beijnum.
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,34 +14,33 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wilco375.onetwoauthenticate">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <!--
     NOTE: android:allowBackup is set to false below to prevent the key material from being extracted
     from the device using various backup methods (e.g., adb backup introduced in ICS).
     -->
     <application
-        android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/AuthenticatorTheme"
         android:name=".AuthenticatorApplication"
-        android:allowBackup="false">
-
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/AuthenticatorTheme">
         <activity
             android:name=".activity.AuthenticatorActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -52,35 +52,30 @@
                 <data android:scheme="otpauth" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.SettingsAboutActivity"
             android:label="@string/about_preference_screen_title" />
-
         <activity
             android:name=".activity.EnterKeyActivity"
             android:label="@string/enter_key_title" />
-
         <activity
             android:name=".activity.CheckCodeActivity"
             android:label="@string/check_code_title" />
-
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/main_preference_screen_title" />
-
         <activity
             android:name=".timesync.SettingsTimeCorrectionActivity"
             android:label="@string/timesync_preference_screen_title" />
-
         <activity
             android:name=".timesync.AboutActivity"
             android:label="@string/timesync_about_feature_screen_title" />
-
         <activity
             android:name=".timesync.SyncNowActivity"
             android:label="@string/timesync_sync_now_screen_title" />
-
+        <activity
+            android:name=".activity.CopyKeyActivity"
+            android:label="@string/copy_to_clipboard" />
     </application>
 
 </manifest>

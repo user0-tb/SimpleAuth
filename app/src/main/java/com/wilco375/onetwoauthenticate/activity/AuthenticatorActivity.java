@@ -30,11 +30,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -307,6 +311,8 @@ public class AuthenticatorActivity extends TestableActivity {
                 }
                 // Save order to DB
                 mAccountDb.reorder(usernames);
+
+                updateShortcuts(AuthenticatorActivity.this);
             }
         });
 
@@ -744,12 +750,48 @@ public class AuthenticatorActivity extends TestableActivity {
             Toast.makeText(context, R.string.secret_saved, Toast.LENGTH_LONG).show();
             ((Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE))
                     .vibrate(VIBRATE_DURATION);
+
+            updateShortcuts(context);
+
             return true;
         } else {
             Log.e(LOCAL_TAG, "Trying to save an empty secret key");
             Toast.makeText(context, R.string.error_empty_secret, Toast.LENGTH_LONG).show();
             return false;
         }
+    }
+
+    /**
+     * Update the dynamic shortcuts to show the top items
+     */
+    private static void updateShortcuts(Context context) {
+        if (Build.VERSION.SDK_INT < 25) return;
+
+        AccountDb accountDb = DependencyInjector.getAccountDb();
+        List<String> names = new ArrayList<>();
+        accountDb.getNames(names);
+
+        ShortcutManager sm = (ShortcutManager) context.getSystemService(Context.SHORTCUT_SERVICE);
+        if (sm == null) return;
+
+        int maxShortcuts = sm.getMaxShortcutCountPerActivity();
+        ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
+        for (int i = 0; i < names.size() && i < maxShortcuts; i++) {
+            String name = names.get(i);
+            shortcuts.add(
+                    new ShortcutInfo.Builder(context, "code-"+i)
+                            .setShortLabel(name.length() > 10 ? name.substring(0, 10) : name)
+                            .setLongLabel(name.length() > 25 ? names.get(i).substring(0, 25) : name)
+                            .setIcon(Icon.createWithResource(context, R.drawable.ic_key))
+                            .setIntent(
+                                    new Intent(context, CopyKeyActivity.class)
+                                            .setAction(Intent.ACTION_VIEW)
+                                            .putExtra("name", name)
+                            )
+                            .build()
+            );
+        }
+        sm.setDynamicShortcuts(shortcuts);
     }
 
     /**
