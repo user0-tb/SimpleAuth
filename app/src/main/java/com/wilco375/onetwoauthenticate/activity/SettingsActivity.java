@@ -18,6 +18,7 @@
 package com.wilco375.onetwoauthenticate.activity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.wilco375.onetwoauthenticate.R;
 import com.wilco375.onetwoauthenticate.testability.TestablePreferenceActivity;

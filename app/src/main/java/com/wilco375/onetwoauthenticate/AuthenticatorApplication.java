@@ -20,10 +20,8 @@ package com.wilco375.onetwoauthenticate;
 import android.app.Application;
 import android.os.Build;
 import android.system.ErrnoException;
-import android.system.Os;
 
 import com.wilco375.onetwoauthenticate.testability.DependencyInjector;
-import com.wilco375.onetwoauthenticate.util.FileUtilities;
 
 /**
  * Authenticator application which is one of the first things instantiated when our process starts.
@@ -46,14 +44,14 @@ public class AuthenticatorApplication extends Application {
         // security vulnerability where SQLite database transaction journals are world-readable.
         // NOTE: This also prevents all files in the data dir from being world-accessible, which is fine
         // because this application does not need world-accessible files.
-        if (Build.VERSION.SDK_INT >= 24) {
-            try {
-                String path = getApplicationContext().getApplicationInfo().dataDir;
-                Os.chmod(path, 0700);
-                Os.chown(path, getApplicationContext().getApplicationInfo().uid, -1);
-            } catch (ErrnoException e) {
-                e.printStackTrace();
-            }
+        String path = getApplicationContext().getApplicationInfo().dataDir;
+        try {
+            Class.forName("android.os.FileUtils")
+                    .getMethod("setPermissions", String.class, int.class, int.class, int.class)
+                    .invoke(null, path, 0700, -1, -1);
+        } catch (Exception e) {
+            System.err.println("Failed to set permissions to 0700");
+            e.printStackTrace();
         }
 
         // During test runs the injector may have been configured already. Thus we take care to avoid
