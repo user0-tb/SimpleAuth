@@ -33,6 +33,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -48,6 +51,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -765,33 +769,59 @@ public class AuthenticatorActivity extends TestableActivity {
      * Update the dynamic shortcuts to show the top items
      */
     private static void updateShortcuts(Context context) {
-        if (Build.VERSION.SDK_INT < 25) return;
+        if (Build.VERSION.SDK_INT < 25 || !BuildConfig.PRO) return;
 
-        AccountDb accountDb = DependencyInjector.getAccountDb();
-        List<String> names = new ArrayList<>();
-        accountDb.getNames(names);
+        new Thread(() -> {
+            AccountDb accountDb = DependencyInjector.getAccountDb();
+            List<String> names = new ArrayList<>();
+            accountDb.getNames(names);
 
-        ShortcutManager sm = (ShortcutManager) context.getSystemService(Context.SHORTCUT_SERVICE);
-        if (sm == null) return;
+            ShortcutManager sm = (ShortcutManager) context.getSystemService(Context.SHORTCUT_SERVICE);
+            if (sm == null) return;
 
-        int maxShortcuts = sm.getMaxShortcutCountPerActivity();
-        ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
-        for (int i = 0; i < names.size() && i < maxShortcuts; i++) {
-            String name = names.get(i);
-            shortcuts.add(
-                    new ShortcutInfo.Builder(context, "code-"+i)
-                            .setShortLabel(name.length() > 10 ? name.substring(0, 10) : name)
-                            .setLongLabel(name.length() > 25 ? names.get(i).substring(0, 25) : name)
-                            .setIcon(Icon.createWithResource(context, R.drawable.ic_key))
-                            .setIntent(
-                                    new Intent(context, CopyKeyActivity.class)
-                                            .setAction(Intent.ACTION_VIEW)
-                                            .putExtra("name", name)
-                            )
-                            .build()
-            );
-        }
-        sm.setDynamicShortcuts(shortcuts);
+            int maxShortcuts = sm.getMaxShortcutCountPerActivity();
+            ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
+            for (int i = 0; i < names.size() && i < maxShortcuts; i++) {
+                String name = names.get(i);
+                Icon icon;
+                Bitmap foreground = FileUtilities.getBitmap(context, name);
+                if (foreground != null) {
+                    Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_shortcut_bg);
+                    Bitmap bitmapIcon = Bitmap.createBitmap(48, 48, Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(bitmapIcon);
+
+                    // Draw background
+                    background.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                    background.draw(canvas);
+
+                    // Draw foreground
+                    Paint paint = new Paint();
+                    paint.setAntiAlias(true);
+                    canvas.drawBitmap(foreground,
+                            new Rect(0, 0, foreground.getWidth(), foreground.getHeight()),
+                            new Rect(12, 12, 36, 36),
+                            paint
+                    );
+
+                    icon = Icon.createWithBitmap(bitmapIcon);
+                } else {
+                    icon = Icon.createWithResource(context, R.drawable.ic_shortcut_key);
+                }
+                shortcuts.add(
+                        new ShortcutInfo.Builder(context, "code-"+i)
+                                .setShortLabel(name.length() > 10 ? name.substring(0, 10) : name)
+                                .setLongLabel(name.length() > 20 ? names.get(i).substring(0, 20) : name)
+                                .setIcon(icon)
+                                .setIntent(
+                                        new Intent(context, CopyKeyActivity.class)
+                                                .setAction(Intent.ACTION_VIEW)
+                                                .putExtra("name", name)
+                                )
+                                .build()
+                );
+            }
+            sm.setDynamicShortcuts(shortcuts);
+        }).start();
     }
 
     /**
