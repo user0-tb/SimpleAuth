@@ -1102,8 +1102,15 @@ public class AuthenticatorActivity extends TestableActivity {
                 // File is encrypted, ask for password and try to decrypt it
                 AlertDialog.Builder passwordDialogBuilder = new AlertDialog.Builder(this);
                 passwordDialogBuilder.setTitle(R.string.enter_password);
+
+                LinearLayout layout = new LinearLayout(this);
+                float dpi = this.getResources().getDisplayMetrics().density;
+                layout.setPadding((int)(20*dpi), 0, (int)(20*dpi), 0);
                 EditText passwordEditText = new EditText(this);
-                passwordDialogBuilder.setView(passwordEditText);
+                passwordEditText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                layout.addView(passwordEditText);
+
+                passwordDialogBuilder.setView(layout);
                 passwordDialogBuilder.setPositiveButton(android.R.string.ok, (passwordDialogInterface, passwordButtonIndex) -> {
                     importEntriesFile(file, passwordEditText.getText().toString());
                 });
@@ -1166,8 +1173,15 @@ public class AuthenticatorActivity extends TestableActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.enter_password);
+
+        LinearLayout layout = new LinearLayout(this);
+        float dpi = this.getResources().getDisplayMetrics().density;
+        layout.setPadding((int)(20*dpi), 0, (int)(20*dpi), 0);
         EditText passwordEditText = new EditText(this);
-        builder.setView(passwordEditText);
+        passwordEditText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        layout.addView(passwordEditText);
+
+        builder.setView(layout);
         builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
             List<String> usernames = new ArrayList<>();
             mAccountDb.getNames(usernames);
