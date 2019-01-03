@@ -53,8 +53,11 @@ public class AccountDb {
     private static final String SECRET_COLUMN = "secret";
     private static final String COUNTER_COLUMN = "counter";
     private static final String TYPE_COLUMN = "type";
-    private static final String ORDER_COLUMN = "sort";
+    // @VisibleForTesting
+    static final String ORDER_COLUMN = "sort";
+    // @VisibleForTesting
     static final String PROVIDER_COLUMN = "provider";
+    // @VisibleForTesting
     static final String COLOR_COLUMN = "color";
     // @VisibleForTesting
     static final String TABLE_NAME = "accounts";

@@ -199,7 +199,7 @@ public class AccountDbTest extends AndroidTestCase {
         accountDb = DependencyInjector.getAccountDb();
     }
 
-    public void testConstruct_whenDatabaseWithoutProviderColumn() {
+    public void testConstruct_whenDatabaseWithoutProviderColorAndOrderColumn() {
         deleteAccountDb();
         SQLiteDatabase database =
                 DependencyInjector.getContext().openOrCreateDatabase(
@@ -214,7 +214,7 @@ public class AccountDbTest extends AndroidTestCase {
         accountDb = DependencyInjector.getAccountDb();
         MoreAsserts.assertContentsInAnyOrder(
                 AccountDb.listTableColumnNamesLowerCase(accountDb.mDatabase, AccountDb.TABLE_NAME),
-                "first", AccountDb.PROVIDER_COLUMN, AccountDb.COLOR_COLUMN);
+                "first", AccountDb.PROVIDER_COLUMN, AccountDb.COLOR_COLUMN, AccountDb.ORDER_COLUMN);
     }
 
     private void deleteAccountDb() {

@@ -30,6 +30,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.wilco375.onetwoauthenticate.R;
 import com.wilco375.onetwoauthenticate.TestUtilities;
 import com.wilco375.onetwoauthenticate.database.AccountDb;
@@ -94,7 +96,7 @@ public class AuthenticatorActivityTest extends
         getActivity();
         ListView userList = getActivity().findViewById(R.id.user_list);
         TextView enterPinPrompt = getActivity().findViewById(R.id.enter_pin_prompt);
-        Button addAccountButton = getActivity().findViewById(R.id.add_account_button);
+        FloatingActionMenu addAccountButton = getActivity().findViewById(R.id.add_account_fab);
         View contentWhenNoAccounts = getActivity().findViewById(R.id.content_no_accounts);
 
         // check existence of fields
