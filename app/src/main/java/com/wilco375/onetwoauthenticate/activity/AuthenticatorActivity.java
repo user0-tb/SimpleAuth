@@ -342,7 +342,7 @@ public class AuthenticatorActivity extends TestableActivity {
                                 Snackbar.Type.ERROR,
                                 getString(R.string.buy_pro_text, 8)
                         );
-                        snackbar.positiveActionText(R.string.buy_pro_text);
+                        snackbar.positiveActionText(getResources().getString(R.string.buy_pro_button).toUpperCase());
                         snackbar.positiveActionTapListener(bar -> {
                             try {
                                 startActivity(
