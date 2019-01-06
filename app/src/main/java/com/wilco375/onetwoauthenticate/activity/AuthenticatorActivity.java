@@ -47,10 +47,8 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -69,12 +67,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.andrognito.flashbar.Flashbar;
 import com.github.clans.fab.FloatingActionMenu;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.wilco375.onetwoauthenticate.BuildConfig;
 import com.wilco375.onetwoauthenticate.R;
+import com.wilco375.onetwoauthenticate.Snackbar;
 import com.wilco375.onetwoauthenticate.database.AccountDb;
 import com.wilco375.onetwoauthenticate.database.AccountDb.OtpType;
 import com.wilco375.onetwoauthenticate.licensing.License;
@@ -338,12 +337,13 @@ public class AuthenticatorActivity extends TestableActivity {
                     if (mUsers.size() < 8) {
                         fam.open(true);
                     } else {
-                        Snackbar snackbar = Snackbar.make(
-                                findViewById(R.id.content),
-                                getString(R.string.buy_pro_text, 8),
-                                Snackbar.LENGTH_LONG
+                        Flashbar.Builder snackbar = Snackbar.make(
+                                this,
+                                Snackbar.Type.ERROR,
+                                getString(R.string.buy_pro_text, 8)
                         );
-                        snackbar.setAction(R.string.buy_pro_button, button -> {
+                        snackbar.positiveActionText(R.string.buy_pro_text);
+                        snackbar.positiveActionTapListener(bar -> {
                             try {
                                 startActivity(
                                         new Intent(Intent.ACTION_VIEW,
@@ -727,10 +727,15 @@ public class AuthenticatorActivity extends TestableActivity {
      * @param counter      only important for the hotp type
      */
     private void saveSecretAndRefreshUserList(String user, String secret,
-                                              String originalUser, OtpType type, Integer counter) {
-        if (saveSecret(this, user, secret, originalUser, type, counter)) {
+                                              String originalUser, OtpType type, Integer counter, boolean showNotification) {
+        if (saveSecret(this, user, secret, originalUser, type, counter, showNotification)) {
             refreshUserList(true);
         }
+    }
+
+    private void saveSecretAndRefreshUserList(String user, String secret,
+                                              String originalUser, OtpType type, Integer counter) {
+        saveSecretAndRefreshUserList(user, secret, originalUser, type, counter, true);
     }
 
     /**
@@ -743,8 +748,8 @@ public class AuthenticatorActivity extends TestableActivity {
      * @param counter      only important for the hotp type
      * @return {@code true} if the secret was saved, {@code false} otherwise.
      */
-    static boolean saveSecret(Context context, String user, String secret,
-                              String originalUser, OtpType type, Integer counter) {
+    static boolean saveSecret(Activity context, String user, String secret,
+                              String originalUser, OtpType type, Integer counter, boolean showNotification) {
         if (originalUser == null) {  // new user account
             originalUser = user;
         }
@@ -752,18 +757,27 @@ public class AuthenticatorActivity extends TestableActivity {
             AccountDb accountDb = DependencyInjector.getAccountDb();
             accountDb.update(user, secret, originalUser, type, counter);
             DependencyInjector.getOptionalFeatures().onAuthenticatorActivityAccountSaved(context, user);
-            Toast.makeText(context, R.string.secret_saved, Toast.LENGTH_LONG).show();
-            ((Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE))
-                    .vibrate(VIBRATE_DURATION);
+
+            if (showNotification) {
+                Snackbar.show(context, Snackbar.Type.SUCCESS, R.string.secret_saved);
+                ((Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE))
+                        .vibrate(VIBRATE_DURATION);
+            }
 
             updateShortcuts(context);
 
             return true;
         } else {
             Log.e(LOCAL_TAG, "Trying to save an empty secret key");
-            Toast.makeText(context, R.string.error_empty_secret, Toast.LENGTH_LONG).show();
+
+            Snackbar.show(context, Snackbar.Type.ERROR, R.string.error_empty_secret);
             return false;
         }
+    }
+
+    static boolean saveSecret(Activity context, String user, String secret,
+                              String originalUser, OtpType type, Integer counter) {
+        return saveSecret(context, user, secret, originalUser, type, counter, true);
     }
 
     /**
@@ -854,7 +868,8 @@ public class AuthenticatorActivity extends TestableActivity {
                 (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText(getString(R.string.app_name), pin);
         clipboard.setPrimaryClip(clipData);
-        Toast.makeText(this, R.string.pin_copied, Toast.LENGTH_SHORT).show();
+
+        Snackbar.show(this, Snackbar.Type.SUCCESS, R.string.pin_copied);
     }
 
     @Override
@@ -950,7 +965,7 @@ public class AuthenticatorActivity extends TestableActivity {
                         .show();
                 return true;
             case RENAME_ID:
-                final Context context = this; // final so listener can see value
+                final Activity context = this; // final so listener can see value
                 final View frame = getLayoutInflater().inflate(R.layout.rename,
                         findViewById(R.id.rename_root));
                 final EditText nameEdit = frame.findViewById(R.id.rename_edittext);
@@ -981,13 +996,13 @@ public class AuthenticatorActivity extends TestableActivity {
         }
     }
 
-    private DialogInterface.OnClickListener getRenameClickListener(final Context context,
+    private DialogInterface.OnClickListener getRenameClickListener(final Activity context,
                                                                    final String user, final EditText nameEdit) {
         return (dialog, whichButton) -> {
             String newName = nameEdit.getText().toString();
-            if (newName != user) {
+            if (!newName.equals(user)) {
                 if (mAccountDb.nameExists(newName)) {
-                    Toast.makeText(context, R.string.error_exists, Toast.LENGTH_LONG).show();
+                    Snackbar.show(context, Snackbar.Type.ERROR, R.string.error_exists);
                 } else {
                     saveSecretAndRefreshUserList(newName,
                             mAccountDb.getSecret(user), user, mAccountDb.getType(user),
@@ -1107,6 +1122,7 @@ public class AuthenticatorActivity extends TestableActivity {
                 float dpi = this.getResources().getDisplayMetrics().density;
                 layout.setPadding((int)(20*dpi), 0, (int)(20*dpi), 0);
                 EditText passwordEditText = new EditText(this);
+                passwordEditText.setSingleLine();
                 passwordEditText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 layout.addView(passwordEditText);
 
@@ -1155,12 +1171,15 @@ public class AuthenticatorActivity extends TestableActivity {
                         item.getString("secret"),
                         item.getString("email"),
                         OtpType.valueOf(item.getString("type")),
-                        item.getInt("counter")
+                        item.getInt("counter"),
+                        false
                 );
             }
+
+            Snackbar.show(this, Snackbar.Type.SUCCESS, R.string.import_success);
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(this, R.string.import_failed, Toast.LENGTH_LONG).show();
+            Log.e(LOCAL_TAG, "Failed to import entries", e);
+            Snackbar.show(this, Snackbar.Type.ERROR, R.string.import_failed);
         }
     }
 
@@ -1178,6 +1197,7 @@ public class AuthenticatorActivity extends TestableActivity {
         float dpi = this.getResources().getDisplayMetrics().density;
         layout.setPadding((int)(20*dpi), 0, (int)(20*dpi), 0);
         EditText passwordEditText = new EditText(this);
+        passwordEditText.setSingleLine();
         passwordEditText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         layout.addView(passwordEditText);
 
@@ -1206,7 +1226,8 @@ public class AuthenticatorActivity extends TestableActivity {
                 os.write(EncryptionUtilities.encrypt(jsonString, password));
                 os.close();
 
-                Toast.makeText(this, String.format(getString(R.string.exported_to), file.toString()), Toast.LENGTH_LONG).show();
+                Snackbar.show(this, Snackbar.Type.SUCCESS,
+                        String.format(getString(R.string.exported_to), file.toString()), 5000);
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }

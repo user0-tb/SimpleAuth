@@ -63,7 +63,7 @@
     <string name="color">"Kleur"</string>
     <string name="error_exists" msgid="9037595140877350695">"Deze naam is al in gebruik."</string>
     <string name="copy_to_clipboard" msgid="9220543434521756454">"Kopiëren naar klembord"</string>
-    <string name="pin_copied">"Code gekopieeren"</string>
+    <string name="pin_copied">Code gekopieerd</string>
     <string name="counter_pin" msgid="6520222181829297474">"Code ophalen"</string>
     <string name="empty_pin" msgid="2123950169339395812">"_ _ _ _ _ _"</string>
     <string name="ok" msgid="6406800116409689723">"OK"</string>
@@ -85,4 +85,5 @@
     <string name="license_fail_desc">Applicatie licensie is ongeldig (Error code %d). Koop deze applicatie alsjeblieft in de Google Play Store. Als je denkt dat dit een error is, neem dan alsjeblieft contact met me op via support@wilco375.com</string>
     <string name="retry">Probeer opnieuw</string>
     <string name="no_accounts">Geen items gevonden. Voeg je eerste website toe met de actieknop hieronder.</string>
+    <string name="import_success">Items zijn succesvol hersteld</string>
 </resources>
