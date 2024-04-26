@@ -1,0 +1,48 @@
+name: 🔨 Gradle Build
+
+on:  
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - 'fastlane/**'
+      - '*.md'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+    - name: Setup JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    - name: Add exec permission
+      run: chmod +x gradlew
+    - name: Validate Gradle Wrapper
+      uses: gradle/wrapper-validation-action@v1
+    - name: 🔨 Build
+      run: ./gradlew build
+    - name: 💬 Upload Lint report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: lint-results.html
+        path: app/build/reports/lint-results*.html
+    - name: 💬 Upload tests report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: reports-tests
+        path: app/build/reports/tests/
+        
